@@ -10,3 +10,6 @@ tools/parts/variants/_*.html
 # systém
 .DS_Store
 *.log
+
+# plné vektorové PDF brand manuálu (191 MB, nad limit GitHubu) – jen lokálně
+brand-kit/Sparkee-brand-manual-v1.0.pdf

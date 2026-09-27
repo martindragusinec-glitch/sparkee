@@ -5,7 +5,7 @@ export const meta = {
     { title: 'Openers', detail: 'V1 (client choice) → implement Slide/Chapter + cover → air fix' },
     { title: 'Chapters', detail: '7 owners continue 00-15 with corrected rules' },
     { title: 'Pass', detail: 'final pass over every chapter opener + gradient/plate/clip sweeps' },
-    { title: 'Review', detail: 'art director + completeness/accuracy' },
+    { title: 'Review', detail: 'one combined reviewer (rate-limit aware)' },
     { title: 'Fix', detail: 'apply notes, index links, brand-kit, final sweeps' },
     { title: 'PDF', detail: 'export every slide as vector PDF, merge in order' },
   ],
@@ -45,6 +45,12 @@ const AIR = `LAYOUT AIR + ALIGNMENT, THE CLIENT'S RULE (27. 9.). On the 07.00 op
 - Align blocks to shared edges and baselines: equal column tops, equal bottoms, consistent card heights in a row.
 - Whitespace should be intentional and balanced, never cramped. If content does not fit, reduce or scale the visual, or split the slide into two. Never squeeze.
 - Verify programmatically on every slide you build or touch: collect the absoluteBoundingBox of every text node and every visual block (frames/instances/images/vectors that are not text containers). Report any text-vs-visual intersection or gap under 80px, and any card-vs-card gap under 48px. Fix them, then screenshot.`
+const RATE = `FIGMA RATE LIMIT (critical): this account's Figma MCP allows about 15 calls per minute across ALL agents, and there may be a daily cap. At 22:45 the whole run stalled on it.
+- Be frugal. Batch many edits into ONE use_figma script.
+- Take screenshots inside that same script with await node.screenshot({scale:0.5}); do not use separate get_screenshot/get_metadata calls unless you have to.
+- Never poll.
+- If a call fails with a rate-limit or "tool call limit" error, wait 60-90 s (Bash sleep in the background, or a Monitor) and retry up to 5 times. If it still fails, stop and report exactly what is left.
+- If writes fail with "read-only file or mode", report it immediately; do not retry for minutes.`
 const BRAND = `SPARKEE BRAND MANUAL in Figma, "modelled on big companies (GitHub, Duolingo, Mailchimp, Slack), with everything that's needed". THE PLAN: ${OUTLINE} (Czech). Read it: chapters 00-15, slide lists, 1920x1080 grid.
 FOUNDATIONS ALREADY BUILT (reuse them, do not rebuild): read ${FOUND}. It covers:
 - the pages "📘 Brand Manual" (197:286) and "🧱 Knihovna" (197:287);
@@ -132,15 +138,15 @@ Report the new geometry and the per-opener gap table.`, { label: 'opener:air', p
 }
 
 const GROUPS = [
-  { key: 'A', ch: '00 Úvod (NOT the cover 00.00, which the opener designer owns; you own the other intro slides: how to use the manual, the quick start one-pager, the index), 01 Značka (story, mission, values, positioning, audience), 02 Hlas a tón (voice pillars, the ty/vy rule per channel, before/after examples, vocabulary including "scroll", CTA wording, emoji/✦ rules)' },
-  { key: 'B', ch: '03 Logo (Primary, Mono, Mono Holo, a "Logo na tmavém pozadí" slide that uses Logo/Dark when it exists and otherwise a named "Logo/Dark slot", clear space, minimum size, backgrounds, 12 misuse examples built from the real logo INCLUDING "logo on a light plate on dark" as a DON\'T, the logo + mascot relationship), 05 Barvy (palette HEX/RGB/CMYK approx, holo gradient spec, the GRADIENT TEXT RULE as a clear do/don\'t with real rendered examples: DO pastel diagonal "jiskra" on ink; DO ink word + holo marker on light; DON\'T any gradient text on light, showing the saturated one crossed out; DON\'T a gradient on a whole headline; plus usage ratio, contrast matrix, don\'ts), 06 Typografie (Baloo 2 + Nunito, scale, hierarchy, Czech diacritics sample, the gradient-word rule, web fallbacks). Also FIX the existing slide 03.01: the claim "Jedna kresba, celá jiskra." (frame 213:1911, word node 213:1915) has a saturated gradient on light; make it solid ink with a holo marker behind "jiskra.", or move the claim onto a dark area and use the pastel diagonal.' },
-  { key: 'C', ch: '04 Maskot (who Sparkee is, anatomy/proportions from the real vectors, rig map with joints, pose library from the Maskot/* instances, expressions normal/happy/surprised, do/don\'t: deformation, head tilt, arm shape, colours, when not to use him, the standing vs lying rule with the logo lying pose = 124:3, scale relationship with UI/text, sticker usage). Delete your old staging frame "c04 staging" (207:1824) when you no longer need it.' },
-  { key: 'D1', ch: '07 Grafické prvky (9 slides, largely built: finish and fix them), 08 Ikony (4 slides), 09 UI komponenty webu (6 slides: buttons, cards, chips, forms, website screenshots from tools/preview-*.png and live screenshots of http://localhost:8770). Also clean the leftovers of the interrupted run: the icons section 207:2571 and UI web components 207:2981 (reuse them if good, delete them if broken or duplicate).' },
-  { key: 'D2', ch: '10 Fotografie a video (4 slides: P2 placeholders + rules), 11 Motion (10 slides: principles, easing/duration tokens from assets/js/mascot.js and story.js, mascot behaviours, 20 s story frames from page 191:3, reduced motion, export specs)' },
-  { key: 'D3', ch: '12 Sociální sítě (13 slides: IG grid system, templates from the kit in social/instagram, safe zones, Reel rules, OG images from assets/img/og), 13 Aplikace (10 slides: business card front/back, e-mail signature, presentation slide template, offer header, stickers)' },
-  { key: 'D4', ch: '14 Přístupnost (4 slides), 15 Ke stažení a správa značky (6 slides: downloads, file naming, owner/contact, changelog, versioning; the downloads point to the repo folder brand-kit/ and to the PDF brand-kit/Sparkee-brand-manual-v1.0.pdf)' },
+  { key: 'A', ch: '00 Úvod (NOT the cover 00.00, which the opener designer owns; you own the other intro slides: how to use the manual, the quick start one-pager, the index), 01 Značka (story, mission, values, positioning, audience), 02 Hlas a tón (voice pillars, the ty/vy rule per channel, before/after examples, vocabulary including "scroll", CTA wording, emoji/✦ rules)' + ' ' + RATE },
+  { key: 'B', ch: '03 Logo (Primary, Mono, Mono Holo, a "Logo na tmavém pozadí" slide that uses Logo/Dark when it exists and otherwise a named "Logo/Dark slot", clear space, minimum size, backgrounds, 12 misuse examples built from the real logo INCLUDING "logo on a light plate on dark" as a DON\'T, the logo + mascot relationship), 05 Barvy (palette HEX/RGB/CMYK approx, holo gradient spec, the GRADIENT TEXT RULE as a clear do/don\'t with real rendered examples: DO pastel diagonal "jiskra" on ink; DO ink word + holo marker on light; DON\'T any gradient text on light, showing the saturated one crossed out; DON\'T a gradient on a whole headline; plus usage ratio, contrast matrix, don\'ts), 06 Typografie (Baloo 2 + Nunito, scale, hierarchy, Czech diacritics sample, the gradient-word rule, web fallbacks). Also FIX the existing slide 03.01: the claim "Jedna kresba, celá jiskra." (frame 213:1911, word node 213:1915) has a saturated gradient on light; make it solid ink with a holo marker behind "jiskra.", or move the claim onto a dark area and use the pastel diagonal.' + ' ' + RATE },
+  { key: 'C', ch: '04 Maskot (who Sparkee is, anatomy/proportions from the real vectors, rig map with joints, pose library from the Maskot/* instances, expressions normal/happy/surprised, do/don\'t: deformation, head tilt, arm shape, colours, when not to use him, the standing vs lying rule with the logo lying pose = 124:3, scale relationship with UI/text, sticker usage). Delete your old staging frame "c04 staging" (207:1824) when you no longer need it.' + ' ' + RATE },
+  { key: 'D1', ch: '07 Grafické prvky (9 slides, largely built: finish and fix them), 08 Ikony (4 slides), 09 UI komponenty webu (6 slides: buttons, cards, chips, forms, website screenshots from tools/preview-*.png and live screenshots of http://localhost:8770). Also clean the leftovers of the interrupted run: the icons section 207:2571 and UI web components 207:2981 (reuse them if good, delete them if broken or duplicate).' + ' ' + RATE },
+  { key: 'D2', ch: `10 Fotografie a video (5 slides exist) and 11 Motion (10 slides exist). These are built: VERIFY them against the outline, the gradient rule, AIR and CLIP, fix what is off, and fill any P1 gap. Keep Figma calls minimal. ${RATE}` },
+  { key: 'D3', ch: `12 Sociální sítě (13 slides exist: verify and fix quickly) and 13 Aplikace (EMPTY: build all 10 slides from the outline: the opener 13.00 from Slide/Chapter variant Tmavá with Vizuál#240:8 = 239:15777 and \'Číslo od 10\' = true, then business card front/back, e-mail signature, presentation slide template, offer header, stickers and the rest of the outline list; on dark use the component Logo/Dark 242:18881 from page 47:2, which now exists). ${RATE}` },
+  { key: 'D4', ch: `14 Přístupnost (5 slides exist: verify) and 15 Ke stažení a správa značky (4 of 6 exist: build the missing ones from the outline: downloads, file naming, owner/contact, changelog, versioning; the downloads point to the repo folder brand-kit/ and to the PDF brand-kit/Sparkee-brand-manual-v1.0.pdf). ${RATE}` },
 ]
-const chaptersFlow = () => parallel(GROUPS.map(g => () => agent(`${BRAND}\n\n${FIGMA}\n\nYOU OWN ONLY THESE CHAPTERS: ${g.ch}.
+const chapterAgent = g => agent(`${BRAND}\n\n${FIGMA}\n\nYOU OWN ONLY THESE CHAPTERS: ${g.ch}.
 CONTEXT: a previous run was stopped mid-way (20:44), because its gradient rule was wrong. Current slide counts (21:35): 00=6, 01=9, 02=10, 03=13, 04=15, 05=13, 07=9; 06 and 08-15 are EMPTY (the outline plans 06=9, 08=4, 09=6, 10=4, 11=10, 12=13, 13=10, 14=4, 15=6). Earlier runs also left duplicates. Work fast but premium: the client is waiting for the finished manual and its PDF.
 - Inspect your sections first and keep the good slides.
 - Fix every gradient text and every logo plate in your slides to the rules above.
@@ -153,12 +159,20 @@ CHAPTER OPENERS: each chapter starts with "NN.00 · <Name> · Kapitola", an inst
 ${CLIP}
 ${AIR}
 FIRST re-space every EXISTING slide in your chapters to the AIR rule (the client flagged it globally), then build the missing ones to the same standard.
-Verify each chapter with get_screenshot (scratch in ${SCR}/${g.key}/), and fix clipped text, overlaps, cut shadows and empty areas. Report the slide counts and node ids.`, { label: `chapters:${g.key}`, phase: 'Chapters', schema: REPORT })))
+Verify each chapter with get_screenshot (scratch in ${SCR}/${g.key}/), and fix clipped text, overlaps, cut shadows and empty areas. Report the slide counts and node ids.`, { label: `chapters:${g.key}`, phase: 'Chapters', schema: REPORT })
+// two waves of 3 agents each, to respect the Figma MCP limit (about 15 calls/min)
+const WAVE1 = ['D3', 'D4', 'D2'], WAVE2 = ['A', 'C', 'D1', 'B']
+const chaptersFlow = async () => {
+  const w1 = await parallel(GROUPS.filter(g => WAVE1.includes(g.key)).map(g => () => chapterAgent(g)))
+  const w2 = await parallel(GROUPS.filter(g => WAVE2.includes(g.key) && g.key !== 'B').map(g => () => chapterAgent(g)))
+  return [...w1, ...w2]
+}
 
 const [openers, chapters] = await parallel([openersFlow, chaptersFlow])
 
 phase('Pass')
-const pass = await agent(`${BRAND}\n\n${FIGMA}\n\nFINAL PASS on "📘 Brand Manual" (197:286). The opener designer rebuilt Slide/Chapter (report: ${JSON.stringify(openers && openers.impl)}; client-chosen spec: ${JSON.stringify(openers && openers.pick)}). The chapter owners reported: ${JSON.stringify((chapters || []).filter(Boolean))}.
+const pass = await agent(`${BRAND}\n\n${FIGMA}\n\nFINAL PASS on "📘 Brand Manual" (197:286). ${RATE}
+Logo/Dark now EXISTS: the component 242:18881 on 47:2 (file assets/img/logo-dark.svg). Put it into every "Logo/Dark slot" and onto any dark slide that needs a logo. The opener designer rebuilt Slide/Chapter (report: ${JSON.stringify(openers && openers.impl)}; client-chosen spec: ${JSON.stringify(openers && openers.pick)}). The chapter owners reported: ${JSON.stringify((chapters || []).filter(Boolean))}.
 TASK:
 1) Every chapter 00-15 must have exactly one opener "NN.00 · <Name> · Kapitola" (the cover is 00.00). Each opener must be an instance of the new Slide/Chapter with the right texts and Vizuál, no override that breaks the layout, the number using "Holo/Text · jen na tmavé", and the long titles fitting. Screenshot all 16 at maxDimension 1200 and fix them.
 2) GRADIENT SWEEP of the whole manual page and "🧱 Knihovna":
@@ -181,12 +195,11 @@ Report the counts, the ids and whatever is still open.`, { label: 'pass', phase:
 phase('Review')
 const NOTES = { type: 'object', properties: { verdict: { type: 'string' }, notes: { type: 'array', items: { type: 'object', properties: { where: { type: 'string' }, problem: { type: 'string' }, fix: { type: 'string' } }, required: ['where', 'problem', 'fix'] } } }, required: ['verdict', 'notes'] }
 const revs = await parallel([
-  'ART DIRECTOR: screenshot every section (every slide at maxDimension 1200) and judge it against top brand manuals: grid consistency, typography, hierarchy, whitespace, image quality, do/don\'t clarity, and consistency with the client-approved V1 chapter openers. Is it premium or templated? Zoom into every gradient word and every shadow (is anything cut?). Check air and alignment on every slide: the client said the visuals were stuck onto the text globally, so flag any visual closer than 80px to text, any cramped area, and any misaligned block. Give concrete fixes per slide.',
-  'COMPLETENESS + ACCURACY: check against OUTLINE.md (is every P1 slide present, in 00-15?) and against the client decisions: hex values; official logo only, with no Světlá/Mono bílá; no plates on dark; the gradient rule; tone rules; scroll wording; mascot rules; no clip-cut shadows. Also look for duplicate or partial slides, lorem ipsum, em/en dashes, Czech typos, broken instances and leftover "k potvrzení" badges or footers. List the missing slides explicitly.',
-].map((l, i) => () => agent(`${BRAND}\n\n${FIGMA}\n\nRead-only review of the brand manual (pass report: ${JSON.stringify(pass)}). Lens: ${l}\nDo not edit. Scratch in ${SCR}/review${i}/.`, { label: `review:${i + 1}`, phase: 'Review', schema: NOTES })))
+  'ART DIRECTOR + COMPLETENESS (one reviewer, to save Figma calls): screenshot every section in ONE use_figma call per section (node.screenshot at scale 0.25 of the whole section, then zoom only into suspicious slides). Judge it against top brand manuals and the client-approved V1 openers: grid, air (no visual within 80px of text), typography, hierarchy, do/don\'t clarity, cut shadows, gradient rule, plates, tone, "scroll", mascot rules, leftover badges or duplicates, lorem ipsum, dashes and typos. Check completeness against OUTLINE.md (every P1 slide present in 00-15?). Give concrete fixes per slide.',
+].map((l, i) => () => agent(`${BRAND}\n\n${FIGMA}\n\n${RATE}\n\nRead-only review of the brand manual (pass report: ${JSON.stringify(pass)}). Lens: ${l}\nDo not edit. Scratch in ${SCR}/review${i}/.`, { label: `review:${i + 1}`, phase: 'Review', schema: NOTES })))
 
 phase('Fix')
-const fix = await agent(`${BRAND}\n\n${FIGMA}\n\n${CLIP}\n\n${AIR}\n\nThe client asked: "dokonči brandmanual a pošli mi PDF". This is the finishing pass, so make it complete and premium.
+const fix = await agent(`${BRAND}\n\n${FIGMA}\n\n${CLIP}\n\n${AIR}\n\n${RATE}\n\nThe client asked: "dokonči brandmanual a pošli mi PDF". This is the finishing pass, so make it complete and premium.
 Apply these review notes (JSON): ${JSON.stringify(revs.filter(Boolean))}. Build any missing P1 slides.
 Then finish:
 (1) The cover 00.00 is final: version 1.0, 27. 9. 2026, the official logo. If the component "Logo/Dark" now exists on 47:2 (the dark-logo workflow may have delivered it), use it in every "Logo/Dark slot" and on dark slides, and delete the slots.
@@ -204,18 +217,19 @@ Then finish:
 Take final screenshots of the cover, the index and one slide per chapter, and report the node ids.`, { label: 'fix+finish', phase: 'Fix', schema: REPORT })
 
 phase('PDF')
-const pdf = await agent(`${FIGMA}\n\nTASK: export the finished Sparkee brand manual (page "📘 Brand Manual" 197:286, file 4OdxiJ5jvTf0SMYucdkwtK) to ONE PDF for the client.
-1) Use use_figma (read-only) to list every slide frame in order:
-   - sections 00 · Úvod … 15 · Ke stažení in chapter order;
-   - inside each section, the 1920x1080 slide frames sorted by their "NN.MM" name prefix (the cover 00.00 first);
-   - skip anything that is not a 1920x1080 slide (staging, notes).
-   Return the ordered id list and a count per chapter.
-2) For each slide, call download_assets (load it via ToolSearch select:mcp__c821381b-133f-4d7f-8513-e5c3a5701901__download_assets) with defaultFormat "pdf". Download the export URL immediately with curl to ${SCR}/pdf/NNN_<id>.pdf; the URLs are temporary, so work in small batches. If a vector PDF fails or is broken for a slide, fall back to get_screenshot maxDimension 3840 PNG for that slide and convert it to a PDF page (python3 + PIL, 1920x1080pt page).
-3) Merge them in order with python3 pypdf into ${ROOT}/brand-kit/Sparkee-brand-manual-v1.0.pdf. Add bookmarks (outline) per chapter, titled "00 · Úvod" etc., and document metadata (Title "Sparkee · Brand manuál v1.0", Author "Sparkee").
+const pdf = await agent(`${FIGMA}\n\n${RATE}\n\nTASK: export the finished Sparkee brand manual (page "📘 Brand Manual" 197:286, file 4OdxiJ5jvTf0SMYucdkwtK) to ONE PDF for the client. The client is waiting, so be efficient: about 20 Figma calls in total.
+1) In ONE use_figma call (read-only), list for each chapter Section (00 · Úvod … 15 · Ke stažení, in chapter order):
+   - the section id and its absoluteBoundingBox;
+   - every 1920x1080 slide frame inside it, with its id, name and absoluteBoundingBox, sorted by the "NN.MM" name prefix (the cover 00.00 first);
+   - skip anything that is not a 1920x1080 slide.
+2) PRIMARY, vector: for each Section, call download_assets (ToolSearch select:mcp__c821381b-133f-4d7f-8513-e5c3a5701901__download_assets) with nodeId = the section and defaultFormat "pdf". Download the export URL immediately with curl.
+   - Then, with python3 pypdf, make one page per slide: take the section page, set its mediabox/cropbox to the slide's rectangle (in PDF points relative to the section origin; check the scale and the y-axis flip), and reuse the same content (copy the page object per slide, no re-rendering).
+   - Check the file size. Shared content streams can bloat it; if the result is over 150 MB or looks wrong, use the fallback.
+   FALLBACK, raster: get_screenshot of each Section at a maxDimension that gives a 1.5x slide scale. Crop every slide by its rectangle with PIL, then save it as a JPEG page of 1920x1080 pt at quality 92.
+3) Merge in order into ${ROOT}/brand-kit/Sparkee-brand-manual-v1.0.pdf. Add bookmarks per chapter ("00 · Úvod" …) and metadata (Title "Sparkee · Brand manuál v1.0", Author "Sparkee").
 4) Verify:
    - the page count equals the slide count;
-   - render pages 1, 2, one per chapter and the last page to PNG (qlmanage -t -s 1600 -o <dir> on the file for page 1, and pypdf to split single pages for the others), and view them with Read to check fonts, gradients and images;
-   - report the file size.
-   - If it exceeds 60 MB, also make a lighter version Sparkee-brand-manual-v1.0-web.pdf from JPEG renders (quality 85, 1920 px).
-Report the PDF path(s), the page count, the size and the per-chapter page ranges.`, { label: 'pdf', phase: 'PDF', schema: REPORT })
+   - render pages 1, 2, one per chapter and the last page to PNG (pypdf split + qlmanage -t -s 1600, or sips) and view them with Read: correct crop, fonts, gradients, images, nothing shifted;
+   - report the file size, and also make a light web version (JPEG 85, 1920 px) if the main one is over 60 MB.
+Report the path(s), the page count, the size and the per-chapter page ranges.`, { label: 'pdf', phase: 'PDF', schema: REPORT })
 return { openers, chapters: (chapters || []).filter(Boolean), pass, reviews: revs.filter(Boolean), fix, pdf }

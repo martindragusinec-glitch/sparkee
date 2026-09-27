@@ -21,7 +21,8 @@
 - [ ] Gradient na textu podle originálu klienta: pastel holo 45° JEN na tmavé, na světlé nikdy (ink + holo marker) – web, OG, IG kit, Reel (workflow sparkee-gradient-code)
 - [ ] Reel: oficiální logo 1:1 + lepší animace + gradient pravidlo → recenze → iterace
 - [x] Logo na tmavé pozadí = VÝŘEZ do textu kolem maskota, žádný štítek: D3 (výřez + záře) vyhrál porotu 2:1, zaoblení konců r 5 → assets/img/logo-dark.svg (+ flat, onglow, @2x.png), Figma komponenta Logo/Dark 242:18881 + board 242:18882 (47:2), OG přegenerované
-- [ ] ⛔ Figma MCP limit (200/den) vyčerpán 27. 9. ~22:45 + soubor read-only od 22:37 → po resetu: resume tools/parts/wf-brand-manual-v3.js (resumeFromRunId wf_8c99631a-bc1), zbývá 09–15 dostavět, pass/recenze/fix, PDF
+- [x] Brand manual PDF (149 stran): brand-kit/Sparkee-brand-manual-v1.0.pdf (vektor, 191 MB, lokálně) + -lehka.pdf (42 MB) – sestaveno tools/brand/make_pdf.py z exportů sekcí
+- [ ] (vynecháno na přání klienta) recenze brand manuálu; ⛔ Figma MCP limit (200/den) vyčerpán 27. 9. ~22:45 + soubor read-only od 22:37 → po resetu: resume tools/parts/wf-brand-manual-v3.js (resumeFromRunId wf_8c99631a-bc1), zbývá 09–15 dostavět, pass/recenze/fix, PDF
 - [ ] Brand manual ve Figmě v3: hezčí úvodní stránky kapitol (3 varianty → porota → komponenta Slide/Chapter + obálka), kapitoly 00–15, gradient + štítky pryč
 - [ ] Po všem: Figma IG stránka s novými PNG + Reel, logo-dark všude místo štítků, brand-kit/, znovu tools/figma/unclip_sweep.js na všech stránkách (clip content pryč), commit + push
 - [ ] Po doběhnutí IG kitu: import do Figmy, stránka „📱 Instagram“ (191:2, sekce Profil / Feed / Stories / Reel už připravené) – avatar, highlighty, 9 příspěvků vč. carouselů, stories, Reel cover + klíčové snímky, popisky
