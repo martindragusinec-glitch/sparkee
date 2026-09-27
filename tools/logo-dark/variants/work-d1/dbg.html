@@ -1,0 +1,5 @@
+<!doctype html><html><head><style>html,body{margin:0;background:#1E2029}.c{position:relative;overflow:hidden}.c img{position:absolute}</style></head><body><script>
+const q=new URLSearchParams(location.search);const s=+(q.get('s')||16);const [x,y,w,h]=q.get('crop').split(',').map(Number);
+const d=document.createElement('div');d.className='c';d.style.cssText=`width:${w*s}px;height:${h*s}px`;document.body.appendChild(d);
+for(const f of q.get('files').split('|')){const im=new Image();im.src=f;im.style.width=568*s+'px';im.style.height=292*s+'px';im.style.left=-x*s+'px';im.style.top=-y*s+'px';d.appendChild(im);}
+</script></body></html>

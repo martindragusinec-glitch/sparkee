@@ -1,0 +1,20 @@
+<!doctype html><html lang="cs"><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@800&family=Nunito:wght@600;700&display=swap" rel="stylesheet">
+<style>html,body{margin:0;background:#13141A;color:#F5F4FB;font-family:Nunito,system-ui}.b{width:1800px;padding:40px}
+h1{font:800 30px "Baloo 2";margin:0 0 6px}p{margin:0 0 24px;color:#9DA3B8;font-weight:600}
+.r{display:flex;gap:16px;margin-bottom:16px;align-items:stretch}.p{position:relative;border-radius:18px;overflow:hidden;background:#2C303C}
+.lab{position:absolute;left:16px;top:12px;font:700 14px Nunito;color:#9DA3B8}.pick{color:#A5EDC5}
+.full{width:640px;height:380px}.full img{position:absolute;left:20px;top:44px;width:600px}
+.sm{width:200px;height:380px}.sm img{position:absolute;left:40px;width:120px}
+.z{width:880px;height:380px;background:#1E2029}.z .w{position:absolute;left:16px;top:40px;width:848px;height:324px;overflow:hidden;border-radius:10px}.z img{position:absolute}
+</style></head><body><div class="b"><h1>D1 · zkouška šířky mezery</h1><p>0,5× / 0,8× / 1,1× šířky obrysu (2,9 j.), zaoblení konců vždy 2,9 j. · vlevo 600 px, uprostřed 120 px na #2C303C a #1E2029, vpravo 4× detail na #1E2029</p><div id="rows"></div></div>
+<script>
+const Z=6.338028169014085, X=186, Y=168;
+for (const [f,lab,pick] of [['trial_g1.45.svg','0,5× · mezera 1,45 j. · na #1E2029 jen tenká linka vedle obrysu (2,3 px při 900 px) = dvojitá hrana; 120 px: ~0,9 px',0],['trial_g2.32.svg','0,8× · mezera 2,32 j. · vybráno: pás obrys + mezera ~8 px při 900 px, ~1,1 px při 120 px; mezera čitelná i na #1E2029',1],['trial_g3.19.svg','1,1× · mezera 3,19 j. · čisté, ale pás je těžký (~10 px při 900 px) a z „a“ i konce oblouku „r“ ubírá nejvíc',0]]) {
+  const r=document.createElement('div'); r.className='r';
+  r.innerHTML=`<div class="p full"><span class="lab ${pick?'pick':''}">${lab.split(' · ').slice(0,2).join(' · ')}</span><img src="${f}"></div>
+  <div class="p sm"><span class="lab">120 px</span><img src="${f}" style="top:90px"><div style="position:absolute;left:0;right:0;top:200px;bottom:0;background:#1E2029"></div><img src="${f}" style="top:250px"></div>
+  <div class="p z"><span class="lab ${pick?'pick':''}">${lab.split(' · ').slice(2).join(' · ')}</span><div class="w"><img src="${f}" style="width:${568*Z}px;left:${-X*Z}px;top:${-Y*Z}px"></div></div>`;
+  document.getElementById('rows').appendChild(r);
+}
+</script></body></html>

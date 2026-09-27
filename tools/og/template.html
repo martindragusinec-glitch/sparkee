@@ -11,9 +11,12 @@
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@800&family=Nunito:wght@700;800&display=block" rel="stylesheet">
 <style>
 :root{
-  --ink:#272A33; --ink-2:#1F222C; --paper:#F6F4EF;
+  --ink:#2C303C; --ink-2:#242835; --paper:#F6F4EF;
   --mint:#A5EDC5; --sky:#9AD8F8; --lav:#C49CF2; --pink:#F5B8DC;
   --holo:linear-gradient(115deg,#A5EDC5 0%,#9AD8F8 34%,#C49CF2 68%,#F5B8DC 100%);
+  /* přechod na TEXTU = originál klienta (Brand Identity „Aa“, „sparkee.cz“): pastelová diagonála 45° zleva nahoře doprava dolů.
+     Jen na tmavém podkladu (OG je vždy tmavé), jen jedno krátké akcentní slovo; stejný token jako web (site.css --holo-text). */
+  --holo-text:linear-gradient(135deg,#A5EDC5 0%,#9AD8F8 38%,#C49CF2 72%,#F5B8DC 100%);
   --pad-x:72px; --pad-y:54px;
 }
 *{box-sizing:border-box;margin:0;padding:0}
@@ -25,10 +28,11 @@ body.gallery{display:grid;gap:24px;padding:24px;justify-content:center}
 /* ---------- plátno ---------- */
 .og{position:relative;width:1200px;height:630px;overflow:hidden;isolation:isolate;color:#fff;
   background:
-    radial-gradient(760px 620px at var(--gx,78%) var(--gyy,52%),#343850 0%,rgba(52,56,80,0) 70%),
-    linear-gradient(160deg,#2B2F3A 0%,#272A33 45%,#1D1F27 100%)}
+    radial-gradient(760px 620px at var(--gx,78%) var(--gyy,52%),#393E59 0%,rgba(57,62,89,0) 70%),
+    linear-gradient(160deg,#303543 0%,#2C303C 45%,#222530 100%)}
 /* Akcent nese barvu karty: záře, zvýrazněné slovo, samolepky a tvrdé stíny.
-   --a hlavní, --b vedlejší, --c třetí (rgb trojice); --em = výsek holo přechodu od akcentu (zvýraznění, samolepky) */
+   --a hlavní, --b vedlejší, --c třetí (rgb trojice); --em = výsek holo přechodu od akcentu (jen výplň samolepky, ne text:
+   zvýrazněné slovo má vždy celou pastelovou diagonálu --holo-text) */
 .og[data-accent=mint]{--a:165,237,197;--b:154,216,248;--c:196,156,242;--hr:200deg;--em:linear-gradient(100deg,#A5EDC5 10%,#9AD8F8 100%)}
 .og[data-accent=sky] {--a:154,216,248;--b:196,156,242;--c:165,237,197;--hr:110deg;--em:linear-gradient(100deg,#9AD8F8 10%,#C49CF2 100%)}
 .og[data-accent=lav] {--a:196,156,242;--b:245,184,220;--c:154,216,248;--hr:20deg; --em:linear-gradient(100deg,#C49CF2 10%,#F5B8DC 100%)}
@@ -71,8 +75,9 @@ body.gallery{display:grid;gap:24px;padding:24px;justify-content:center}
 
 /* ---------- text ---------- */
 .brand{position:absolute;z-index:3;left:var(--pad-x);top:var(--pad-y)}
-.brand img{display:block;height:var(--logo-h,80px);width:auto}
-.brand--badge{padding:10px 20px 8px;border-radius:22px;background:#fff;border:2.5px solid var(--ink);box-shadow:6px 6px 0 rgb(var(--a))}
+.brand img{display:block;height:var(--logo-h,88px);width:auto}
+/* Logo na tmavé kartě = assets/img/logo-dark.svg (Figma „Logo/Dark“): světlá písmena vyříznutá kolem maskota + vlastní záře.
+   NIKDY na světlém štítku / podložce (klient 27. 9. 2026). */
 .copy{position:absolute;z-index:3;left:var(--pad-x);width:var(--cw,610px);top:var(--ct,150px);bottom:var(--cb,60px);
   display:flex;flex-direction:column;justify-content:center;align-items:flex-start}
 /* Neo-brutal na tmavé: výplň + 2,5px ink obrys + tvrdý stín v barvě akcentu (jedno pravidlo pro štítek, pilulku, samolepku i reakci).
@@ -85,10 +90,10 @@ body.gallery{display:grid;gap:24px;padding:24px;justify-content:center}
 .og[data-accent=holo] .chip svg path{fill:url(#og-holo)}
 .title{font:800 var(--fs,80px)/1.0 "Baloo 2",sans-serif;letter-spacing:-.018em;color:#fff;text-wrap:balance;width:100%;
   text-shadow:0 2px 24px rgba(15,16,22,.35)}
-.title em{font-style:normal;position:relative;display:inline-block;vertical-align:top;background:var(--em);-webkit-background-clip:text;background-clip:text;color:transparent;
-  text-shadow:none;filter:drop-shadow(0 0 18px rgba(var(--a),.4))}
-/* zvýrazňovač za x-výškou (nekříží dotahy písmen, nečte se jako odkaz) */
-.title em::after{content:"";position:absolute;left:-.04em;right:-.04em;bottom:.1em;height:.3em;border-radius:.1em;background:rgb(var(--a));opacity:.26;z-index:-1}
+/* zvýrazněné slovo: pastelová diagonála klienta přes background-clip:text, box přechodu = přesně slovo
+   (inline-block, žádné background-size/position); bez podtržení a záře, ať vypadá jako originál „Aa“ */
+.title em{font-style:normal;display:inline-block;vertical-align:top;padding-right:.04em;margin-right:-.04em;
+  background:var(--holo-text);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:none}
 .sub{margin-top:22px;font:700 29px/1.25 "Nunito",sans-serif;color:rgba(255,255,255,.76);max-width:100%;text-wrap:balance}
 .foot{position:absolute;z-index:3;left:var(--pad-x);bottom:var(--pad-y);display:flex;align-items:center;gap:24px}
 .pill{display:inline-flex;align-items:center;gap:12px;height:60px;padding:4px 28px 0 20px;border-radius:99px;
@@ -109,7 +114,7 @@ body.gallery{display:grid;gap:24px;padding:24px;justify-content:center}
 /* home: velký maskot se samolepkovým obrysem, claim přes 3 řádky. Obličej kolem x 820,
    aby ho čtvercový ořez WhatsAppu (x 285 až 915) nepřeřízl. */
 .og--home{--gx:66%}
-.og--home .brand{--logo-h:96px}
+.og--home .brand{--logo-h:108px}
 .og--home .copy{--ct:170px;--cb:140px;--cw:580px}
 .og--home .title{--fs:80px}
 .og--home .stage{left:612px;top:0;width:420px;height:630px;--glow:800px;--ring:520px;--mh:526px;--mb:40px;--mr:4deg}
@@ -124,7 +129,7 @@ body.gallery{display:grid;gap:24px;padding:24px;justify-content:center}
 /* blog a články: vlastní podrodina. Štítek kategorie nahoře, široký nadpis, logo dole jako podpis,
    menší maskot vykukuje z pravého dolního rohu a mluví samolepkou. */
 .og--article{--gx:92%;--gyy:96%}
-.og--article .brand{top:auto;bottom:var(--pad-y);--logo-h:70px}
+.og--article .brand{top:auto;bottom:var(--pad-y);--logo-h:76px}
 .og--article .copy{--cw:790px;--ct:148px;--cb:150px;justify-content:center}
 .og--article .eyebrow{position:absolute;z-index:3;left:var(--pad-x);top:var(--pad-y)}
 .og--article .title{--fs:82px}
@@ -139,7 +144,7 @@ body.gallery{display:grid;gap:24px;padding:24px;justify-content:center}
 
 /* ---------- ikony ---------- */
 .icon{position:relative;overflow:hidden;width:var(--size);height:var(--size);isolation:isolate}
-.icon--ink{background:radial-gradient(circle at 50% 56%,#3A3F57 0%,#272A33 62%,#1D1F27 100%)}
+.icon--ink{background:radial-gradient(circle at 50% 56%,#3F4560 0%,#2C303C 62%,#222530 100%)}
 .icon--ink::before{content:"";position:absolute;left:50%;top:58%;width:96%;aspect-ratio:1;translate:-50% -50%;border-radius:50%;
   background:radial-gradient(circle,rgba(196,156,242,.7) 0%,rgba(154,216,248,.34) 32%,rgba(165,237,197,.12) 54%,rgba(165,237,197,0) 70%)}
 .icon--ink::after{content:"";position:absolute;z-index:-1;left:50%;top:58%;width:70%;aspect-ratio:1;translate:-50% -50%;border-radius:50%;
@@ -193,16 +198,18 @@ async function poseSrc(pose) {
   return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(POSE_PATCH[pose] ? POSE_PATCH[pose](svg) : svg);
 }
 
-function cardHTML(c, logo) {
+// logo na tmavém pozadí: dark = logo-dark.svg (záře přes blur; od 300 px šířky, na OG 136–190 px pořád čisté),
+// flat = logo-dark-flat.svg (bez filtru, pro 120 px a méně). Žádný štítek / podložka.
+const LOGO = { dark: 'logo-dark.svg', flat: 'logo-dark-flat.svg' };
+function cardHTML(c, logo = 'dark') {
   const v = c.variant;
   const sparks = (c.sparks || SPARKS[v] || []).map(s => spark(...s)).join('');
-  const brand = logo === 'badge'
-    ? `<div class="brand brand--badge"><img src="${IMG}logo.svg" alt=""></div>`
-    : `<div class="brand"><img src="${IMG}logo-light.svg" alt=""></div>`;
+  if (!LOGO[logo]) throw new Error(`neznámý režim loga „${logo}“ (jen ${Object.keys(LOGO).join(', ')})`);
+  const brand = `<div class="brand"><img src="${IMG}${LOGO[logo]}" alt=""></div>`;
   const chip = c.eyebrow ? `<span class="chip">${inkSpark}${c.eyebrow}</span>` : '';
   const sub = c.sub && v !== 'home' ? `<p class="sub">${c.sub}</p>` : '';
   const note = v === 'home' && c.sub ? `<span class="foot__note">${c.sub}</span>` : '';
-  const react = c.react ? `<span class="react" style="${c.reactPos || ''}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.6s-7.6-4.5-9.5-9.1C1 8 3.1 4.4 6.8 4.4c2.2 0 3.9 1.2 5.2 3 1.3-1.8 3-3 5.2-3 3.7 0 5.8 3.6 4.3 7.1-1.9 4.6-9.5 9.1-9.5 9.1z" fill="#F5B8DC" stroke="#272A33" stroke-width="1.9" stroke-linejoin="round"/><path d="M6.6 7.6c-1 .3-1.7 1.2-1.8 2.3" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/></svg></span>` : '';
+  const react = c.react ? `<span class="react" style="${c.reactPos || ''}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.6s-7.6-4.5-9.5-9.1C1 8 3.1 4.4 6.8 4.4c2.2 0 3.9 1.2 5.2 3 1.3-1.8 3-3 5.2-3 3.7 0 5.8 3.6 4.3 7.1-1.9 4.6-9.5 9.1-9.5 9.1z" fill="#F5B8DC" stroke="#2C303C" stroke-width="1.9" stroke-linejoin="round"/><path d="M6.6 7.6c-1 .3-1.7 1.2-1.8 2.3" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/></svg></span>` : '';
   const sticker = c.sticker ? `<span class="sticker" style="${c.stickerUnder ? 'z-index:0;' : ''}${c.stickerPos || stickerPos(v)}">${c.sticker}</span>` : '';
   const streaks = (c.streaks || []).map(([x, y, w]) => `<span class="streak" style="left:${x}px;top:${y}px;width:${w}px"></span>`).join('');
   const pill = v === 'home' ? `<div class="foot"><span class="pill">${inkSpark}${c.pill || 'sparkee.cz'}</span>${note}</div>` : '';
@@ -296,7 +303,7 @@ function layoutReport(root) {
            textRight: Math.round(Math.max(...lines.map(L => L.r))), textBottom: Math.round(Math.max(...lines.map(L => L.b))) };
 }
 
-async function render(c, logo = 'light') {
+async function render(c, logo = 'dark') {
   const root = document.getElementById('root');
   if (c.variant !== 'icon') c._src = await poseSrc(c.pose);
   root.innerHTML = c.variant === 'icon' ? iconHTML(c) : cardHTML(c, c.logo || logo);
@@ -317,13 +324,13 @@ window.render = render;
   if (q.has('all')) {
     document.body.classList.add('gallery');
     for (const c of list) c._src = await poseSrc(c.pose);
-    document.getElementById('root').innerHTML = list.map(c => cardHTML(c, q.get('logo') || 'light')).join('');
+    document.getElementById('root').innerHTML = list.map(c => cardHTML(c, q.get('logo') || 'dark')).join('');
     await settle(document.body);
     document.querySelectorAll('.og').forEach((el, i) => fit(el, list[i]));
     return;
   }
   const c = list.find(x => x.file === (q.get('card') || 'home')) || list[0];
-  render(c, q.get('logo') || 'light');
+  render(c, q.get('logo') || 'dark');
 })();
 </script>
 </body>

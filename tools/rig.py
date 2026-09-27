@@ -192,7 +192,7 @@ def skeleton_overlay():
     out = '<g class="m-rig" fill="none" stroke="#8B5FD9" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round">'
     for b in bones:
         out += '<polyline points="' + " ".join(f"{x:.1f},{y:.1f}" for x, y in b) + '"/>'
-    out += '</g><g fill="#fff" stroke="#272A33" stroke-width="2.2">'
+    out += '</g><g fill="#fff" stroke="#2C303C" stroke-width="2.2">'
     for b in bones:
         for x, y in b:
             out += f'<circle cx="{x:.1f}" cy="{y:.1f}" r="3.6"/>'

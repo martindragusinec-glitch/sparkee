@@ -1,0 +1,28 @@
+Sparkee ✦ launch stories, 1080×1920 PNG. Nativní sticker se přidá v aplikaci do připravené plochy.
+Ve PNG je v ploše jen měkká záře bez rámečku, obrys plochy a nákres stickeru je v _preview/stories-guide.png.
+S1 je statická verze, živá 5s smyčka maskota může přijít jako MP4 ze stejného rigu.
+
+s1-ahoj.png · Den 0 (út 6. 10.) 10:15, po oznámení mimo IG · highlight Ahoj ✦
+  Sticker: otázka „Pojmenuj můj plamínek“, plocha x 96 až 984, y 1250 až 1570.
+
+s2-sdileni-reelu.png · Den 0 (út 6. 10.) 10:30 · highlight Ahoj ✦
+  Sticker: sdílený Reel P1, plocha x 360 až 720, y 560 až 1200.
+  Postup:
+    1. Otevři P1 a klepni na Sdílet → Přidat do příběhu.
+    2. Přes ikonu nálepky přidej s2-sdileni-reelu.png jako fotku a roztáhni ji přes celou plochu.
+    3. Náhled Reelu dej dopředu (klepnutím) a zmenši ho do plochy x 360 až 720, y 560 až 1200.
+    4. Předem vyzkoušej na soukromém testovacím účtu. Záloha: sdílet s automatickým pozadím a dopsat „Můj první Reel ✦“ nativním textem.
+
+s3-anketa.png · Den 0 (út 6. 10.) 14:00
+  Sticker: anketa „Co tě štve nejvíc?“ (Nemám čas / Nevím, co postovat / Nevidím výsledky / Nikdo nereaguje), plocha x 96 až 984, y 860 až 1260.
+
+s4a-kviz.png · Den 2 (čt 8. 10.) s P4 · highlight Tipy
+  Sticker: kvíz „Kolik Reels týdně?“ (0 / ✓ 2 až 4 / 20), plocha x 96 až 984, y 850 až 1210.
+
+s4b-odkaz-clanek.png · Den 2 (čt 8. 10.) po kvízu · highlight Tipy
+  Sticker: odkaz „Celý článek“, plocha x 290 až 790, y 1150 až 1320.
+  Odkaz: https://sparkee.cz/blog/jak-casto-postovat-na-instagram.html?utm_source=instagram&utm_medium=social&utm_campaign=ig_launch&utm_content=story_s4
+
+s5-cta.png · Den 16 (čt 22. 10.) s P9 · highlight Kontakt
+  Sticker: odkaz „zjistit víc“, plocha x 290 až 790, y 1200 až 1370.
+  Odkaz: https://sparkee.cz/?utm_source=instagram&utm_medium=social&utm_campaign=ig_launch&utm_content=story_s5#kontakt

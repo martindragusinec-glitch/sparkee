@@ -1,0 +1,7 @@
+0.0s core from cache
+36.2s g 3.19 cutter field exact 1299999
+81.6s 3.19/3.19 a raw -4966.72 1162.49 | opened -4965.13 1162.49
+108.5s 3.19/3.19 r raw -1275.77 | opened -278.56 -952.08
+142.6s 3.19/5 a raw -4966.72 1162.49 | opened -4962.91 1162.49
+162.8s 3.19/5 r raw -1275.77 | opened -248.85 -932.76
+162.9s wrote data/d2/inset_w1.45_g3.19.json

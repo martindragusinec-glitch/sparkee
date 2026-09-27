@@ -1,0 +1,3 @@
+<!doctype html><body><script>
+(async()=>{const out={};for(const f of ['logo-primary','logo-mono']){const t=await fetch('/assets/img/'+f+'.svg?'+Date.now()).then(r=>r.text());const d=document.createElement('div');d.innerHTML=t;document.body.appendChild(d);const s=d.querySelector('svg');const g=[...s.children].filter(c=>c.tagName==='g')[0];const b=g.getBBox();out[f]=[b.x,b.y,b.width,b.height].map(v=>+v.toFixed(2));}document.title=JSON.stringify(out);})();
+</script></body>

@@ -1,0 +1,50 @@
+Highlighty ✦ pořadí zleva. Cover 1080×1920, IG ořízne střed do kruhu.
+Highlight se na profilu ukáže, jen když obsahuje aspoň 1 story. Proto stálý obsah jde ven předem:
+
+Den −2 (ne 4. 10.), profil zatím nikdo nesleduje:
+  1. Nahraj jako běžné stories všech 12 snímků ze složky highlights/stories/ v pořadí níže (odkazy přidej nativním stickerem do plochy se září).
+  2. Ulož je do highlightů (Ahoj ✦, Služby, Ceník, Kontakt, Tipy) a nastav covery.
+  3. Zkontroluj profil: všech 5 highlightů je vidět. Launch stories se přidají později podle stories/stories.txt.
+
+1. Ahoj ✦  →  cover hl-1-ahoj.png
+   Den −2: stories/ahoj-1-pro-koho.png
+   Den −2: stories/ahoj-2-4-kroky.png
+   později: ../stories/s1-ahoj.png (Den 0 (út 6. 10.) 10:15, po oznámení mimo IG)
+   později: ../stories/s2-sdileni-reelu.png (Den 0 (út 6. 10.) 10:30)
+
+2. Služby  →  cover hl-2-sluzby.png
+   Den −2: stories/sluzby-1-sprava.png
+     Sticker: odkaz „Správa sítí“, plocha x 96 až 596, y 1260 až 1430.
+     Odkaz: https://sparkee.cz/sluzby/sprava-socialnich-siti.html?utm_source=instagram&utm_medium=social&utm_campaign=ig_profil&utm_content=ig_highlight_sprava
+   Den −2: stories/sluzby-2-obsah.png
+     Sticker: odkaz „Tvorba obsahu“, plocha x 96 až 596, y 1260 až 1430.
+     Odkaz: https://sparkee.cz/sluzby/tvorba-obsahu.html?utm_source=instagram&utm_medium=social&utm_campaign=ig_profil&utm_content=ig_highlight_obsah
+   Den −2: stories/sluzby-3-influenceri.png
+     Sticker: odkaz „Influenceři“, plocha x 96 až 596, y 1260 až 1430.
+     Odkaz: https://sparkee.cz/sluzby/influencer-marketing.html?utm_source=instagram&utm_medium=social&utm_campaign=ig_profil&utm_content=ig_highlight_influenceri
+   Den −2: stories/sluzby-4-paid.png
+     Sticker: odkaz „Paid social“, plocha x 96 až 596, y 1260 až 1430.
+     Odkaz: https://sparkee.cz/sluzby/paid-social.html?utm_source=instagram&utm_medium=social&utm_campaign=ig_profil&utm_content=ig_highlight_paid
+
+3. Ceník  →  cover hl-3-cenik.png
+   Den −2: stories/cenik-1-balicky.png
+     Sticker: odkaz „Ceník“, plocha x 96 až 596, y 1420 až 1570.
+     Odkaz: https://sparkee.cz/?utm_source=instagram&utm_medium=social&utm_campaign=ig_profil&utm_content=ig_highlight_cenik#cenik
+   Den −2: stories/cenik-2-zavazek.png
+
+4. Kontakt  →  cover hl-4-kontakt.png
+   Den −2: stories/kontakt-1-jak-zacit.png
+     Sticker: odkaz „Konzultace“, plocha x 96 až 596, y 1340 až 1510.
+     Odkaz: https://sparkee.cz/?utm_source=instagram&utm_medium=social&utm_campaign=ig_profil&utm_content=ig_highlight_kontakt#kontakt
+   Den −2: stories/kontakt-2-faq.png
+   později: ../stories/s5-cta.png (Den 16 (čt 22. 10.) s P9)
+
+5. Tipy  →  cover hl-5-tipy.png
+   Den −2: stories/tipy-1-kolik-stoji.png
+     Sticker: odkaz „Celý článek“, plocha x 290 až 790, y 1150 až 1320.
+     Odkaz: https://sparkee.cz/blog/kolik-stoji-sprava-socialnich-siti.html?utm_source=instagram&utm_medium=social&utm_campaign=ig_profil&utm_content=ig_highlight_tipy_cena
+   Den −2: stories/tipy-2-influenceri.png
+     Sticker: odkaz „Celý článek“, plocha x 290 až 790, y 1150 až 1320.
+     Odkaz: https://sparkee.cz/blog/influencer-marketing-pro-male-firmy.html?utm_source=instagram&utm_medium=social&utm_campaign=ig_profil&utm_content=ig_highlight_tipy_influenceri
+   později: ../stories/s4a-kviz.png (Den 2 (čt 8. 10.) s P4)
+   později: ../stories/s4b-odkaz-clanek.png (Den 2 (čt 8. 10.) po kvízu)

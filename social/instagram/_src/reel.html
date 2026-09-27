@@ -1,0 +1,1275 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<title>Sparkee Reel „Tahle má mě“</title>
+<meta name="viewport" content="width=1080, initial-scale=1">
+<!--
+  Sparkee · IG Reel P1 „Jiné agentury mají logo. Tahle má mě ✦“ · 1080×1920 · 30 fps · 19,7 s (591 snímků) · smyčka
+  Seekovatelná stránka: window.ReelSeek(t) vykreslí přesný snímek v čase t (s). Každá vrstva je čistá funkce času,
+  maskot = živý rig z webu (klon hero SVG z /index.html, SparkeeMascot.create + deterministický krok 1/120 s od t = 0).
+  Brand: maskot se nikdy nedeformuje (jen posun, rotace, uniformní měřítko, ohyb paží a výraz přes vlastní klíče rigu).
+  ✦ = jiskra z webu (index.html, story.css, OG, IG kit: path „M12 0c1 7 5 11 12 12…“).
+
+  LOGO (pravidla klienta):
+  - Jediné oficiální logo = /assets/img/logo.svg (Figma Brand Identity, Primary 124:3), vložené jako <img> beze změny:
+    nic se v něm nepřebarvuje, neskrývá, neořezává ani nepřekresluje. Ležící maskot na wordmarku je tedy přesně ten
+    z loga (pozice, měřítko, náklon, pixely). Logo.svg je světlá varianta, proto logo stojí v Reelu vždy na světlém mist
+    #F5F4FB (neutrál IG): snímek 0 a konec smyčky jsou světlé, tmavý svět se otevře / zavře jako kruhová clona z maskota.
+  - Wordmark bez maskota se nikdy neukazuje. Logo a živý rig nejsou nikdy vidět zároveň, logo nikdy na tmavém.
+  - Výměna logo → rig (S.swapIn) a rig → logo (S.swapOut) leží přesně mezi dvěma snímky uvnitř krátkého záblesku
+    (2 snímky 0,97 přes maskota i písmena, doznění 0,10 / 0,12 s). Na začátku se clona otevře na čisté ink (záblesk
+    svítí jen vně tmavého kruhu); na konci clona obkrouží postavu (r 420, mrknutí), zavře se do ní a rig doskočí přesně
+    do pózy loga P0 (19,10 s) ještě před výměnou. Před výměnou se logo jen „nabíjí“ jako celek (kamera, uniformní
+    měřítko, chvění o 1,6 px), písmena se pak rozletí jako jiskry ✦ z jejich obrysu (a na konci se slétnou zpět).
+    Nabíjecí jiskry kolem loga krouží už přes šev smyčky (19,40 s → snímek 0), logo samo je na snímku 0 v klidu.
+    ReelCheck() hlídá výměny i to, že logo není na tmě.
+  - Logo na tmavém se v Reelu neukazuje vůbec (žádný štítek / podklad pod logem na tmě). Kdyby se to někdy změnilo,
+    patří na tmu jedině vyříznutá tmavá varianta /assets/img/logo-dark.svg (mist písmena vyříznutá kolem maskota, dodává
+    ji úkol loga; v Reelu se zatím nepoužívá, protože tu žádné logo na tmě není), nikdy logo.svg na světlém štítku.
+  AKCENTY (pravidlo klienta k přechodu na textu, 27. 9.):
+  - Tmavý svět: jedno krátké slovo v pastelovém holo přechodu 135° (#A5EDC5 → #9AD8F8 38 % → #C49CF2 72 % → #F5B8DC,
+    box = přesně slovo): „mě“ (Tahle má mě ✦), „Sparkee“ (Ahoj, jsem Sparkee ✦), „scroll“, „čísla“, „mě“ (Sleduj mě ✦).
+    „scroll“ a „čísla“ jsou nejdřív mist a přechod je zleva doprava „přebarví“ (feed se zastaví / rostou sloupce), na konci
+    malý záblesk ✦; stejná konvence jako `.dark .hl` v IG kitu. Zvýrazňovač pod slovem patří jen na světlé pozadí.
+  - Světlá fáze (mist, snímek 0 a konec): žádný přechod na textu, text je ink #2C303C (hook). Případný akcent tu = ink + zvýrazňovač.
+  - ReelCheck: „holo-text-on-light“ = viditelné .holo slovo, které není celé uvnitř tmavé clony. Zóny IG hlídá pro nadpisy
+    v HUD i pro každý text ve světě (čipy, pilulky, štítek, DM bublina, popisky sloupců a dlaždic).
+  - Geometrie: logo.svg = starý artwork loga (souřadnice rigu) oříznutý na obsah: nové = (staré − (103,22; 53,78)) × 0,569486
+    (ověřeno na všech částech loga, odchylka < 0,01 j.). Rig v pozici P0 má hlavu přesně na hlavě loga (?ov=1).
+
+  Náhled:   http://localhost:8770/social/instagram/_src/reel.html?t=4.5          (zastavený snímek)
+            …/reel.html?play=1   (přehrávání v reálném čase)   …&grid=1  (bezpečné zóny IG)
+            …&hide=m (bez maskota, jen pro měření)   …&ov=1 (logo a rig v P0 přes sebe na 50 %, kontrola zarovnání)
+  Kontrola: ReelCheck() v konzoli nebo  node social/instagram/_src/record_reel.mjs --check
+  Nahrání:  node social/instagram/_src/record_reel.mjs   (→ social/instagram/reel/sparkee-reel.mp4, jediné finální video P1)
+  Cover:    jediný cover je feed/01_reel-ahoj/cover.png (IG kit); --cover ho jen zkopíruje do reel/cover.png.
+  Scénář:   časy beatů v S níže, tabulka v PLAN.md kap. 6.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&family=Nunito:wght@700;800;900&display=block" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/mascot.css">
+<style>
+  :root{
+    /* brand: ink z vektorů loga, pastely = webová sada (site.css), mist = neutrál IG */
+    --ink:#2C303C; --mist:#F5F4FB; --mint:#A5EDC5; --sky:#9AD8F8; --lilac:#C49CF2; --blush:#F5B8DC;
+    --holo:linear-gradient(115deg,#A5EDC5 0%,#9AD8F8 33%,#C49CF2 66%,#F5B8DC 100%);   /* = IG kit --holo: jen plochy (pilulky, zvýrazňovač, linky), nikdy text */
+    /* holo TEXT (pravidlo klienta, originál Figma Brand Identity „Aa“ a „sparkee.cz“): pastel na 45° diagonále zleva shora doprava dolů,
+       JEN na tmavé ink a jen jedno krátké slovo / číslo / malý brand řádek. Na světlé (mist) nikdy přechod na textu: ink + zvýrazňovač pod slovem. */
+    --holo-text-dark:linear-gradient(135deg,#A5EDC5 0%,#9AD8F8 38%,#C49CF2 72%,#F5B8DC 100%);
+    --f-d:"Baloo 2",ui-rounded,system-ui,sans-serif; --f-b:"Nunito",system-ui,sans-serif;
+  }
+  html,body{margin:0;padding:0;background:var(--ink)}
+  body{width:1080px;height:1920px;overflow:hidden}
+  #stage{position:relative;width:1080px;height:1920px;overflow:hidden;background:var(--mist);color:var(--mist);font-family:var(--f-b);
+    -webkit-font-smoothing:antialiased;text-rendering:geometricPrecision}
+  .abs{position:absolute;left:0;top:0}
+  svg{overflow:visible}
+
+  /* ---------- tmavý svět: ink + 4 rozmazané holo bloby (radiální gradient = blur 120 px), výřez kruhovou clonou ---------- */
+  #dark{position:absolute;left:0;top:0;width:1080px;height:1920px;background:var(--ink);overflow:hidden}
+  /* hrana clony: tenký světelný holo lem (kreslí se jen během otevírání / zavírání) */
+  #irisRim{position:absolute;left:0;top:0;border-radius:50%;box-sizing:border-box;pointer-events:none;border:4px solid rgba(255,255,255,.9);
+    box-shadow:0 0 0 2px rgba(196,156,242,.55),0 0 34px 6px rgba(196,156,242,.5),inset 0 0 34px 6px rgba(154,216,248,.45)}
+  .blob{position:absolute;left:0;top:0;border-radius:50%}
+  .twk{position:absolute;left:0;top:0;width:30px;height:30px;margin:-15px 0 0 -15px}
+  /* zrno 2,8 %: rozbije pruhy v tmavých přechodech (dithering), pevné = deterministické a levné na datový tok */
+  #grain{position:absolute;inset:0;pointer-events:none;opacity:.028;background-repeat:repeat;image-rendering:pixelated}
+
+  /* ---------- svět (kamera) ---------- */
+  #world{position:absolute;inset:0;transform-origin:0 0}
+  .glow{position:absolute;left:0;top:0;border-radius:50%;pointer-events:none}
+  #logo{position:absolute;display:block;max-width:none;user-select:none;pointer-events:none}
+  #mwrap svg.mascot{position:absolute;left:374px;top:39px;width:264px;height:427px;transform-origin:-374px -39px;overflow:visible}
+  .spk{position:absolute;left:0;top:0;width:100px;height:100px;margin:-50px 0 0 -50px}
+  .spk svg{width:100%;height:100%;display:block}
+  .ring{position:absolute;left:0;top:0;width:200px;height:200px;margin:-100px 0 0 -100px;border-radius:50%;box-sizing:border-box;
+    border:5px solid rgba(196,156,242,.95);box-shadow:0 0 22px rgba(196,156,242,.7),inset 0 0 18px rgba(154,216,248,.55)}
+
+  /* čipy chaosu */
+  .chip{position:absolute;left:0;top:0;display:flex;align-items:center;gap:14px;height:84px;padding:0 32px 0 12px;border-radius:99px;
+    font:800 34px/1 var(--f-b);color:var(--ink);white-space:nowrap;box-shadow:0 20px 40px -10px rgba(8,10,18,.55),inset 0 -5px 0 rgba(44,48,60,.08)}
+  .chip i{display:grid;place-items:center;width:60px;height:60px;border-radius:50%;background:rgba(255,255,255,.62);flex:none}
+  .chip i svg{width:34px;height:34px;fill:none;stroke:var(--ink);stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+  .chip--bang{padding:0;width:84px;justify-content:center;font:800 46px/1 var(--f-d);letter-spacing:-.04em}
+  .bg-mint{background:var(--mint)} .bg-sky{background:var(--sky)} .bg-lilac{background:var(--lilac)} .bg-blush{background:var(--blush)}
+
+  /* kalendář */
+  .tile{position:absolute;left:0;top:0;width:112px;height:184px;margin:-92px 0 0 -56px;border-radius:26px}
+  .tile .empty{position:absolute;inset:0;border-radius:26px;border:3px dashed rgba(245,244,251,.32);background:rgba(245,244,251,.06)}
+  .tile .full{position:absolute;inset:0;border-radius:26px;box-shadow:0 16px 30px -10px rgba(8,10,18,.6);color:var(--ink)}
+  .tile .day{position:absolute;left:0;right:0;top:15px;text-align:center;font:800 29px/1 var(--f-b);color:rgba(245,244,251,.78)}
+  .tile .full .day{color:rgba(44,48,60,.72)}
+  .tile .ic{position:absolute;left:50%;top:88px;width:54px;height:54px;margin:-27px 0 0 -27px}
+  .tile .ic svg{width:100%;height:100%;fill:none;stroke:var(--ink);stroke-width:2.3;stroke-linecap:round;stroke-linejoin:round}
+  .tile .lab{position:absolute;left:0;right:0;bottom:16px;text-align:center;font:800 23px/1 var(--f-b);color:var(--ink)}
+  .tile .tsp{position:absolute;right:9px;top:9px;width:22px;height:22px}
+  .stat{position:absolute;left:0;top:0;display:flex;align-items:center;gap:12px;height:60px;padding:0 24px 0 12px;border-radius:99px;
+    background:var(--mist);color:var(--ink);font:800 28px/1 var(--f-b);box-shadow:0 14px 30px -10px rgba(8,10,18,.6);white-space:nowrap}
+  .stat b{display:grid;place-items:center;width:40px;height:40px;border-radius:50%;background:var(--mint);flex:none}
+  .stat b svg{width:22px;height:22px;fill:none;stroke:var(--ink);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+  .stat em{font-style:normal;font:800 34px/1 var(--f-d);display:inline-block;min-width:1.1em;text-align:right}
+
+  /* pás Reels (feed, který se zastaví) */
+  #feed{position:absolute;inset:0}
+  .card{position:absolute;left:0;top:0;width:132px;height:212px;margin:-106px 0 0 -66px;border-radius:24px;overflow:hidden;
+    box-shadow:0 18px 32px -10px rgba(8,10,18,.6)}
+  .card .pl{position:absolute;left:50%;top:42%;width:60px;height:60px;margin:-30px 0 0 -30px;border-radius:50%;background:rgba(255,255,255,.8);display:grid;place-items:center}
+  .card .pl svg{width:24px;height:24px;margin-left:4px}
+  .card .ln{position:absolute;left:16px;height:10px;border-radius:10px;background:rgba(44,48,60,.18)}
+  .card .csp{position:absolute;right:12px;top:12px;width:28px;height:28px}
+  .g-mint{background:linear-gradient(165deg,#DDF8E8 0%,#A5EDC5 55%,#9AD8F8 100%)}
+  .g-sky{background:linear-gradient(165deg,#DDF1FC 0%,#9AD8F8 55%,#C49CF2 100%)}
+  .g-lilac{background:linear-gradient(165deg,#EDE2FB 0%,#C49CF2 55%,#F5B8DC 100%)}
+  .g-blush{background:linear-gradient(165deg,#FCE6F2 0%,#F5B8DC 55%,#C49CF2 100%)}
+  .card--hero{background:linear-gradient(160deg,#F5F4FB 0%,#A5EDC5 22%,#9AD8F8 48%,#C49CF2 74%,#F5B8DC 100%)}
+  .heart{position:absolute;left:0;top:0;width:60px;height:60px;margin:-30px 0 0 -30px}
+
+  /* čísla */
+  .bar{position:absolute;left:0;top:0;border-radius:30px 30px 0 0;overflow:hidden}
+  .bar .lab{position:absolute;left:0;right:0;top:20px;text-align:center;font:800 34px/1 var(--f-b);color:var(--ink)}
+  .tag{position:absolute;left:0;top:0;height:54px;padding:0 24px;border-radius:99px;border:2px solid rgba(245,244,251,.6);box-sizing:border-box;
+    font:900 30px/50px var(--f-b);letter-spacing:.14em;color:rgba(245,244,251,.88);white-space:nowrap}
+
+  /* DM bublina (CTA) */
+  .dm{position:absolute;left:0;top:0;display:flex;align-items:center;gap:10px;height:76px;padding:0 30px;border-radius:38px 38px 38px 10px;
+    background:var(--mist);color:var(--ink);font:900 36px/1 var(--f-b);letter-spacing:.06em;white-space:nowrap;box-shadow:0 18px 36px -10px rgba(8,10,18,.6)}
+  .dm svg{width:32px;height:32px}
+
+  /* ---------- HUD: text (mimo kameru, IG safe zóna x 72–952, y 300–1480) ---------- */
+  #hud{position:absolute;inset:0}
+  .tb{position:absolute;left:72px;width:880px}
+  .tb.ink{color:var(--ink)}
+  .w{display:inline-block;will-change:auto}
+  .d100{font:800 100px/106px var(--f-d);letter-spacing:-.01em}
+  .d88{font:800 88px/94px var(--f-d);letter-spacing:-.01em}
+  .d120{font:800 120px/124px var(--f-d);letter-spacing:-.015em}
+  .b44{font:700 44px/54px var(--f-b);color:rgba(245,244,251,.86)}
+  /* .holo = akcentové slovo. Na tmě: pastelový přechod 135° přesně přes slovo (box přechodu = inkoust slova, nastaví START přes measureText;
+     žádné zvětšení boxu ani posun barev mimo slovo, žádná animace odstínu).
+     Ve světlé fázi (.tb.ink, mist) by bylo ink + zvýrazňovač pod slovem, nikdy přechod na textu; ReelCheck hlídá „holo-text-on-light“. */
+  .holo{background:var(--holo-text-dark);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .tb.ink .holo{background:none;-webkit-background-clip:border-box;background-clip:border-box;color:var(--ink);position:relative;display:inline-block}
+  .tb.ink .holo::before{content:"";position:absolute;z-index:-1;left:-.06em;right:-.08em;bottom:.14em;height:.3em;border-radius:.14em;background:var(--holo);
+    opacity:.55;transform-origin:left center;transform:scaleX(var(--u,1)) skewX(-8deg)}
+  .ts{display:inline-block;width:.6em;height:.6em;vertical-align:.04em;margin-left:.08em}
+  .ts svg{width:100%;height:100%;display:block;filter:drop-shadow(0 0 .12em rgba(196,156,242,.7))}
+  /* akcent na tmě („scroll“, „čísla“): mist slovo (.hlb) se zleva doprava přebarví na pastelový přechod 135° (.hlo .holo,
+     box přechodu = inkoust slova); --u 0…1 posouvá měkkou hranu (30 % šíře slova), masky jsou doplňkové → žádný mist lem */
+  .hl{position:relative;display:inline-block}
+  .hl .hlb{-webkit-mask-image:linear-gradient(90deg,transparent calc(var(--u,0) * 130% - 30%),#000 calc(var(--u,0) * 130%));
+    mask-image:linear-gradient(90deg,transparent calc(var(--u,0) * 130% - 30%),#000 calc(var(--u,0) * 130%))}
+  .hl .hlo{position:absolute;left:0;top:0;white-space:nowrap;pointer-events:none;
+    -webkit-mask-image:linear-gradient(90deg,#000 calc(var(--u,0) * 130% - 30%),transparent calc(var(--u,0) * 130%));
+    mask-image:linear-gradient(90deg,#000 calc(var(--u,0) * 130% - 30%),transparent calc(var(--u,0) * 130%))}
+  /* pilulka kroku: jedna pro 1 PLÁN → 2 OBSAH → 3 ČÍSLA, číslo i slovo se „protočí“ */
+  #pill{position:absolute;left:72px;top:300px;transform-origin:0 50%;display:flex;align-items:center;gap:14px;height:64px;padding:0 28px 0 9px;border-radius:99px;
+    font:900 30px/1 var(--f-b);letter-spacing:.12em;color:var(--ink);box-sizing:border-box}
+  #pill b{display:block;width:46px;height:46px;border-radius:50%;background:var(--ink);color:var(--mist);overflow:hidden;flex:none;
+    font:800 30px/46px var(--f-d);letter-spacing:0;text-align:center}
+  #pill .lab{display:block;height:46px;overflow:hidden;flex:none}
+  #pill .roll{display:block}
+  #pill .roll span{display:block;height:46px;line-height:47px;white-space:nowrap}
+  #pill b .roll span{padding-top:2px;box-sizing:border-box}
+  /* CTA pilulka: holo plocha + lesklý pás (1. vrstva pozadí), který přejede po povrchu; text leží nad pozadím, lesk ho nikdy nebarví */
+  #ctaPill{position:absolute;left:72px;top:470px;transform-origin:0 50%;display:flex;align-items:center;gap:16px;height:96px;padding:0 34px 0 40px;border-radius:99px;box-sizing:border-box;
+    background:linear-gradient(105deg,rgba(255,255,255,0) 0%,rgba(255,255,255,.62) 50%,rgba(255,255,255,0) 100%) no-repeat,var(--holo);
+    background-size:34% 100%,100% 100%;background-position:-400px 0,0 0;
+    color:var(--ink);font:900 44px/1 var(--f-b);white-space:nowrap;box-shadow:0 0 44px rgba(196,156,242,.45)}
+  #ctaPill b{font-weight:900;letter-spacing:.02em}
+  #ctaPill svg{width:36px;height:36px;flex:none}
+  #ctaUrl{position:absolute;left:72px;top:590px;font:800 40px/44px var(--f-b);color:rgba(245,244,251,.86);white-space:nowrap;letter-spacing:.01em}
+
+  /* QA mřížka (?grid=1): červeně IG zóny bez textu (nahoře 220, dole 420, vpravo 120), čárkovaně textová zóna 72–952 × 300–1480 */
+  #grid{position:absolute;inset:0;pointer-events:none;display:none}
+  #grid.on{display:block}
+  #grid div{position:absolute;box-sizing:border-box}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <!-- brand ✦ = jiskra z webu (stejná cesta jako index.html, story.css, OG a IG kit) -->
+    <symbol id="sp" viewBox="0 0 24 24"><path d="M12 0c1 7 5 11 12 12-7 1-11 5-12 12-1-7-5-11-12-12C7 11 11 7 12 0z"/></symbol>
+    <linearGradient id="g-holo" x1="0" y1="2" x2="24" y2="22" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#A5EDC5"/><stop offset=".33" stop-color="#9AD8F8"/><stop offset=".66" stop-color="#C49CF2"/><stop offset="1" stop-color="#F5B8DC"/>
+    </linearGradient>
+    <linearGradient id="g-line" x1="150" y1="0" x2="660" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#A5EDC5"/><stop offset=".33" stop-color="#9AD8F8"/><stop offset=".66" stop-color="#C49CF2"/><stop offset="1" stop-color="#F5B8DC"/>
+    </linearGradient>
+    <!-- rozmazání pohybem jen vodorovně (pás Reels při rychlém scrollu) -->
+    <filter id="mblur" x="-20%" y="-5%" width="140%" height="110%" color-interpolation-filters="sRGB"><feGaussianBlur id="mblurG" stdDeviation="0 0"/></filter>
+  </defs>
+</svg>
+
+<div id="stage">
+  <div id="dark"><div id="bg" class="abs" style="width:1080px;height:1920px"></div><div id="grain"></div></div>
+  <div id="irisRim"></div>
+
+  <div id="world">
+    <div id="glowLogo" class="glow"></div>
+    <img id="logo" src="/assets/img/logo.svg" alt="" draggable="false">
+    <div id="glowM" class="glow"></div>
+    <div id="floorGlow" class="glow"></div>
+    <div id="bars"></div>
+    <svg id="chart" class="abs" width="1080" height="1920" viewBox="0 0 1080 1920" style="pointer-events:none">
+      <!-- trend nad sloupci 72–640: začíná na vršku „dosah“, v mezerách mezi sloupci stoupá, nad popisky „uložení“ a „sledující“
+           vede vždy nad jejich vrškem (nikdy přes popisek), končí jiskrou vpravo nahoře -->
+      <path id="cline" d="M156 1040 C204 1036 222 864 286 804 S424 736 476 676 S600 604 652 590" fill="none" stroke="url(#g-line)" stroke-width="11" stroke-linecap="round"/>
+    </svg>
+    <div id="tagUk" class="tag">UKÁZKA</div>
+    <div id="backChips"></div>
+    <div id="mwrap"></div>
+    <div id="frontChips"></div>
+    <div id="feed"><div id="cal"></div><div id="cards"></div></div>
+    <div id="fx"></div>
+  </div>
+
+  <div id="hud">
+    <div class="tb d100" id="tHook" style="top:300px"><span class="w">Jiné</span> <span class="w">agentury</span><br><span class="w">mají</span> <span class="w">logo.</span></div>
+    <div class="tb d120" id="tHas" style="transform-origin:0 30%"><span class="w">Tahle</span> <span class="w">má</span> <span class="w"><span class="holo">mě</span><span class="ts"><svg><use href="#sp" fill="url(#g-holo)"/></svg></span></span></div>
+    <div class="tb d120" id="tHello" style="top:300px"><span class="w">Ahoj,</span> <span class="w">jsem</span><br><span class="w"><span class="holo">Sparkee</span><span class="ts"><svg><use href="#sp" fill="url(#g-holo)"/></svg></span></span></div>
+
+    <div class="tb d100" id="tChaos" style="top:300px"><span class="w">Sítě</span> <span class="w">bez</span> <span class="w">systému?</span></div>
+    <div class="tb b44" id="tChaosSub"><span class="w">Žádný</span> <span class="w">plán.</span> <span class="w">Nula</span> <span class="w">čísel.</span></div>
+
+    <div id="pill"><b><span class="roll" id="pillN"><span>1</span><span>2</span><span>3</span></span></b><span class="lab" id="pillLab"><span class="roll" id="pillL"><span>PLÁN</span><span>OBSAH</span><span>ČÍSLA</span></span></span></div>
+    <div class="tb d88" id="tPlan" style="top:384px"><span class="w">Plán</span> <span class="w">na</span> <span class="w">měsíc</span><br><span class="w">dopředu.</span></div>
+    <div class="tb b44" id="tPlanSub"><span class="w">Žádné</span> <span class="w">‚co</span> <span class="w">dáme</span> <span class="w">dnes?‘</span></div>
+
+    <div class="tb d88" id="tObs" style="top:384px"><span class="w">Obsah,</span> <span class="w">který</span><br><span class="w">zastaví</span> <span class="w"><span class="hl" id="hlScroll"><span class="hlb">scroll</span><span class="hlo" aria-hidden="true"><span class="holo">scroll</span></span></span>.</span></div>
+    <div class="tb b44" id="tObsSub"><span class="w">Jeden</span> <span class="w">natáčecí</span> <span class="w">den</span> <span class="w">=</span> <span class="w">8</span> <span class="w">až</span> <span class="w">12</span> <span class="w">Reels</span></div>
+
+    <div class="tb d88" id="tNum" style="top:384px"><span class="w">Každý</span> <span class="w">měsíc</span> <span class="w"><span class="hl" id="hlCisla"><span class="hlb">čísla</span><span class="hlo" aria-hidden="true"><span class="holo">čísla</span></span></span>.</span><br><span class="w">Ne</span> <span class="w">pocity.</span></div>
+
+    <div class="tb d120" id="tCta" style="top:300px"><span class="w">Sleduj</span> <span class="w"><span class="holo">mě</span><span class="ts"><svg><use href="#sp" fill="url(#g-holo)"/></svg></span></span></div>
+    <div id="ctaPill"><span>Napiš <b>JISKRA</b> do zpráv</span><svg viewBox="0 0 24 24"><use href="#sp" width="24" height="24" fill="#2C303C"/></svg></div>
+    <div id="ctaUrl">sparkee.cz</div>
+  </div>
+
+  <div id="grid">
+    <div style="left:72px;top:300px;width:880px;height:1180px;border:2px dashed rgba(255,80,80,.8)"></div>
+    <div style="left:960px;top:0;width:120px;height:1920px;background:rgba(255,80,80,.14)"></div>
+    <div style="left:0;top:1500px;width:1080px;height:420px;background:rgba(255,80,80,.14)"></div>
+    <div style="left:0;top:0;width:1080px;height:220px;background:rgba(255,80,80,.14)"></div>
+    <div style="left:0;top:240px;width:1080px;height:1440px;border-top:2px solid rgba(80,200,255,.8);border-bottom:2px solid rgba(80,200,255,.8)"></div>
+  </div>
+</div>
+
+<script src="/assets/js/mascot-rig.js"></script>
+<script src="/assets/js/mascot.js"></script>
+<script>
+(() => {
+  'use strict';
+  const Q = new URLSearchParams(location.search);
+  const DUR = 19.7, FPS = 30;
+  const NS = 'http://www.w3.org/2000/svg';
+  const $ = s => document.querySelector(s);
+
+  /* =========================================================
+     MATEMATIKA
+     ========================================================= */
+  const TAU = Math.PI * 2, D2R = Math.PI / 180;
+  const clamp01 = v => (v < 0 ? 0 : v > 1 ? 1 : v);
+  const lerp = (a, b, k) => a + (b - a) * k;
+  const win = (t, a, b) => clamp01((t - a) / (b - a));
+  const E = {
+    lin: k => k,
+    in2: k => k * k, out2: k => k * (2 - k), io2: k => (k < .5 ? 2 * k * k : 1 - (2 - 2 * k) ** 2 / 2),
+    in3: k => k * k * k, out3: k => 1 - (1 - k) ** 3, io3: k => (k < .5 ? 4 * k ** 3 : 1 - (2 - 2 * k) ** 3 / 2),
+    out5: k => 1 - (1 - k) ** 5,
+    back: k => 1 + 2.70158 * (k - 1) ** 3 + 1.70158 * (k - 1) ** 2,
+    soft: k => 1 + 2.04 * (k - 1) ** 3 + 1.04 * (k - 1) ** 2,
+    sine: k => .5 - .5 * Math.cos(Math.PI * k),
+  };
+  /* keyframy [[t, v, ease?]] – ease patří segmentu, který končí v daném klíči */
+  function kf(t, K) {
+    if (t <= K[0][0]) return K[0][1];
+    for (let i = 1; i < K.length; i++) {
+      if (t <= K[i][0]) { const a = K[i - 1], b = K[i]; return lerp(a[1], b[1], (E[b[2]] || E.io2)((t - a[0]) / ((b[0] - a[0]) || 1e-9))); }
+    }
+    return K[K.length - 1][1];
+  }
+  /* 0 před a, náběh do b, drží do c, doběh do d */
+  const ramp = (t, a, b, c, d) => (t <= a || t >= d ? 0 : t < b ? E.sine((t - a) / (b - a)) : t <= c ? 1 : E.sine((d - t) / (d - c)));
+  const bump = (x, len) => (x <= 0 || x >= len ? 0 : Math.sin(Math.PI * x / len));
+  const hash = i => { const x = Math.sin(i * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };   // deterministická „náhoda“
+
+  /* zápis stylu jen při změně */
+  function put(el, v) {
+    const c = el._c || (el._c = {});
+    const x = v.x || 0, y = v.y || 0, r = v.r || 0, s = v.s == null ? 1 : v.s;
+    const tr = `translate(${x.toFixed(2)}px,${y.toFixed(2)}px)` + (r ? ` rotate(${r.toFixed(2)}deg)` : '') + (s !== 1 ? ` scale(${Math.max(0, s).toFixed(4)})` : '');
+    if (tr !== c.tr) { el.style.transform = tr; c.tr = tr; }
+    const o = v.o == null ? 1 : clamp01(v.o), os = o < .004 ? '0' : o > .996 ? '1' : o.toFixed(3);
+    if (os !== c.o) { el.style.opacity = os; el.style.visibility = os === '0' ? 'hidden' : 'visible'; c.o = os; }
+  }
+  const css = (el, k, v) => { const c = el._c || (el._c = {}); if (c[k] !== v) { el.style[k] = v; c[k] = v; } };
+  const h = (tag, cls, html, parent) => { const e = document.createElement(tag); if (cls) e.className = cls; if (html != null) e.innerHTML = html; if (parent) parent.appendChild(e); return e; };
+  const spark = (fill, glow) => `<svg viewBox="0 0 100 100"${glow ? ` style="filter:drop-shadow(0 0 ${glow}px rgba(196,156,242,.9))"` : ''}><use href="#sp" width="100" height="100" fill="${fill || 'url(#g-holo)'}"/></svg>`;
+  const sparkInk = () => `<svg viewBox="0 0 100 100" style="filter:drop-shadow(0 0 6px rgba(196,156,242,.8))"><use href="#sp" width="100" height="100" fill="url(#g-holo)" stroke="#2C303C" stroke-width="1.6" stroke-linejoin="round"/></svg>`;
+  const glowBg = (a, rgb1, rgb2) => `radial-gradient(circle,rgba(${rgb1},${a}) 0%,rgba(${rgb2},${a * .5}) 30%,rgba(165,237,197,${a * .2}) 50%,rgba(165,237,197,0) 68%)`;
+
+  /* ikony (24×24, obrys ink) */
+  const IC = {
+    clock: '<circle cx="12" cy="13" r="7.6"/><path d="M12 9.2V13l2.7 1.9M4.6 5.2l2.6-2.2M19.4 5.2l-2.6-2.2"/>',
+    chat: '<path d="M4 7a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3v6.5a3 3 0 0 1-3 3h-6.6L6 20v-3.5A3 3 0 0 1 4 13.5z"/><path d="M8.5 10.2h7"/>',
+    q: '<circle cx="12" cy="12" r="8.8"/><path d="M9.6 9.4a2.5 2.5 0 0 1 4.9.7c0 1.8-2.5 2.1-2.5 3.8"/><path d="M12 17.1v.2"/>',
+    cal: '<rect x="4" y="5.5" width="16" height="14.5" rx="3"/><path d="M4 10.2h16M8.5 3.5v4M15.5 3.5v4"/>',
+    heart: '<path d="M12 19.6s-7.6-4.4-7.6-9.7A4.2 4.2 0 0 1 12 7.7a4.2 4.2 0 0 1 7.6 2.2c0 5.3-7.6 9.7-7.6 9.7z"/>',
+    play: '<circle cx="12" cy="12" r="9"/><path d="M10.2 8.6v6.8l5.6-3.4z" fill="#2C303C"/>',
+    img: '<rect x="4" y="4" width="16" height="16" rx="3.5"/><circle cx="9.2" cy="9.4" r="1.8"/><path d="M4.6 17.2l4.9-4.8 3.8 3.7 2.4-2.3 3.7 3.5"/>',
+    ring: '<circle cx="12" cy="12" r="8.6" stroke-dasharray="3.6 2.4"/><circle cx="12" cy="12" r="4.4"/>',
+    users: '<circle cx="9" cy="9" r="3.1"/><circle cx="16.6" cy="10.2" r="2.5"/><path d="M3.5 19c.6-3.2 2.9-5 5.5-5s4.9 1.8 5.5 5M14.6 14.4c2.8-.4 5.1 1.1 5.9 4.1"/>',
+    check: '<path d="M5 12.5l4.2 4.2L19 7"/>',
+  };
+  const icon = k => `<svg viewBox="0 0 24 24">${IC[k]}</svg>`;
+
+  /* =========================================================
+     SCÉNÁŘ – časy beatů (s)
+     ========================================================= */
+  const S = {
+    // HOOK: celé logo, nabití, výbuch jisker, rig vyletí a dopadne
+    charge: .18, jump: .4433, swapIn: 17.5 / 30, land: 1.1633,             // swapIn přesně mezi snímky 17 a 18
+    has: 1.1133, hookOut: 2.60,                                            // „Tahle má mě ✦“ = jeden celek, dopadne s maskotem (land)
+    wave: 2.62, hello: 2.86, helloOut: 4.4,                                // „Ahoj, jsem Sparkee ✦“ + mávání (švihy 2,9–4,2 s pod „Ahoj“)
+    hop: 4.22, chipsIn: 4.38, chaos: 4.6, hey: 5.7, uhoh: [4.74, 6.72], chaosOut: 6.86,   // CHAOS (skok dozadu, čipy)
+    flinch: [5.0, 6.1],                                                    // cuknutí, když čip proletí před maskotem
+    present: 6.9, plan: 7.06, snap: 7.22, nodPlan: 8.34, planOut: 9.74,  // 1 PLÁN (čipy zacvaknou do kalendáře)
+    feed: 9.8, content: 10.0, tapC: 10.18, stop: 10.8, hey2: 11.75, contentOut: 12.58,   // 2 OBSAH (feed se rozjede a zastaví na ťuk)
+    numbers: 12.9, sparksOut: 14.56, numOut: 14.6,                       // 3 ČÍSLA (maskot uskočí doprava) → jiskry do plamínku
+    cheer: 14.72, cta: 14.8, dm: 16.1, ctaOut: 18.3, irisClose: 18.42,  // CTA: „Sleduj mě ✦“, JISKRA do zpráv; pak se tma zavře do maskota
+    jumpOut: 18.52, irisHold: 18.78, dive: 18.86, atLogo: 19.10,         // clona obkrouží postavu (mrknutí), skok přesně do P0
+    swapOut: 574.5 / 30, hookBack: 19.18,                                // návrat do loga (swapOut přesně mezi snímky 574 a 575)
+  };
+  const FLIP = [9.98, 12.80], FLIP_D = .12;                             // pilulka kroku se překlopí, až starý nadpis zmizí
+  const CHG0 = 19.40;                                                    // nabíjecí jiskry: start ve smyčce (přes šev do snímku 0)
+  const HOP_AIR = [S.hop + .18, S.hop + .58], PRES_AIR = [S.present + .12, S.present + .52], NUM_AIR = [S.numbers + .12, S.numbers + .52],
+    CHEER_AIR = [S.cheer + .12, S.cheer + .54];
+  // rig: [čas startu, akce] (mascot.js: jump 1,55 · wave 2,0 · hop 1,2 · hey 1,15 · present 2,7 · tap 2,5 · nod 1,8 · cheer 2,3)
+  const ACTS = [[S.jump, 'jump'], [S.wave, 'wave'], [S.hop, 'hop'], [S.hey, 'hey'], [S.present, 'present'], [S.nodPlan, 'nod'],
+    [S.tapC, 'tap'], [S.hey2, 'hey'], [S.numbers, 'present'], [S.cheer, 'cheer'], [S.dm, 'tap'], [S.jumpOut, 'hop']];
+  const BLINKS = [1.86, 3.98, 6.3, 9.1, 12.2, 13.75, 16.0, 17.9];
+  // pohled: [čas, x, y, výdrž] (−1…1, y dolů)
+  const LOOKS = [[1.5, 0, .05, .6], [4.72, -.85, -.35, .16], [5.0, .85, -.25, .18], [5.3, -.7, .2, .18], [6.1, .6, .4, .2], [6.36, -.3, -.6, .2],
+    [S.snap - .02, -.55, -1, 1.3], [S.feed + .05, .9, -.9, .35], [13.1, -.9, -.5, 1.2], [S.sparksOut + .02, .1, -1, .5],
+    [S.cta + .5, -.3, -1, .6], [S.dm, .55, .7, .7], [17.25, -.3, -1, .9]];
+  // pohled v chaosu (x) jako funkce času: tělo se natočí za čipy (±5°, se zpožděním 0,1 s)
+  const lookXAt = t => { let v = 0; for (const [t0, x, , d] of LOOKS) { if (t0 < 4.6 || t0 > 6.9) continue; const w = ramp(t, t0, t0 + .14, t0 + d + .1, t0 + d + .45); if (w > 0) v = lerp(v, x, w); } return v; };
+
+  /* =========================================================
+     GEOMETRIE (px snímku 1080×1920)
+     ========================================================= */
+  // oficiální logo.svg (Figma 124:3): viewBox 0 0 568 292 = obsah loga. Šíře 840 px, x 92–932 (mimo pravou lištu IG), y 860–1292.
+  // logo.svg je starý artwork loga (souřadnice rigu) oříznutý na obsah: nové = (staré − OLD) × OS  (ověřeno na všech částech)
+  const LOGO_BOX = { left: 92, top: 860, w: 840, h: 840 * 292 / 568 };
+  const LK = LOGO_BOX.w / 568, OLD = [103.22, 53.78], OS = .569486;
+  const LS = OS * LK;                                      // px snímku na jednotku rigu / starého loga
+  const LN = (x, y) => [LOGO_BOX.left + x * LK, LOGO_BOX.top + y * LK];          // jednotky logo.svg → px
+  const L = (x, y) => LN((x - OLD[0]) * OS, (y - OLD[1]) * OS);                   // jednotky rigu → px
+  const LOGO_C = L(601.5, 309.8);        // střed obsahu loga
+  const LOGO_M = L(492, 282);            // střed ležícího maskota v logu
+  const LOGO_W = L(600, 452);            // střed písmen
+  const FEET = [504, 446];                                  // pivot chodidel rigu (mascot.js)
+  // P0 = póza loga: rig otočený o −24° kolem (490, 300) v měřítku loga → hlava přesně na hlavě loga (rig je z loga odvozený)
+  const P0 = (() => {
+    const a = -24 * D2R, dx = FEET[0] - 490, dy = FEET[1] - 300;
+    const fx = 490 + dx * Math.cos(a) - dy * Math.sin(a), fy = 300 + dx * Math.sin(a) + dy * Math.cos(a);
+    const p = L(fx, fy);
+    return { x: p[0], y: p[1], r: -24, k: LS };
+  })();
+  const PH = { x: 540, y: 1456, r: 0, k: 1.72 };           // hrdina: Tahle / Ahoj (výška ≈ 660 px)
+  const PC = { x: 540, y: 1474, r: 0, k: 1.56 };           // chaos
+  const PP = { x: 540, y: 1486, r: 0, k: 1.44 };           // plán / obsah (nad ním rekvizity)
+  const PN = { x: 830, y: 1500, r: 0, k: 1.30 };           // čísla: stranou vpravo, graf 72–640 zůstane celý vidět (vpravo jen maskot, žádný text)
+  const PE = { x: 540, y: 1456, r: 0, k: 1.72 };           // koncová karta
+  const mix = (a, b, u) => ({ x: lerp(a.x, b.x, u), y: lerp(a.y, b.y, u), r: lerp(a.r, b.r, u), k: lerp(a.k, b.k, u) });
+  const hopMix = (a, b, t, w, arc) => { const u = win(t, w[0], w[1]), p = mix(a, b, E.io2(u)); p.y -= arc * 4 * u * (1 - u); return p; };
+  function placeBase(t) {                                    // dráha rigu ve světě (chodidla, rotace, uniformní měřítko)
+    if (t < S.swapIn) return P0;
+    if (t < S.land) {                                        // výlet z loga: nahoru, narovnání s přestřelem, přiblížení ke kameře
+      const u = win(t, S.swapIn, S.land), e = E.io2(u);
+      return { x: lerp(P0.x, PH.x, e), y: lerp(P0.y, PH.y, e) - 34 * 4 * u * (1 - u), r: kf(u, [[0, -24], [.55, 7, 'out2'], [1, 0, 'sine']]), k: lerp(P0.k, PH.k, E.io2(Math.min(1, u * 1.08))) };
+    }
+    if (t < HOP_AIR[0]) return PH;
+    if (t < HOP_AIR[1]) return hopMix(PH, PC, t, HOP_AIR, 60);
+    if (t < PRES_AIR[0]) return PC;
+    if (t < PRES_AIR[1]) return hopMix(PC, PP, t, PRES_AIR, 16);
+    if (t < NUM_AIR[0]) return PP;
+    if (t < NUM_AIR[1]) return hopMix(PP, PN, t, NUM_AIR, 18);
+    if (t < CHEER_AIR[0]) return PN;
+    if (t < CHEER_AIR[1]) return hopMix(PN, PE, t, CHEER_AIR, 24);
+    if (t < S.dive) return PE;
+    if (t < S.atLogo) {                                      // skok zpět do loga: zrychluje (in2) a dosedne přesně do P0 ještě v záblesku
+      const u = win(t, S.dive, S.atLogo), e = E.in2(u);
+      return { x: lerp(PE.x, P0.x, E.io2(u)), y: lerp(PE.y, P0.y, e) - 110 * 4 * u * (1 - u), r: kf(u, [[0, 0], [.3, 5, 'sine'], [1, -24, 'in2']]), k: lerp(PE.k, P0.k, e) };
+    }
+    return P0;
+  }
+  /* živá vrstva nad dráhou: jen posun a rotace (nikdy deformace). bob = svislý posun navíc (podlahová záře ho ignoruje) */
+  const flinchK = t => S.flinch.reduce((a, f) => Math.max(a, kf(t - f, [[0, 0], [.05, 1, 'out2'], [.21, 0, 'sine']])), 0);
+  function place(t) {
+    const p0 = placeBase(t);
+    if (t < S.swapIn || t >= S.atLogo) return p0;
+    const g = grounded(t);
+    let dy = 0, dr = 0;
+    dy += 6 * Math.sin(TAU * t / (DUR / 12)) * g;          // klidové pohupování: periody DUR/12 a DUR/8 → smyčka sedí
+    dr += 1.2 * Math.sin(TAU * t / (DUR / 8)) * g;
+    const ul = win(t, S.land, S.land + .24);                // dopad: dosednutí a náklon, pak klid
+    if (ul > 0 && ul < 1) { dy += 18 * Math.sin(Math.PI * ul) * (1 - ul) ** 2; dr += kf(ul, [[0, 0], [.35, -3, 'out2'], [1, 0, 'sine']]); }
+    dy += 12 * bump(t - (HOP_AIR[0] - .12), .16);           // chaos: přikrčení těsně před odskokem dozadu
+    dr += 5 * lookXAt(t - .1) * ramp(t, 4.62, 4.8, 6.7, 6.9);   // tělo se natáčí za čipy
+    const fl = flinchK(t); dy -= 12 * fl; dr -= 4 * fl;     // cuknutí
+    dy -= 16 * bump(t - DM1, .32);                           // mini radost, když DM bublina doletí do pilulky
+    return { x: p0.x, y: p0.y + dy, r: p0.r + dr, k: p0.k, bob: dy };
+  }
+  const mat = p => {                                         // translate(X,Y)·rotate(r)·scale(k)·translate(−FEET)
+    const a = p.r * D2R, c = Math.cos(a) * p.k, s = Math.sin(a) * p.k;
+    return [c, s, -s, c, p.x - (c * FEET[0] - s * FEET[1]), p.y - (s * FEET[0] + c * FEET[1])];
+  };
+  const ap = (m, q) => [m[0] * q[0] + m[2] * q[1] + m[4], m[1] * q[0] + m[3] * q[1] + m[5]];
+  const grounded = t => ramp(t, S.land - .05, S.land + .25, S.dive, S.dive + .2);   // podlahová záře pod chodidly
+
+  /* =========================================================
+     POZADÍ + ZRNO
+     ========================================================= */
+  const bg = $('#bg');
+  const BLOBS = [   // barva, střed, poloměr, amplituda driftu, fáze (perioda přesně DUR → smyčka)
+    { c: '165,237,197', x: 130, y: 360, r: 560, a: [70, 50], ph: 0, o: .40 },
+    { c: '154,216,248', x: 1010, y: 1010, r: 600, a: [60, 80], ph: 2.1, o: .38 },
+    { c: '196,156,242', x: 190, y: 1640, r: 640, a: [80, 50], ph: 4.2, o: .44 },
+    { c: '245,184,220', x: 860, y: 1880, r: 460, a: [60, 40], ph: 1.3, o: .26 },
+  ].map(b => { const e = h('div', 'blob', null, bg); e.style.width = e.style.height = 2 * b.r + 'px'; e.style.marginLeft = e.style.marginTop = -b.r + 'px';
+    e.style.background = `radial-gradient(circle, rgba(${b.c},${b.o}) 0%, rgba(${b.c},${b.o * .55}) 32%, rgba(${b.c},${b.o * .16}) 56%, rgba(${b.c},0) 72%)`; return Object.assign(b, { e }); });
+  const TW = [[88, 214, 18], [986, 300, 14], [930, 760, 20], [64, 900, 14], [1010, 1330, 16], [52, 1370, 22], [612, 180, 12], [880, 1560, 14], [300, 1560, 12]]
+    .map(([x, y, s], i) => { const e = h('div', 'twk', spark(i % 2 ? 'rgba(196,156,242,.9)' : 'rgba(154,216,248,.9)', 4), bg); return { e, x, y, s, i }; });
+  function drawBg(t) {
+    for (const b of BLOBS) { const w = TAU * t / DUR + b.ph; put(b.e, { x: b.x + b.a[0] * Math.sin(w), y: b.y + b.a[1] * Math.cos(w * 1 + .7) }); }
+    for (const w of TW) { const n = 3 + (w.i % 3), v = Math.sin(TAU * n * t / DUR + w.i * 1.7); put(w.e, { x: w.x, y: w.y, s: w.s / 30 * (.35 + .65 * Math.max(0, v) ** 2), o: .25 + .75 * Math.max(0, v) }); }
+  }
+  const grain = $('#grain'), GT = 512;
+  (() => {                                                   // šedý šum 512×512 ze seedovaného PRNG (mulberry32)
+    const cv = document.createElement('canvas'); cv.width = cv.height = GT;
+    const cx = cv.getContext('2d'), im = cx.createImageData(GT, GT);
+    let a = 0x5ee4c0de;
+    const rnd = () => { a |= 0; a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; };
+    for (let i = 0; i < im.data.length; i += 4) { const v = (rnd() * 256) | 0; im.data[i] = im.data[i + 1] = im.data[i + 2] = v; im.data[i + 3] = 255; }
+    cx.putImageData(im, 0, 0);
+    grain.style.backgroundImage = `url(${cv.toDataURL('image/png')})`;
+  })();
+  const GRAIN = Q.get('grain') || 'static';
+  if (GRAIN === 'off') grain.style.display = 'none';
+  function drawGrain(t) {
+    const f = GRAIN === 'frame' ? Math.round(t * FPS) : 0;
+    css(grain, 'backgroundPosition', `${(hash(f + .31) * GT) | 0}px ${(hash(f + 57.7) * GT) | 0}px`);
+  }
+
+  /* =========================================================
+     LOGO: oficiální logo.svg jako <img>, beze změny, jen na světlém mist. Jen celé, jen jako celek (uniformní měřítko, posun).
+     ========================================================= */
+  const logo = $('#logo');
+  Object.assign(logo.style, { left: LOGO_BOX.left.toFixed(2) + 'px', top: LOGO_BOX.top.toFixed(2) + 'px', width: LOGO_BOX.w.toFixed(2) + 'px', height: LOGO_BOX.h.toFixed(2) + 'px',
+    transformOrigin: `${(LOGO_M[0] - LOGO_BOX.left).toFixed(2)}px ${(LOGO_M[1] - LOGO_BOX.top).toFixed(2)}px` });
+  const logoShown = t => t < S.swapIn || t >= S.swapOut;
+  function logoFx(t) {                                       // { s: uniformní měřítko kolem maskota v logu, x: chvění celého loga }
+    if (t < S.swapIn) {
+      const s = kf(t, [[S.charge, 1], [S.charge + .17, .984, 'sine'], [S.swapIn, 1.014, 'in2']]);   // nádech dovnitř, pak ven
+      const tr = ramp(t, S.charge + .1, S.charge + .17, S.swapIn, S.swapIn + 1);
+      const x = (Math.round(t * FPS) % 2 ? 1 : -1) * 1.6 * tr;                                     // chvění: „něco se dere ven“
+      return { s, x };
+    }
+    if (t >= S.swapOut) {                                    // dopad zpět: logo chytí náraz (až po doznění záblesku, ať je vidět)
+      const x = t - S.swapOut;
+      return { s: kf(x, [[0, 1.03], [.07, 1.03], [.19, .988, 'out2'], [.37, 1, 'sine']]), x: 0 };
+    }
+    return { s: 1, x: 0 };
+  }
+  function drawLogo(t) {
+    const shown = logoShown(t) || Q.has('ov');
+    css(logo, 'visibility', shown ? 'visible' : 'hidden');
+    css(logo, 'opacity', Q.has('ov') ? '.5' : '1');
+    if (!shown) return;
+    const f = Q.has('ov') ? { s: 1, x: 0 } : logoFx(t);
+    css(logo, 'transform', f.s === 1 && !f.x ? 'none' : `translate(${f.x.toFixed(2)}px,0) scale(${f.s.toFixed(4)})`);   // žádný filtr, žádné přebarvení
+  }
+
+  /* =========================================================
+     KRUHOVÁ CLONA: tmavý svět se otevře z maskota (po swapIn) a zavře se do něj (před swapOut); jinak světlý mist
+     ========================================================= */
+  const IRIS_MAX = 1400;                                     // > nejvzdálenější roh snímku od středu clony
+  const darkEl = $('#dark');
+  let IRIS = { r: 0, x: 0, y: 0 };
+  function irisAt(t) {
+    if (t < S.swapIn || t >= S.swapOut) return { r: 0, x: LOGO_M[0], y: LOGO_M[1] };
+    if (t < S.irisClose) return { r: IRIS_MAX * E.out3(win(t, S.swapIn, S.swapIn + .62)), x: LOGO_M[0], y: LOGO_M[1] };
+    // klasický iris-out na postavu: rychle z okraje (out3) na r 420 kolem celé postavy, 4 snímky drží (mrknutí), pak in3 do nuly
+    const c = camPt(rigToPage([515, 235]));
+    return { r: kf(t, [[S.irisClose, IRIS_MAX], [S.irisHold, 420, 'out3'], [S.irisHold + .14, 420], [S.irisHold + .28, 0, 'in3']]), x: c[0], y: c[1] };
+  }
+  const circ = (r, x, y) => `circle(${r.toFixed(1)}px at ${x.toFixed(1)}px ${y.toFixed(1)}px)`;
+  function irisClip(el, it, inside, ox, oy) {                // inside: jen uvnitř kruhu (tmavý svět), jinak jen vně (světlo)
+    const x = it.x - ox, y = it.y - oy, r = it.r;
+    let v;
+    if (inside) v = r <= 0 ? 'circle(0px at 0px 0px)' : r >= IRIS_MAX ? 'none' : circ(r, x, y);
+    else v = r <= 0 ? 'none' : r >= IRIS_MAX ? 'circle(0px at 0px 0px)'
+      : `path(evenodd, "M-600 -600H1700V2600H-600Z M${(x - r).toFixed(1)} ${y.toFixed(1)}a${r.toFixed(1)} ${r.toFixed(1)} 0 1 0 ${(2 * r).toFixed(1)} 0a${r.toFixed(1)} ${r.toFixed(1)} 0 1 0 ${(-2 * r).toFixed(1)} 0Z")`;
+    css(el, 'clipPath', v);
+  }
+  let hookInk = null;
+  const rim = $('#irisRim');
+  function drawIris(t) {
+    IRIS = irisAt(t);
+    irisClip(darkEl, IRIS, true, 0, 0);
+    css(darkEl, 'visibility', IRIS.r > 0 ? 'visible' : 'hidden');
+    const r = IRIS.r, ro = r > 0 && r < IRIS_MAX ? clamp01(r / 70) * (1 - win(r, 1000, 1300)) : 0;   // lem clony
+    css(rim, 'visibility', ro > .004 ? 'visible' : 'hidden');
+    if (ro > .004) { css(rim, 'width', (2 * r).toFixed(1) + 'px'); css(rim, 'height', (2 * r).toFixed(1) + 'px');
+      css(rim, 'transform', `translate(${(IRIS.x - r).toFixed(1)}px,${(IRIS.y - r).toFixed(1)}px)`); css(rim, 'opacity', ro.toFixed(3)); }
+    const hk = $('#tHook');                                  // hook: mist na tmě, ink na světle (stejná slova, stejný pohyb)
+    irisClip(hk, IRIS, true, hk.offsetLeft, hk.offsetTop);
+    irisClip(hookInk, IRIS, false, hookInk.offsetLeft, hookInk.offsetTop);
+  }
+
+  /* =========================================================
+     MASKOT – živý rig (klon hero SVG z /index.html, id s příponou)
+     ========================================================= */
+  let M = null, msvg = null, mShadow = null;
+  const SFX = '-rl';
+  async function buildMascot(parent) {
+    const html = await (await fetch('/index.html')).text();
+    const src = html.split('<!-- MASCOT:START -->')[1].split('<!-- MASCOT:END -->')[0];
+    parent.innerHTML = src;
+    const svg = parent.querySelector('svg');
+    svg.removeAttribute('role'); svg.removeAttribute('aria-label'); svg.setAttribute('aria-hidden', 'true');
+    const ids = new Set();
+    svg.querySelectorAll('[id]').forEach(n => { ids.add(n.id); n.id += SFX; });
+    svg.querySelectorAll('*').forEach(n => {
+      for (const a of n.attributes) {
+        if (a.value.includes('url(#')) a.value = a.value.replace(/url\(#([^)]+)\)/g, (m0, id) => (ids.has(id) ? `url(#${id}${SFX})` : m0));
+        else if (/(^|:)href$/.test(a.name) && a.value[0] === '#' && ids.has(a.value.slice(1))) a.value += SFX;
+      }
+    });
+    const m = SparkeeMascot.create(svg, { lab: true, seed: 1, idSuffix: SFX, ambient: false });
+    m.setHeadroom(44);
+    m.set('idle', 0);
+    return { m, svg };
+  }
+  /* deterministická simulace: pevný krok 1/120 s od t = 0, události na indexu kroku → seek je přesný v obou směrech */
+  const HSTEP = 1 / 120;
+  const EV = new Map();
+  const addEv = (t, f) => { const i = Math.round(t / HSTEP); (EV.get(i) || EV.set(i, []).get(i)).push(f); };
+  ACTS.forEach(([t, a]) => addEv(t, () => M.trigger(a)));
+  addEv(S.jump - .01, () => M.setHeadroom(30)); addEv(S.land + .4, () => M.setHeadroom(44));   // výskok z loga nižší: plamínek pod pointou
+  BLINKS.forEach(t => addEv(t, () => M.S.blinks.push(M.S.t)));
+  LOOKS.forEach(([t, x, y, d]) => addEv(t, () => M.lookAt(x, y, d)));
+  /* plamínek dotahuje rotaci celého rigu ve světě (place): pružina na −0,06 × úhlová rychlost (°/s), usadí se za ~0,25 s.
+     Integruje se ve stejném pevném kroku jako simulace → seek je dál přesný; do rigu jde jen přes jeho vlastní úhel plamínku. */
+  const FL = { x: 0, v: 0 };
+  function flameStep(ts) {
+    const w = (place(ts + HSTEP).r - place(ts - HSTEP).r) / (2 * HSTEP);
+    const tg = Math.max(-12, Math.min(12, -.06 * w)), K = 260, C = 2 * .55 * Math.sqrt(K);
+    FL.v += (K * (tg - FL.x) - C * FL.v) * HSTEP; FL.x += FL.v * HSTEP;
+  }
+  const landLag = t => 10 * kf(t - S.land, [[-.01, 0], [.05, 1, 'out2'], [.15, -.25, 'sine'], [.25, 0, 'sine']]);   // dopad: plamínek +10°, zpět za 0,25 s
+  let simN = -1;
+  function simTo(t) {
+    const n = Math.round(t / HSTEP);
+    if (simN < 0 || n < simN) { M.set('idle', 0); simN = 0; FL.x = 0; FL.v = 0; }
+    while (simN < n) { const ev = EV.get(simN); if (ev) ev.forEach(f => f()); flameStep(simN * HSTEP); M.step(HSTEP); simN++; }
+  }
+  const winkC = x => (x <= 0 || x >= .35 ? 0 : x < .08 ? E.in2(x / .08) : x < .2 ? 1 : 1 - E.out2((x - .2) / .15));   // = mascot.js winkCurve
+  /* výrazy navíc jen přes vlastní klíče rigu, při renderu (stav simulace se nemění):
+     „uh-oh“ v chaosu (velké oči, malá pusa, bez ^^) · oči sledují DM bublinu · mrknutí v kruhové cloně na konci */
+  function poseOverride(t) {
+    const F = M.S.F, keep = { eyeS: F.eyeS, mouth: F.mouth, happy: F.happy, cheek: F.cheek, eyeX: F.eyeX, eyeY: F.eyeY, wink: F.wink };
+    let any = false;
+    const k = ramp(t, S.uhoh[0], S.uhoh[0] + .18, S.uhoh[1] - .2, S.uhoh[1]);
+    if (k > 0) { F.eyeS = lerp(F.eyeS, 1.2, k); F.mouth = lerp(F.mouth, .66, k); F.happy *= 1 - k; F.cheek = lerp(F.cheek, .8, k); any = true; }
+    const ke = ramp(t, DM0, DM0 + .1, DM1 - .02, DM1 + .16);
+    if (ke > 0) {                                            // oči za bublinou (směr od středu očí)
+      const b = dmPos(Math.min(t, DM1)), e = rigToPage([505, 262]);
+      const dx = b.x - e[0], dy = b.y - e[1], L = Math.hypot(dx, dy) || 1;
+      F.eyeX = lerp(F.eyeX, 2.4 * dx / L, ke); F.eyeY = lerp(F.eyeY, 2.1 * dy / L, ke); any = true;
+    }
+    const wk = winkC(t - (S.irisHold - .02));
+    if (wk > 0) { F.wink = Math.max(F.wink, wk); any = true; }
+    return any ? keep : null;
+  }
+  let MAT = mat(P0), PLACE = P0;
+  const rigShown = t => t >= S.swapIn && t < S.swapOut;
+  function drawMascot(t) {
+    simTo(t);
+    PLACE = Q.has('ov') ? P0 : place(t);
+    MAT = mat(PLACE);
+    const keep = poseOverride(t);
+    const fa0 = M.S.fa.x;
+    M.S.fa.x = fa0 + FL.x + landLag(t);                      // dotažení plamínku (jen pro tento render)
+    M.render();
+    M.S.fa.x = fa0;
+    if (keep) Object.assign(M.S.F, keep);
+    const vis = (rigShown(t) || Q.has('ov')) && !Q.has('hide');
+    css(msvg, 'opacity', Q.has('ov') ? '.5' : '1');
+    css(msvg, 'transform', `matrix(${MAT.map(v => v.toFixed(5)).join(',')})`);
+    css(msvg, 'visibility', vis ? 'visible' : 'hidden');
+    if (mShadow) css(mShadow, 'opacity', '0');                               // stín rigu ne: na tmě ho nahrazuje podlahová záře
+    return PLACE;
+  }
+  const rigToPage = q => ap(MAT, q);
+  const flameWorld = () => { const F = M.S.F; return rigToPage([517 + F.x + F.hx * .6, 92 + F.y + F.hy]); };
+
+  /* =========================================================
+     GLOW: za logem, za maskotem, podlaha pod chodidly
+     ========================================================= */
+  const gLogo = $('#glowLogo'), gM = $('#glowM'), gF = $('#floorGlow');
+  gLogo.style.cssText += `;width:980px;height:980px;margin:-490px 0 0 -490px;background:${glowBg(.3, '196,156,242', '154,216,248')}`;   // jemná pastelová záře na mist
+  gM.style.cssText += `;width:820px;height:820px;margin:-410px 0 0 -410px;background:${glowBg(.5, '196,156,242', '154,216,248')}`;
+  gF.style.cssText += ';width:520px;height:120px;margin:-60px 0 0 -260px;background:radial-gradient(closest-side,rgba(196,156,242,.42) 0%,rgba(154,216,248,.18) 55%,rgba(154,216,248,0) 100%)';
+  function drawGlows(t, p) {
+    const pulse = .8 + .2 * Math.sin(TAU * 10 * t / DUR);     // 10 pulzů za DUR → smyčka
+    const lo = Math.max(1 - E.out2(win(t, S.swapIn, S.swapIn + .5)), E.in2(win(t, S.swapOut - .35, S.swapOut)));
+    put(gLogo, { x: LOGO_C[0] - 60, y: LOGO_C[1] - 20, s: .92 + .08 * pulse, o: lo * pulse });
+    const hw = rigToPage([507, 300]);
+    const mo = rigShown(t) ? Math.min(win(t, S.swapIn, S.swapIn + .35), 1 - win(t, S.swapOut - .3, S.swapOut)) : 0;
+    put(gM, { x: hw[0], y: hw[1], s: p.k / 1.44, o: mo * (.88 + .12 * Math.sin(TAU * 5 * t / DUR)) });
+    const g = grounded(t), F = M.S.F, bob = p.bob || 0, lift = clamp01((-F.y * p.k - bob) / (60 * p.k));   // záře zůstává na podlaze
+    put(gF, { x: p.x, y: p.y - bob + 8, s: p.k / 1.56 * (1 - .35 * lift), o: g * (1 - .5 * lift) });
+  }
+
+  /* =========================================================
+     VÝMĚNA LOGO ↔ RIG: nabití, záblesk (bloom + pruh přes písmena + prstenec), jiskry z písmen
+     ========================================================= */
+  const fx = $('#fx');
+  // bloom + pruh leží ve vlastní vrstvě: po swapIn svítí jen VNĚ tmavé clony (clona se otevře na čisté ink, maskot uvnitř ostrý)
+  const flashL = h('div', 'abs', null, fx);
+  flashL.style.cssText += ';width:1080px;height:1920px;pointer-events:none';
+  const bloom = h('div', 'glow', null, flashL);
+  // bílé světlo přes maskota v logu (jádro 1,0 do 30 %) + pruh přes písmena; na mist „rozpálí“ logo do bílé, na tmě je to záblesk
+  bloom.style.cssText += ';width:900px;height:900px;margin:-450px 0 0 -450px;background:radial-gradient(circle,rgba(255,255,255,1) 0%,rgba(255,255,255,.98) 28%,rgba(255,255,255,.66) 42%,rgba(236,228,251,.26) 54%,rgba(221,241,252,.08) 64%,rgba(221,241,252,0) 72%)';
+  const streak = h('div', 'glow', null, flashL);
+  streak.style.cssText += ';width:1760px;height:440px;margin:-220px 0 0 -880px;background:radial-gradient(closest-side,rgba(255,255,255,1) 0%,rgba(255,255,255,1) 54%,rgba(255,255,255,.5) 70%,rgba(255,255,255,.12) 84%,rgba(255,255,255,0) 100%)';
+  const RINGS = [0, 1].map(() => h('div', 'ring', null, fx));
+  // záblesk = krátký zásah: plató 0,97 přesně na 2 snímcích kolem výměny (oba sousední snímky), rychlé doznění (0,10 / 0,12 s);
+  // pruh přes písmena ještě kratší. Logo se po návratu umyje nejvýš 2 snímky, pak je vidět jeho náraz (logoFx).
+  const pk = (t, ts, tail) => kf(t, [[ts - .09, 0], [ts - .035, .97, 'in2'], [ts + .04, .97], [ts + tail, 0, 'out3']]);
+  const flashO = t => Math.max(pk(t, S.swapIn, .10), pk(t, S.swapOut, .12));
+  const streakO = t => Math.max(pk(t, S.swapIn, .07), pk(t, S.swapOut, .10));
+  // nabíjecí jiskry: 9 malých ✦ se po spirále stáhne do maskota v logu; startují už v 19,40 s (přes šev smyčky), snímek 0 = rozlet v běhu
+  const CHG = Array.from({ length: 9 }, (_, i) => ({ e: h('div', 'spk', sparkInk(), fx), a: i * TAU / 9 + hash(i + 30), r: 250 + 130 * hash(i + 31), s: .2 + .14 * hash(i + 32), i }));
+  // střepy písmen: body z obrysu písmen loga (getPointAtLength ze skryté kopie SVG), vyletí ven / slétnou se zpět
+  let SHARDS = [];
+  async function buildShards() {
+    const txt = await (await fetch('/assets/img/logo.svg')).text();
+    const box = h('div', null, txt.replace(/id="([^"]+)"/g, 'id="ms-$1"').replace(/url\(#([^)]+)\)/g, 'url(#ms-$1)'), document.body);
+    box.style.cssText = 'position:absolute;left:-4000px;top:0;width:568px;height:292px;visibility:hidden;overflow:hidden';
+    const svg = box.querySelector('svg'); svg.setAttribute('width', '568'); svg.setAttribute('height', '292');
+    const g = id => svg.querySelector(`[id="ms-${id}"]`);
+    const pts = [];
+    const take = (el, n, keep) => {
+      const tl = el.getTotalLength(), cand = [];
+      for (let i = 0; i < 240; i++) { const q = el.getPointAtLength((i + .5) / 240 * tl); if (!keep || keep(q)) cand.push([q.x, q.y]); }
+      for (let i = 0; i < n; i++) pts.push(cand[Math.floor((i + .37) / n * cand.length)]);
+    };
+    // logo.svg (Figma): Vector_2 = s, Subtract = p, Mascot outline + ar (jen spodní část = „ar“), Vector = k, Letter e1/e2, Union = ✦
+    take(g('Vector_2'), 4); take(g('Subtract'), 5);
+    take(g('Mascot outline + ar'), 6, q => q.y > 192.6 && q.x > 152.8 && q.x < 298.6);
+    take(g('Vector'), 5); take(g('Letter e1'), 4); take(g('Letter e2'), 4);
+    const u = g('Union').getBBox(); pts.push([u.x + u.width / 2, u.y + u.height / 2]);
+    box.remove();
+    SHARDS = pts.map((q, i) => {
+      const p = LN(q[0], q[1]), a = Math.atan2(p[1] - LOGO_C[1], p[0] - LOGO_C[0]) + (hash(i + 80) - .5) * 1.1;
+      const sp = 430 + 420 * hash(i + 81);
+      return { e: h('div', 'spk', sparkInk(), fx), p, vx: Math.cos(a) * sp, vy: Math.sin(a) * sp - 220, s: .3 + .28 * hash(i + 82),
+        life: .6 + .32 * hash(i + 83), spin: (hash(i + 84) - .5) * 700 };
+    });
+  }
+  const DRAG = 3.2;
+  function drawSwapFx(t) {
+    const o = flashO(t);
+    if (t >= S.swapIn && t < S.swapOut && IRIS.r > 0) {       // clona v px snímku → souřadnice světa (inverzní kamera, bez rotace)
+      const c = CAM;
+      irisClip(flashL, { r: IRIS.r / c.z, x: c.fx + (IRIS.x - c.sx - c.fx) / c.z, y: c.fy + (IRIS.y - c.sy - c.fy) / c.z }, false, 0, 0);
+    } else css(flashL, 'clipPath', 'none');
+    put(bloom, { x: LOGO_M[0], y: LOGO_M[1], s: .72 + .5 * o, o });
+    put(streak, { x: LOGO_W[0], y: LOGO_W[1], s: .86 + .16 * o, o: streakO(t) });
+    [S.swapIn, S.swapOut].forEach((ts, i) => {
+      const u = win(t, ts, ts + .5);
+      put(RINGS[i], { x: LOGO_M[0], y: LOGO_M[1], s: .3 + 5.2 * E.out3(u), o: u > 0 && u < 1 ? (1 - E.out2(u)) * .9 : 0 });
+    });
+    for (const c of CHG) {
+      const a0 = CHG0 + c.i * .012, u = win((t - a0 + DUR) % DUR, 0, S.swapIn + DUR - a0), k = E.in2(u);
+      if (u <= 0 || u >= 1) { put(c.e, { o: 0 }); continue; }
+      const a = c.a + 1.6 * k, R = c.r * (1 - k);
+      put(c.e, { x: LOGO_M[0] + Math.cos(a) * R, y: LOGO_M[1] + Math.sin(a) * R * .8, s: c.s * (1 - .5 * k), r: 200 * k, o: E.out2(Math.min(1, u * 3)) });
+    }
+    for (const sh of SHARDS) {
+      let tau = -1;
+      if (t >= S.swapIn && t < S.swapIn + sh.life) tau = t - S.swapIn;            // výbuch ven
+      else if (t < S.swapOut && t > S.swapOut - sh.life) tau = S.swapOut - t;     // slétnutí zpět (stejná dráha pozpátku)
+      if (tau < 0) { put(sh.e, { o: 0 }); continue; }
+      const d = (1 - Math.exp(-DRAG * tau)) / DRAG, x = tau / sh.life;
+      put(sh.e, { x: sh.p[0] + sh.vx * d, y: sh.p[1] + sh.vy * d + 90 * tau * tau, r: sh.spin * tau, s: sh.s * (1 - .45 * x) * E.out2(Math.min(1, tau / .07)), o: 1 - E.in2(x) });
+    }
+  }
+
+  /* =========================================================
+     BEAT CHAOS: 6 čipů vlétne a krouží kolem maskota (vpředu / vzadu)
+     ========================================================= */
+  const CHIPS = [
+    ['bg-blush', 'clock', 'deadline dnes!'], ['bg-sky', 'chat', '3 nepřečtené'], ['bg-lilac', 'q', 'kde je post?'],
+    ['bg-mint', 'cal', 'Po? Út?'], ['bg-blush', 'heart', '0 lajků'], ['bg-sky', null, '!!!'],
+  ].map(([c, ic, tx], i) => {
+    const e = h('div', 'chip ' + c + (ic ? '' : ' chip--bang'), ic ? `<i>${icon(ic)}</i><span>${tx}</span>` : tx, $('#frontChips'));
+    return { e, i, th0: (-150 + i * 60) * D2R, from: i % 2 ? 1 : -1, w: 0, hgt: 84, rk: [1, .9, 1.06, .94, 1.02, .86][i], sp: [1, 1.12, .94, 1.06, .98, 1.18][i] };
+  });
+  /* oběžná dráha: střed = střed textové zóny IG (x 60–950), nahoře nad plamínkem, vpředu pod obličejem; poloměry na čip tak,
+     aby celý čip i s náklonem (±12°), pohupováním (12 px) a třesem kamery zůstal v x 60–950 a y ≤ 1490 (přílet zvenku smí ven) */
+  const ORB = { cx: 505, cy: 1072, rx: 318, ry: 322, w: TAU / 6.2 };
+  const CZ = { x0: 60, x1: 950, y1: 1490 };
+  const chipFit = c => {
+    const cr = Math.cos(12 * D2R), sr = Math.sin(12 * D2R);
+    c.hx = (c.w * cr + c.hgt * sr) / 2; c.hy = (c.w * sr + c.hgt * cr) / 2;
+    c.rx = Math.min(ORB.rx * c.rk, (CZ.x1 - CZ.x0) / 2 - c.hx - 10);
+    c.ry = Math.min(ORB.ry, CZ.y1 - ORB.cy - 12 - 8 - c.hy);
+  };
+  const orbit = (c, t) => { const th = c.th0 + ORB.w * c.sp * (t - S.chipsIn); return { x: ORB.cx + c.rx * Math.cos(th), y: ORB.cy + c.ry * Math.sin(th) + 12 * Math.sin(TAU * 1.3 * t + c.i), z: Math.sin(th), th }; };
+  /* kalendář Po–Ne (7 dlaždic přes celou textovou šíři 72–952) */
+  const DAYS = [['Po', 'play', 'Reel', 'bg-mint'], ['Út', 'img', 'Post', 'bg-sky'], ['St', 'ring', 'Story', 'bg-lilac'], ['Čt', 'play', 'Reel', 'bg-blush'],
+    ['Pá', 'users', 'Collab', 'bg-mint'], ['So', 'ring', 'Story', 'bg-sky'], ['Ne', null, 'Jiskra', 'bg-lilac']];
+  const CAL = { x0: 72, w: 112, gap: 16, cy: 752 };
+  const TILES = DAYS.map(([d, ic, lab, c], i) => {
+    const e = h('div', 'tile', `<div class="empty"><div class="day">${d}</div></div><div class="full ${c}"><div class="day">${d}</div><div class="ic">${ic ? icon(ic) : spark()}</div><div class="lab">${lab}</div><div class="tsp">${spark('#2C303C')}</div></div>`, $('#cal'));
+    return { e, full: e.querySelector('.full'), empty: e.querySelector('.empty'), x: CAL.x0 + CAL.w / 2 + i * (CAL.w + CAL.gap), y: CAL.cy, i };
+  });
+  const okPill = h('div', 'stat', `<b>${icon('check')}</b>Naplánováno`, $('#cal'));
+  okPill.style.transformOrigin = '100% 50%';
+  const snapT = i => S.snap + i * .07;                      // čas zacvaknutí čipu i do dlaždice i (7. dlaždice = jiskra z plamínku)
+  function drawChips(t) {
+    const front = $('#frontChips'), back = $('#backChips');
+    for (const c of CHIPS) {
+      if (!c.w) { c.w = c.e.offsetWidth; chipFit(c); }
+      const tIn = S.chipsIn + c.i * .07, tS = snapT(c.i), tEnd = tS + .36;
+      if (t < tIn || t >= tEnd) { put(c.e, { o: 0 }); continue; }
+      const o = orbit(c, t);
+      let x = o.x, y = o.y, s = .9 + .1 * o.z, r = 7 * Math.sin(TAU * .9 * t + c.i * 2) + 5 * (c.i % 2 ? 1 : -1), op = 1;
+      const u = win(t, tIn, tIn + .5);
+      c.e._fly = u < 1;                                     // přílet zvenku (ReelCheck ho do zón nepočítá)
+      if (u < 1) {                                          // přílet ze strany, na které čip bude kroužit (nikdy přes obličej)
+        const oa = orbit(c, tIn + .5); c.from = oa.x > ORB.cx ? 1 : -1;
+        const k = E.out3(u), sx = c.from > 0 ? 1080 + c.w * .7 : -c.w * .7, sy = oa.y - 90;
+        x = lerp(sx, x, k); y = lerp(sy, y, k) - 70 * Math.sin(Math.PI * k); r += (1 - k) * 46 * c.from;
+      }
+      if (u >= 1) {                                            // pojistka: obrys čipu s náklonem a měřítkem vždy uvnitř x 60–950, y ≤ 1490
+        const a = Math.abs(r * D2R), hx = s * (c.w * Math.cos(a) + c.hgt * Math.sin(a)) / 2 + 6, hy = s * (c.w * Math.sin(a) + c.hgt * Math.cos(a)) / 2 + 6;
+        x = Math.min(CZ.x1 - hx, Math.max(CZ.x0 + hx, x)); y = Math.min(CZ.y1 - hy, y);
+      }
+      if (t >= tS) {                                        // zacvaknutí do dlaždice (oblouk nahoru, zmenšení do ikony)
+        const v = E.io2(win(t, tS, tEnd)), T = TILES[c.i];
+        x = lerp(x, T.x, v); y = lerp(y, T.y, v) - 90 * Math.sin(Math.PI * v); s = lerp(s, .4, v); r = lerp(r, 0, v); op = 1 - win(v, .62, 1);
+      }
+      const behind = t < tS && o.z < 0;
+      const par = behind ? back : front;
+      if (c.e.parentNode !== par) par.appendChild(c.e);
+      put(c.e, { x: x - c.w / 2, y: y - c.hgt / 2, r, s, o: op });
+    }
+  }
+
+  /* =========================================================
+     FEED: kalendář se rozjede doleva jako feed, proletí Reels a na ťuk se zastaví na naší kartě ✦
+     ========================================================= */
+  const FEED_N = 11, HERO = 8, FS = 172, FX0 = 1170, CY = 760;
+  const FEED_D = FX0 + HERO * FS - 540;                     // posun, po kterém karta HERO stojí uprostřed
+  const GR = ['g-mint', 'g-sky', 'g-lilac', 'g-blush'];
+  const CARDS = Array.from({ length: FEED_N }, (_, i) => {
+    const hero = i === HERO;
+    const e = h('div', 'card ' + (hero ? 'card--hero' : GR[(i * 3) % 4]),
+      `<div class="pl"><svg viewBox="0 0 24 24"><path d="M6 3.5v17l14-8.5z" fill="#2C303C"/></svg></div><div class="ln" style="bottom:36px;width:${hero ? 96 : 84}px"></div><div class="ln" style="bottom:19px;width:${hero ? 60 : 52}px"></div>` +
+      (hero ? `<div class="csp">${spark('#2C303C')}</div>` : ''), $('#cards'));
+    return { e, i, x: FX0 + i * FS, hero, r0: 5 * (hash(i + 20) - .5) };
+  });
+  const heroRing = h('div', 'ring', null, $('#cards'));
+  heroRing.style.cssText += ';width:260px;height:260px;margin:-130px 0 0 -130px;border-width:5px';
+  const heroGlow = h('div', 'glow', null, $('#cards'));
+  heroGlow.style.cssText += `;width:420px;height:420px;margin:-210px 0 0 -210px;background:${glowBg(.6, '196,156,242', '154,216,248')}`;
+  $('#cards').prepend(heroGlow);
+  const counter = h('div', 'stat', `<b>${icon('play')}</b><em>0</em>Reels za 1 den`, $('#fx'));
+  const cN = counter.querySelector('em');
+  counter.style.transformOrigin = '100% 50%';                // pop roste doleva: pravý okraj drží x 952 (lišta IG)
+  const mblur = $('#mblurG'), feedEl = $('#feed');
+  // posun feedu: malý nádech doprava (8 px, text dlaždic zůstane mimo pravou lištu IG), švih, tvrdé zabrzdění s přestřelem přesně na první ťuk (S.tapC + 0,62)
+  const feedX = t => kf(t, [[S.feed, 0], [S.feed + .16, -8, 'sine'], [S.feed + .5, FEED_D * .42, 'in2'], [S.stop, FEED_D + 34, 'out2'], [S.stop + .2, FEED_D - 9, 'sine'], [S.stop + .38, FEED_D, 'sine']]);
+  function drawFeed(t) {
+    const X = feedX(t), v = (feedX(t + 1 / 120) - feedX(t - 1 / 120)) * 60;   // px/s
+    const bl = Math.min(34, Math.abs(v) * .0055);
+    if (bl > .6) { mblur.setAttribute('stdDeviation', `${bl.toFixed(1)} 0`); css(feedEl, 'filter', 'url(#mblur)'); } else css(feedEl, 'filter', 'none');
+    // karty
+    const out = S.contentOut;
+    for (const c of CARDS) {
+      const x = c.x - X;
+      if (t < S.feed || x < -140 || x > 1240 || t >= out + .6) { put(c.e, { o: 0 }); continue; }
+      let s = 1, y = CY, o = 1, r = c.r0 * (1 - win(t, S.stop - .2, S.stop + .2));
+      if (c.hero && t >= S.stop) s = kf(t - S.stop, [[0, 1], [.1, 1.16, 'out2'], [.36, 1, 'sine']]) * (1 + .014 * Math.sin(TAU * 1.1 * (t - S.stop)));
+      if (!c.hero) o = 1 - .45 * E.sine(win(t, S.stop + .1, S.stop + .5));          // ostatní ustoupí, hrdina svítí
+      const ex = E.in2(win(t, out + Math.abs(x - 540) / 1400, out + .3 + Math.abs(x - 540) / 1400));   // odchod: propad dolů od středu ven
+      put(c.e, { x, y: y + 90 * ex, r: r + (x < 540 ? -8 : 8) * ex, s: s * (1 - .2 * ex), o: o * (1 - ex) });
+      c.e.style.zIndex = c.hero ? 30 : 10;
+    }
+    const hx = CARDS[HERO].x - X, ho = t >= S.stop && t < out + .4 ? 1 - win(t, out, out + .3) : 0;
+    const ru = win(t, S.stop, S.stop + .6);
+    put(heroRing, { x: hx, y: CY, s: .6 + .9 * E.out3(ru), o: ru > 0 && ru < 1 ? (1 - E.out2(ru)) * .9 : 0 });
+    put(heroGlow, { x: hx, y: CY, s: .8 + .2 * E.back(win(t, S.stop, S.stop + .4)), o: ho * E.out2(win(t, S.stop - .05, S.stop + .25)) });
+    // počítadlo Reels (napravo pod pásem): běží s feedem 0 → 12
+    const n = Math.round(12 * clamp01(X / FEED_D));
+    if (cN.textContent !== String(n)) cN.textContent = String(n);
+    const ci = win(t, S.feed + .3, S.feed + .62), co = win(t, out, out + .25);
+    const cw = counter._w || (counter._w = counter.offsetWidth);
+    const pop = t >= S.stop ? kf(t - S.stop, [[0, 1], [.08, 1.1, 'out2'], [.3, 1, 'sine']]) : 1;
+    put(counter, { x: 952 - cw, y: 880 + 16 * (1 - E.back(ci)) + 30 * E.in2(co), s: (.82 + .18 * E.back(ci)) * pop, o: t >= S.feed + .3 ? E.out2(ci) * (1 - E.out2(co)) : 0 });
+  }
+  function drawCal(t) {
+    const X = t >= S.feed ? feedX(t) : 0;
+    for (const T of TILES) {
+      const tIn = S.plan + T.i * .035;
+      const u = win(t, tIn, tIn + .34);
+      const x = T.x - X;
+      const vis = t >= tIn && x > -140;
+      const tf = T.i < 6 ? snapT(T.i) + .3 : snapT(6) + .3;  // naplnění
+      const f = win(t, tf, tf + .08);
+      const pop = t >= tf ? kf(t - tf, [[0, .9], [.1, 1.08, 'out2'], [.26, 1, 'sine']]) : 1;
+      css(T.full, 'opacity', f.toFixed(3)); css(T.empty, 'opacity', (1 - f).toFixed(3));
+      put(T.e, { x, y: T.y + 30 * (1 - E.back(u)), s: (.86 + .14 * E.back(u)) * pop, o: vis ? E.out2(u) : 0 });
+    }
+    const po = win(t, S.plan + 1.12, S.plan + 1.34);
+    const w = okPill._w || (okPill._w = okPill.offsetWidth);
+    put(okPill, { x: 952 - w - X, y: 880 + 14 * (1 - E.back(po)), s: .8 + .2 * E.back(po), o: t >= S.plan + 1.12 && 952 - X > -40 ? E.out2(po) : 0 });
+  }
+  // jiskra z plamínku do 7. dlaždice (Ne)
+  const neSpark = h('div', 'spk', spark(null, 8), $('#fx'));
+  function drawNeSpark(t) {
+    const t0 = snapT(6) - .12, t1 = snapT(6) + .3, u = win(t, t0, t1);
+    if (u <= 0 || u >= 1) { put(neSpark, { o: 0 }); return; }
+    const a = flameWorld(), b = [TILES[6].x, TILES[6].y], k = E.io2(u);
+    put(neSpark, { x: lerp(a[0], b[0], k), y: lerp(a[1], b[1], k) - 150 * Math.sin(Math.PI * k), s: .6 - .15 * k, r: 200 * u, o: 1 });
+  }
+  // srdíčka z telefonu po ťuku (start = poloha telefonu v čase H.t, událost v simulaci → seek zůstává čistý)
+  const HEARTS = Array.from({ length: 6 }, (_, i) => {
+    const col = ['#F5B8DC', '#C49CF2', '#A5EDC5', '#9AD8F8', '#F5B8DC', '#C49CF2'][i];
+    const e = h('div', 'heart', `<svg viewBox="-12 -10 24 22" style="width:100%;height:100%;filter:drop-shadow(0 0 8px ${col}88)"><path d="M0 9.5C-6 5.2-10.2 1.8-10.2-2.6c0-3.1 2.4-5.3 5.3-5.3 2.2 0 4 1.3 4.9 3.1.9-1.8 2.7-3.1 4.9-3.1 3 0 5.3 2.2 5.3 5.3C10.2 1.8 6 5.2 0 9.5z" fill="${col}"/><circle cx="-4.6" cy="-3" r="1.7" fill="#fff" opacity=".85"/></svg>`, $('#fx'));
+    return { e, i, t: S.tapC + .95 + i * .1, dx: 60 + 150 * hash(i + 5), s: .85 + .5 * hash(i + 11) };
+  });
+  HEARTS.forEach(H => addEv(H.t, () => { H.from = ap(mat(place(H.t)), M.phoneWorld()); }));
+  function drawHearts(t) {
+    for (const H of HEARTS) {
+      const u = win(t, H.t, H.t + 1.3);
+      if (u <= 0 || u >= 1) { put(H.e, { o: 0 }); continue; }
+      const a = H.from || rigToPage(M.phoneWorld());
+      put(H.e, { x: a[0] + H.dx * E.out2(u) + 14 * Math.sin(TAU * 1.4 * u + H.i), y: a[1] - 360 * E.out2(u), s: H.s * E.back(Math.min(1, u * 4)), r: 10 * Math.sin(TAU * u + H.i), o: 1 - win(u, .6, 1) });
+    }
+  }
+
+  /* =========================================================
+     BEAT ČÍSLA: 3 sloupce v levé části (x 72–640), maskot stranou vpravo (PN), holo linka s ✦, štítek UKÁZKA (žádná vymyšlená čísla)
+     ========================================================= */
+  const BARS = [[72, 240, 1070, 'dosah', .1, '165,237,197'], [272, 440, 830, 'uložení', .24, '154,216,248'], [472, 640, 672, 'sledující', .38, '196,156,242']]
+    .map(([x0, x1, top, lab, dt, rgb]) => {
+      const e = h('div', 'bar', `<div class="lab">${lab}</div>`, $('#bars'));
+      e.style.width = (x1 - x0) + 'px';
+      e.style.background = `linear-gradient(180deg, rgba(${rgb},1) 0%, rgba(${rgb},.85) 30%, rgba(${rgb},.35) 72%, rgba(${rgb},0) 100%)`;
+      return { e, x0, x1, top, t0: S.numbers + dt, bottom: 1520, rgb };
+    });
+  const cline = $('#cline'), CLEN = cline.getTotalLength();
+  cline.style.strokeDasharray = CLEN + ' ' + CLEN;
+  cline.style.filter = 'drop-shadow(0 0 10px rgba(196,156,242,.8))';
+  const lineSpark = h('div', 'spk', spark(null, 12), $('#fx'));
+  const tagUk = $('#tagUk');
+  const FSP = Array.from({ length: 18 }, (_, i) => ({ e: h('div', 'spk', spark(null, 6), $('#fx')), i, b: i % 3, t: S.sparksOut + .018 * i + .03 * (i % 3), fx: hash(i + 40), fy: hash(i + 60), s: .22 + .2 * hash(i + 70) }));
+  function drawBars(t) {
+    const dis = win(t, S.sparksOut, S.sparksOut + .32), N = S.numbers;
+    for (const B of BARS) {
+      const u = win(t, B.t0, B.t0 + .62), vis = t >= B.t0 && t < S.sparksOut + .34;
+      const full = B.bottom - B.top, hh = full * Math.max(0, E.soft(u)) * (1 - E.in2(dis));
+      css(B.e, 'height', hh.toFixed(1) + 'px');
+      put(B.e, { x: B.x0, y: B.bottom - hh, o: vis ? 1 - dis : 0 });
+    }
+    const lu = win(t, N + .6, N + 1.2);
+    cline.style.strokeDashoffset = (CLEN * (1 - E.io2(lu))).toFixed(1);
+    cline.style.opacity = t >= N + .6 && t < S.sparksOut + .3 ? (1 - dis).toFixed(3) : '0';
+    const su = win(t, N + 1.14, N + 1.38);
+    put(lineSpark, { x: 652, y: 590, s: .66 * E.back(su) * (1 + .08 * Math.sin(TAU * 2 * t)), r: 20 * Math.sin(TAU * .8 * t), o: t >= N + 1.14 && t < S.sparksOut + .3 ? 1 - dis : 0 });
+    const tu = win(t, N + .45, N + .7);
+    // štítek UKÁZKA: volné místo vlevo nahoře v grafu, mimo linku i popisky
+    put(tagUk, { x: 72, y: 716 + 12 * (1 - E.out3(tu)), o: t < S.sparksOut + .3 ? E.out2(tu) * (1 - dis) : 0 });
+    // sloupce se rozpadnou na jiskry, které vletí do plamínku
+    const fw = flameWorld();
+    for (const f of FSP) {
+      const u = win(t, f.t, f.t + .5);
+      if (u <= 0 || u >= 1) { put(f.e, { o: 0 }); continue; }
+      const B = BARS[f.b], sx = lerp(B.x0 + 20, B.x1 - 20, f.fx), sy = B.top + 20 + 120 * f.fy;
+      const k = E.in2(u), cx = lerp(sx, fw[0], .5) + (f.b - 1) * 60, cy = Math.min(sy, fw[1]) - 220;
+      const x = (1 - k) ** 2 * sx + 2 * (1 - k) * k * cx + k * k * fw[0], y = (1 - k) ** 2 * sy + 2 * (1 - k) * k * cy + k * k * fw[1];
+      put(f.e, { x, y, s: f.s * (1 - .6 * k) * E.out2(Math.min(1, u * 5)), r: 300 * u, o: 1 });
+    }
+  }
+  const flare = h('div', 'glow', null, $('#fx'));
+  flare.style.cssText += ';width:380px;height:380px;margin:-190px 0 0 -190px;background:radial-gradient(circle,rgba(255,255,255,.85) 0%,rgba(196,156,242,.5) 26%,rgba(154,216,248,.18) 50%,rgba(154,216,248,0) 70%)';
+  function drawFlare(t) {
+    const o = kf(t, [[S.sparksOut + .38, 0], [S.sparksOut + .52, 1, 'out2'], [S.sparksOut + 1.0, 0, 'in2']]);
+    const fw = flameWorld();
+    put(flare, { x: fw[0], y: fw[1], s: .6 + .6 * o, o });
+  }
+
+  /* =========================================================
+     CTA: DM bublina „JISKRA ✦“ vyletí z telefonu a vletí do pilulky „Napiš JISKRA do zpráv“
+     ========================================================= */
+  const dm = h('div', 'dm', `<span>JISKRA</span><svg viewBox="0 0 24 24"><use href="#sp" width="24" height="24" fill="url(#g-holo)"/></svg>`, $('#fx'));
+  // bublina: pop vpravo nad telefonem hned po 1. ťuknutí (tap +0,62 s), let 16,75–17,30 s po kvadratické Bézierově křivce
+  // VPRAVO od hlavy (přes obličej nikdy) a nad plamínkem doleva do pilulky; pravý okraj bubliny drží x ≤ 950 (zóna IG)
+  const DM0 = S.dm + .65, DM1 = S.dm + 1.2;
+  addEv(DM0, () => { dm._from = ap(mat(place(DM0)), M.phoneWorld()); });
+  function dmPos(t) {                                        // { x, y, k: let 0…1 } ve světě
+    const a = dm._from || rigToPage(M.phoneWorld());
+    const cp = $('#ctaPill'), B = [cp.offsetLeft + cp.offsetWidth - 70, cp.offsetTop + cp.offsetHeight / 2];
+    const A = [a[0] + 100, a[1] - 64], C = [A[0] + 62, B[1] + 222];
+    const k = E.io2(win(t, DM0 + .12, DM1)), m = 1 - k;
+    return { x: m * m * A[0] + 2 * m * k * C[0] + k * k * B[0], y: m * m * A[1] + 2 * m * k * C[1] + k * k * B[1], k };
+  }
+  function drawDM(t) {
+    if (t < DM0 || t >= DM1 + .04) { put(dm, { o: 0 }); return; }
+    const w = dm._w || (dm._w = dm.offsetWidth), hh = 76;
+    const p = dmPos(t), k = p.k, pop = E.back(win(t, DM0, DM0 + .16));
+    const s = pop * (.9 + .2 * Math.sin(Math.PI * k)) * (1 - .45 * E.in2(win(k, .72, 1)));
+    put(dm, { x: p.x - w / 2, y: p.y - hh / 2, s, r: -6 * (1 - k) + 6 * Math.sin(Math.PI * k), o: 1 - win(t, DM1 - .04, DM1 + .04) });
+  }
+
+  /* =========================================================
+     TEXT (HUD): slova naskočí zdola s přestřelem, odchod = slova odjedou nahoru a zmizí (postupně, 0,24 s)
+     ========================================================= */
+  const words = el => el._w || (el._w = [...el.querySelectorAll(':scope > .w')]);
+  const XS = .02, XD = .2;
+  function textIO(el, t, tIn, tOut, o = {}) {                 // tIn < 0 → hotový od začátku, tOut = začátek odchodu
+    const W = words(el), n = W.length;
+    const st = o.st == null ? .045 : o.st, d = o.d || .4, dy = o.dy == null ? 48 : o.dy;
+    const xs = o.xs == null ? XS : o.xs, xd = o.xd || XD, xdy = o.xdy == null ? 34 : o.xdy;   // odchod: rozestup, délka, dráha nahoru
+    const end = tOut + (n - 1) * xs + xd;
+    if (t < Math.max(0, tIn) || t >= end) { put(el, { o: 0 }); return; }
+    put(el, { o: 1, s: o.blockS || 1 });
+    W.forEach((w, i) => {
+      let y = 0, op = 1, r = 0, s = 1;
+      if (tIn >= 0) {
+        const u = win(t, tIn + i * st, tIn + i * st + d);
+        if (o.unit) op = clamp01((t - tIn - i * st) / .05);   // jeden celek: slova jen naskočí, dopad nese měřítko bloku (blockS)
+        else if (o.slam) { s = lerp(1.16, 1, E.back(u)); y = 22 * (1 - E.out3(u)); op = E.out2(Math.min(1, u * 2.6)); }   // dopadne shora dolů na místo, nikdy přes řádek nad sebou
+        else { y = dy * (1 - E.back(u)); op = E.out2(Math.min(1, u * 1.8)); }
+        if (o.jit) r = (hash(i + o.jit) - .5) * o.jitR * (1 - E.out3(u)) + (hash(i + o.jit + 7) - .5) * (o.jitHold || 0);
+      }
+      const v = win(t, tOut + i * xs, tOut + i * xs + xd);
+      y -= xdy * E.in2(v); op *= 1 - E.out2(v);
+      if (o.slam && i === 0 && !w._o0) { w.style.transformOrigin = '0 70%'; w._o0 = 1; }   // první slovo roste od levého okraje
+      put(w, { y, r, s, o: op });
+    });
+  }
+  function boxIO(el, t, tIn, tOut, o = {}) {                   // celý prvek (pilulka, URL): pop / výjezd zdola
+    const end = tOut + XD;
+    if (t < tIn || t >= end) { put(el, { o: 0 }); return 0; }
+    const u = win(t, tIn, tIn + (o.d || .36)), v = win(t, tOut, end);
+    const y = (o.dy == null ? 20 : o.dy) * (1 - E.back(u)) - 30 * E.in2(v);
+    put(el, { y, s: (o.pop ? .78 + .22 * E.back(u) : 1) * (o.s || 1), o: E.out2(u) * (1 - E.out2(v)) });
+    return u;
+  }
+  const NEVER = 1e9;
+  const PILLS = [['165,237,197'], ['154,216,248'], ['196,156,242']];
+  let PILL_W = [0, 0, 0];
+  /* pilulka kroku: 1 PLÁN → 2 OBSAH → 3 ČÍSLA se překlopí (scaleY 1 → 0 → 1 za 0,12 s) až ve chvíli, kdy starý nadpis zmizel;
+     číslo, slovo, barva i šířka se přepnou v polovině překlopení, pak malý pop */
+  function drawPill(t) {
+    const el = $('#pill');
+    const idx = t < FLIP[0] + FLIP_D / 2 ? 0 : t < FLIP[1] + FLIP_D / 2 ? 1 : 2;
+    let sy = 1;
+    for (const f of FLIP) { const u = win(t, f, f + FLIP_D); if (u > 0 && u < 1) sy = u < .5 ? 1 - E.in2(u * 2) : E.out2(u * 2 - 1); }
+    const pulse = FLIP.reduce((a, f) => a + bump(t - f - FLIP_D, .26) * .05, 0);
+    boxIO(el, t, S.plan, S.numOut, { pop: true, s: 1 + pulse });
+    css(el, 'scale', `1 ${Math.max(.02, sy).toFixed(3)}`);
+    css(el, 'background', `rgb(${PILLS[idx][0]})`);
+    css($('#pillN'), 'transform', `translateY(${-46 * idx}px)`);
+    css($('#pillL'), 'transform', `translateY(${-46 * idx}px)`);
+    css($('#pillLab'), 'width', PILL_W[idx].toFixed(1) + 'px');
+  }
+  // ✦ záblesk na pravém konci akcentu, když ho přechod celý přebarví
+  const PINGS = [['#hlScroll', S.stop + .28], ['#hlCisla', S.numbers + .95]].map(([sel, tp]) => ({ hl: $(sel), tp, e: h('div', 'spk', spark(null, 10), $('#hud')) }));
+  function drawPings(t) {
+    for (const P of PINGS) {
+      const x = t - P.tp;
+      if (x <= 0 || x >= .36) { put(P.e, { o: 0 }); continue; }
+      const R = P.hl.getBoundingClientRect();
+      put(P.e, { x: R.right + 6, y: R.top + R.height * .3, s: .5 * kf(x, [[0, 0], [.1, 1, 'out2'], [.36, 0, 'in2']]), r: 140 * x, o: 1 });
+    }
+  }
+  const hasScale = t => kf(t - S.has, [[0, 1.25], [.11, .97, 'out2'], [.2, 1, 'sine']]);   // „Tahle má mě ✦“: jeden úder s dopadem
+  const SHINE = [15.9, 16.9];
+  function drawText(t) {
+    // HOOK „Jiné agentury / mají logo.“: od snímku 0 hotový, odejde v S.hookOut, na konci znovu naskočí (poslední snímek = snímek 0)
+    // Každý nadpis dojde ven dřív, než na stejné místo přijde další (bez dvojexpozice).
+    for (const hk of [$('#tHook'), hookInk]) {               // dvě kopie: mist (v tmavém kruhu) a ink (na světle), viz drawIris
+      if (t < S.hookBack) textIO(hk, t, -1, S.hookOut, { xd: .16, xdy: 28 });
+      else textIO(hk, t, S.hookBack, NEVER, { st: .03, d: .28, dy: 40 });
+    }
+    textIO($('#tHas'), t, S.has, S.hookOut + .06, { unit: true, st: .02, xd: .16, xdy: 28, blockS: hasScale(t) });
+    textIO($('#tHello'), t, S.hello, S.helloOut, { st: .05, d: .36, dy: 54, xd: .16 });
+    textIO($('#tChaos'), t, S.chaos, S.chaosOut - .06, { jit: 3, jitR: 30, jitHold: 7, st: .07, xd: .16 });
+    textIO($('#tChaosSub'), t, S.chaos + .26, S.chaosOut - .04, { st: .04, dy: 24, xd: .16 });
+    drawPill(t);
+    textIO($('#tPlan'), t, S.plan + .06, S.planOut, { xd: .16 });
+    textIO($('#tPlanSub'), t, S.plan + .3, S.planOut + .02, { st: .03, dy: 24, xd: .16 });
+    textIO($('#tObs'), t, S.content, S.contentOut, { xd: .16 });
+    textIO($('#tObsSub'), t, S.content + .24, S.contentOut, { st: .03, dy: 24, xd: .16, xs: .01 });
+    textIO($('#tNum'), t, S.numbers, S.numOut, { xd: .16, xs: .01 });
+    // akcenty na tmě: „scroll“ se přebarví v okamžiku zastavení feedu, „čísla“ s růstem sloupců (0,28–0,3 s, out3) + ✦ záblesk
+    const hs = $('#hlScroll'), us = E.out3(win(t, S.stop, S.stop + .28)).toFixed(4);
+    if (hs._u !== us) { hs.style.setProperty('--u', us); hs._u = us; }
+    const hl = $('#hlCisla'), hu = E.out3(win(t, S.numbers + .65, S.numbers + .95)).toFixed(4);
+    if (hl._u !== hu) { hl.style.setProperty('--u', hu); hl._u = hu; }
+    drawPings(t);
+    // CTA: „Sleduj mě ✦“ + „Napiš JISKRA do zpráv ✦“ + sparkee.cz; pilulka naskočí s přestřelem, 2× přes ni přejede lesk,
+    // a pulzne, když do ní vletí DM bublina
+    textIO($('#tCta'), t, S.cta, S.ctaOut, { slam: true, st: .07, d: .36, xd: .16 });
+    const cp = $('#ctaPill'), ctaIn = S.cta + .3;
+    const popS = kf(t - ctaIn, [[0, .86], [.15, 1.06, 'out2'], [.26, 1, 'sine']]);
+    const hitS = kf(t - DM1, [[0, 1], [.08, 1.08, 'out2'], [.24, 1, 'sine']]), glow = bump(t - DM1 + .02, .34);
+    const cu = boxIO(cp, t, ctaIn, S.ctaOut + .06, { d: .2, dy: 12, s: popS * (1 + .016 * Math.sin(TAU * 1.2 * (t - S.cta))) * hitS });
+    css(cp, 'boxShadow', `0 0 ${(44 + 50 * glow).toFixed(1)}px rgba(196,156,242,${(.45 + .4 * glow).toFixed(3)})`);
+    const cw = cp._w || (cp._w = cp.offsetWidth), bw = cw * .34;
+    let sx = -bw - 20;
+    for (const t0 of SHINE) { const u = win(t, t0, t0 + .5); if (u > 0 && u < 1) sx = lerp(-bw - 20, cw + 20, E.io2(u)); }
+    css(cp, 'backgroundPosition', `${sx.toFixed(1)}px 0,0 0`);
+    boxIO($('#ctaUrl'), t, S.cta + .48, S.ctaOut + .1, { dy: 16 });
+    return cu;
+  }
+
+  /* =========================================================
+     KAMERA: nádech do loga před výbuchem, uvolnění po něm; v chaosu jemné chvění světa (text stojí)
+     ========================================================= */
+  const world = $('#world');
+  function camAt(t) {
+    let z = 1, sx = 0, sy = 0, sr = 0;
+    if (t < S.swapIn) z = 1 + .035 * E.in2(win(t, 0, S.swapIn));
+    else if (t < S.swapIn + .8) z = 1 + .035 * (1 - E.out3(win(t, S.swapIn, S.swapIn + .8)));
+    else if (t > S.swapOut - .35) z = kf(t, [[S.swapOut - .35, 1], [S.swapOut, 1.022, 'in2'], [S.swapOut + .42, 1, 'out3']]);
+    if (t >= S.land && t < S.land + .1) sy += 6 * (1 - win(t, S.land, S.land + .1));   // dopad: svět cukne o 6 px dolů (3 snímky)
+    const k = ramp(t, S.chipsIn + .1, S.chipsIn + .45, S.chaosOut - .25, S.chaosOut + .1);
+    if (k > 0) {
+      sx = k * (4 * Math.sin(TAU * 6.3 * t) + 2 * Math.sin(TAU * 11.7 * t + 1));
+      sy = k * (3 * Math.sin(TAU * 7.9 * t + 2) + 1.5 * Math.sin(TAU * 13.1 * t));
+      sr = k * .35 * Math.sin(TAU * 5.1 * t + .5);
+    }
+    return { z, fx: LOGO_M[0], fy: LOGO_M[1], sx, sy, sr };
+  }
+  let CAM = camAt(0);
+  const camPt = q => {                                       // bod světa → px snímku (kamera)
+    const c = CAM, a = c.sr * D2R, dx = (q[0] - c.fx) * c.z, dy = (q[1] - c.fy) * c.z;
+    return [c.sx + c.fx + dx * Math.cos(a) - dy * Math.sin(a), c.sy + c.fy + dx * Math.sin(a) + dy * Math.cos(a)];
+  };
+  function drawCam(t) {
+    const c = CAM = camAt(t);
+    const id = c.z === 1 && !c.sx && !c.sy && !c.sr;
+    css(world, 'transform', id ? 'none' : `translate(${c.sx.toFixed(2)}px,${c.sy.toFixed(2)}px) translate(${c.fx}px,${c.fy}px) rotate(${c.sr.toFixed(3)}deg) scale(${c.z.toFixed(5)}) translate(${-c.fx}px,${-c.fy}px)`);
+  }
+
+  /* =========================================================
+     SEEK
+     ========================================================= */
+  let curT = 0;
+  function seek(t) {
+    t = Math.max(0, Math.min(DUR - 1e-6, +t || 0));
+    curT = t;
+    drawBg(t);
+    drawGrain(t);
+    drawCam(t);
+    drawLogo(t);
+    const p = drawMascot(t);
+    drawIris(t);
+    drawGlows(t, p);
+    drawSwapFx(t);
+    drawChips(t);
+    drawCal(t);
+    drawFeed(t);
+    drawNeSpark(t);
+    drawHearts(t);
+    drawBars(t);
+    drawFlare(t);
+    drawText(t);
+    drawDM(t);
+    return t;
+  }
+
+  /* =========================================================
+     KONTROLA (ReelCheck): logo × rig, záblesk ve výměně, text v zóně IG, překryvy, maskot mimo text, čitelnost ≥ 1,2 s
+     ========================================================= */
+  const SAFE = { x0: 60, x1: 960, y0: 220, y1: 1500 };   // IG: nahoře 220, dole 420, vpravo 120 px bez textu; vlevo vizuální okraj
+  function effO(el) {
+    let o = 1;
+    for (let e = el; e && e.id !== 'stage'; e = e.parentElement) {
+      const s = e.style;
+      if (s.visibility === 'hidden' || s.display === 'none') return 0;
+      if (s.opacity !== '') o *= +s.opacity;
+    }
+    return o;
+  }
+  const rectOf = el => { const r = el.getBoundingClientRect(); return { l: r.left, t: r.top, r: r.right, b: r.bottom }; };
+  const inter = (a, b, pad = 0) => a.l < b.r - pad && b.l < a.r - pad && a.t < b.b - pad && b.t < a.b - pad;
+  const BLOCKS = ['tHook', 'tHas', 'tHello', 'tChaos', 'tChaosSub', 'pill', 'tPlan', 'tPlanSub', 'tObs', 'tObsSub', 'tNum', 'tCta', 'ctaPill', 'ctaUrl'];
+  // text ve světě (kamera, rekvizity): každý prvek s písmem; přílet čipu zvenku (_fly) a odjezd dlaždic feedu doleva se nepočítá
+  const WTEXT = () => [...document.querySelectorAll('#world .chip, #world .stat, #world .tag, #world .dm, #world .bar .lab, #world .tile .lab')];
+  const wName = el => (el.className.split(' ')[0] + ':' + el.textContent.trim()).slice(0, 28);
+  function blockRect(id, minO) {
+    const el = document.getElementById(id);
+    const parts = el.classList.contains('tb') ? words(el) : [el];
+    let R = null;
+    for (const p of parts) {
+      if (effO(p) < minO) continue;
+      const r = rectOf(p);
+      R = R ? { l: Math.min(R.l, r.l), t: Math.min(R.t, r.t), r: Math.max(R.r, r.r), b: Math.max(R.b, r.b) } : r;
+    }
+    return R;
+  }
+  const minWordO = id => { const el = document.getElementById(id); const parts = el.classList.contains('tb') ? words(el) : [el]; return Math.min(...parts.map(effO)); };
+  function check(step) {
+    const bad = {}, note = (k, t, v) => { const b = bad[k] || (bad[k] = { n: 0, from: t, to: t, worst: v }); b.n++; b.to = t; if (Math.abs(v) > Math.abs(b.worst)) b.worst = v; };
+    const stats = { minTextToMascot: 1e9, swapFlash: [], read: {}, holoOnDark: {} };
+    const HOLO = [...document.querySelectorAll('#hud .holo')];
+    const runs = {}; BLOCKS.forEach(id => { runs[id] = { cur: 0, list: [] }; });
+    const N = Math.round(DUR / step);
+    let prevLogo = null;
+    for (let f = 0; f < N; f++) {
+      const t = f * step; seek(t);
+      // 0) logo × rig: nikdy spolu; logo jen celé (img bez ořezu), výměna jen v záblesku ≥ 0,75
+      const lv = logo.style.visibility !== 'hidden', rv = msvg.style.visibility !== 'hidden' && !Q.has('hide');
+      if (lv && rv) note('logo+rig-together', t, 1);
+      if (lv && IRIS.r > 0) note('logo-on-dark', t, IRIS.r);                                   // logo jen na světlém mist
+      if (lv && (logo.style.filter && logo.style.filter !== 'none')) note('logo-filtered', t, 1);
+      if (lv && /rotate|matrix|skew/.test(logo.style.transform || '')) note('logo-not-uniform', t, 1);
+      if (!lv && !rv && !Q.has('hide')) note('neither-logo-nor-rig', t, 1);
+      if (prevLogo !== null && prevLogo !== lv) {
+        const fo = flashO(t), fp = flashO(t - step);
+        stats.swapFlash.push({ t: +t.toFixed(4), logo: lv, flashPrev: +fp.toFixed(3), flashNow: +fo.toFixed(3) });
+        if (fo < .75 || fp < .75) note('swap-without-flash', t, Math.min(fo, fp));
+      }
+      prevLogo = lv;
+      // rig nikdy deformovaný (uniformní měřítko)
+      if (Math.abs(MAT[0] - MAT[3]) > 1e-6 || Math.abs(MAT[1] + MAT[2]) > 1e-6) note('rig-deformed', t, 1);
+      // holo přechod na textu jen na tmě: každé viditelné .holo slovo (mimo ink kopii) celé uvnitř tmavé clony
+      for (const el of HOLO) {
+        if (el.closest('.tb.ink') || effO(el) < .02) continue;
+        const R = rectOf(el), full = IRIS.r >= IRIS_MAX;
+        const inDark = full || (IRIS.r > 0 && [[R.l, R.t], [R.r, R.t], [R.l, R.b], [R.r, R.b]].every(([x, y]) => Math.hypot(x - IRIS.x, y - IRIS.y) < IRIS.r - 2));
+        if (!inDark) note(`holo-text-on-light:${el.closest('.tb').id}`, t, IRIS.r);
+        else stats.holoOnDark[el.closest('.tb').id] = (stats.holoOnDark[el.closest('.tb').id] || 0) + 1;
+      }
+      // 1) bezpečná zóna pro každé slovo / pilulku s viditelností > 15 %
+      const rects = {};
+      for (const id of BLOCKS) {
+        const R = blockRect(id, .15);
+        if (!R) continue;
+        rects[id] = R;
+        if (R.l < SAFE.x0 - 1) note(`zone-left:${id}`, t, R.l);
+        if (R.r > SAFE.x1 + 1) note(`zone-right:${id}`, t, R.r);
+        if (R.t < SAFE.y0 - 1) note(`zone-top:${id}`, t, R.t);
+        if (R.b > SAFE.y1 + 1) note(`zone-bottom:${id}`, t, R.b);
+      }
+      // 1b) text ve světě: pravá lišta, spodní a horní zóna IG (vlevo jen čipy a DM bublina, feed smí odjet ze snímku doleva)
+      for (const el of WTEXT()) {
+        if (el._fly || effO(el) < .15) continue;
+        let R = rectOf(el);
+        if (el.classList.contains('lab') && el.parentElement.classList.contains('bar')) {   // popisek sloupce je oříznutý sloupcem
+          const B = rectOf(el.parentElement); R = { l: Math.max(R.l, B.l), t: Math.max(R.t, B.t), r: Math.min(R.r, B.r), b: Math.min(R.b, B.b) };
+          if (R.r - R.l < 2 || R.b - R.t < 2) continue;
+        }
+        const nm = wName(el), strict = el.classList.contains('chip') || el.classList.contains('dm');
+        if (strict && R.l < SAFE.x0 - 1) note(`wzone-left:${nm}`, t, R.l);
+        if (R.r > SAFE.x1 + 1 && R.l < 1080) note(`wzone-right:${nm}`, t, R.r);
+        if (R.t < SAFE.y0 - 1 && R.b > 0) note(`wzone-top:${nm}`, t, R.t);
+        if (R.b > SAFE.y1 + 1 && R.t < 1920) note(`wzone-bottom:${nm}`, t, R.b);
+      }
+      // 2) dva textové bloky přes sebe (oba viditelné > 50 %)
+      const vis = BLOCKS.map(id => [id, blockRect(id, .5)]).filter(x => x[1]);
+      for (let i = 0; i < vis.length; i++) for (let j = i + 1; j < vis.length; j++)
+        if (inter(vis[i][1], vis[j][1], 2)) note(`text-overlap:${vis[i][0]}+${vis[j][0]}`, t, 1);
+      // 3) maskot (plamínek + hlava) vs. text
+      if (rv) {
+        const mr = [msvg.querySelector('.m-flame'), msvg.querySelector('.m-head')].map(rectOf)
+          .reduce((a, b) => ({ l: Math.min(a.l, b.l), t: Math.min(a.t, b.t), r: Math.max(a.r, b.r), b: Math.max(a.b, b.b) }));
+        for (const id in rects) {
+          const R = rects[id];
+          if (R.r > mr.l && R.l < mr.r) { const g = mr.t - R.b; stats.minTextToMascot = Math.min(stats.minTextToMascot, g); if (g < 0) note(`mascot-text:${id}`, t, g); }
+        }
+      }
+      // 4) čitelnost: jak dlouho je každý blok celý vidět (všechna slova ≥ 95 %)
+      for (const id of BLOCKS) {
+        const R = runs[id];
+        if (minWordO(id) >= .95) R.cur += step;
+        else if (R.cur > 0) { R.list.push(+R.cur.toFixed(2)); R.cur = 0; }
+      }
+    }
+    for (const id of BLOCKS) {
+      const R = runs[id]; if (R.cur > 0) R.list.push(+R.cur.toFixed(2) + '→smyčka');
+      stats.read[id] = R.list;
+      R.list.forEach(v => { if (typeof v === 'number' && v < 1.2 && !(id === 'tHook' && R.list.length > 1 && v === R.list[0])) note(`read<1.2s:${id}`, 0, v); });
+    }
+    seek(curT);
+    const r3 = v => Math.round(v * 1000) / 1000;
+    return { dur: DUR, frames: N, P0, PH, stats,
+      problems: Object.entries(bad).map(([k, b]) => `${k}  ${b.n}×  t ${r3(b.from)}–${r3(b.to)}  worst ${Math.round(b.worst * 100) / 100}`) };
+  }
+
+  /* =========================================================
+     START
+     ========================================================= */
+  (async () => {
+    await logo.decode();
+    await buildShards();
+    const r = await buildMascot($('#mwrap'));
+    M = r.m; msvg = r.svg; mShadow = msvg.querySelector('.m-shadow');
+    await document.fonts.ready;
+    await Promise.all(['800 100px "Baloo 2"', '800 30px "Baloo 2"', '700 44px Nunito', '800 34px Nunito', '900 30px Nunito', '900 44px Nunito', '800 40px Nunito', '900 36px Nunito']
+      .map(f => document.fonts.load(f, 'ěščřžýáíéůúťňĚŠČŘŽ0123456789')));
+    // sazba: podtitulky pod nadpisy podle skutečné výšky
+    const below = (id, over, gap) => { const a = document.getElementById(over), b = document.getElementById(id); b.style.top = (a.offsetTop + a.offsetHeight + gap) + 'px'; };
+    below('tHas', 'tHook', 14);
+    hookInk = $('#tHook').cloneNode(true); hookInk.id = 'tHookInk'; hookInk.classList.add('ink');   // ink kopie hooku pro světlou fázi
+    hookInk.querySelectorAll('[style]').forEach(n => n.removeAttribute('style'));
+    $('#tHook').after(hookInk);
+    below('tChaosSub', 'tChaos', 12);
+    below('tPlanSub', 'tPlan', 10); below('tObsSub', 'tObs', 10);
+    below('ctaPill', 'tCta', 26); below('ctaUrl', 'ctaPill', 20);
+    // holo slovo: box přechodu = přesně inkoust slova (Baloo 2 má obsahovou plochu 1,6 em, glyfy jen v jejím středu → bez toho by
+    // mint a blush padly mimo písmena). Rozměr a poloha z measureText ve stejném fontu, no-repeat; 1 px rezerva na vyhlazení hran.
+    const cx = document.createElement('canvas').getContext('2d');
+    document.querySelectorAll('#hud .holo').forEach(el => {
+      if (el.closest('.tb.ink')) return;
+      const cs = getComputedStyle(el);
+      cx.font = `${cs.fontWeight} ${cs.fontSize} ${cs.fontFamily}`;
+      cx.letterSpacing = cs.letterSpacing === 'normal' ? '0px' : cs.letterSpacing;
+      const m = cx.measureText(el.textContent), P = 1;
+      const x = -m.actualBoundingBoxLeft - P, y = m.fontBoundingBoxAscent - m.actualBoundingBoxAscent - P;
+      const w = m.actualBoundingBoxLeft + m.actualBoundingBoxRight + 2 * P, hh = m.actualBoundingBoxAscent + m.actualBoundingBoxDescent + 2 * P;
+      Object.assign(el.style, { backgroundRepeat: 'no-repeat', backgroundSize: `${w.toFixed(1)}px ${hh.toFixed(1)}px`, backgroundPosition: `${x.toFixed(1)}px ${y.toFixed(1)}px` });
+      el.dataset.ink = [x, y, w, hh].map(v => v.toFixed(1)).join(',') + '|box ' + el.offsetWidth + '×' + el.getBoundingClientRect().height.toFixed(0) + '|fb ' + (m.fontBoundingBoxAscent + m.fontBoundingBoxDescent).toFixed(1);
+    });
+    PILL_W = [...$('#pillL').children].map(s => { s.style.display = 'inline-block'; const w = s.offsetWidth; s.style.display = ''; return w; });
+    if (Q.get('grid')) $('#grid').classList.add('on');
+    if (Q.get('holo') === 'solid') h('style', null, '.holo{background:none!important;color:#fff!important}', document.head);   // QA: plná bílá místo přechodu (kontrola, že přechod nic neořízl)
+    window.ReelDur = DUR;
+    window.ReelSeek = seek;
+    window.ReelDebug = () => ({ t: curT, simN, rig: M.state(), P0, PH, PC, PP, PN, PE, LOGO_BOX, LOGO_M, shards: SHARDS.length, flash: flashO(curT), iris: IRIS, place: PLACE });
+    window.ReelCheck = (step = 1 / FPS) => check(step);
+    seek(+(Q.get('t') || 0));
+    window.ReelReady = true;
+    if (Q.get('play')) {
+      let t0 = performance.now() - curT * 1000;
+      const loop = now => { seek(((now - t0) / 1000) % DUR); requestAnimationFrame(loop); };
+      requestAnimationFrame(loop);
+    }
+  })().catch(e => { console.error(e); document.title = 'ERROR ' + e.message; });
+})();
+</script>
+</body>
+</html>

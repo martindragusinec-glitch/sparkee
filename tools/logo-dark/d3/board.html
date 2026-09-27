@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="cs"><head><meta charset="utf-8"><title>Sparkee dark D3 board</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&family=Nunito:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#2C303C;--nb:#1E2029;--paper:#F6F4EF;--mist:#F5F4FB;--mint:#A5EDC5;--sky:#9AD8F8;--lilac:#C49CF2;--blush:#F5B8DC;--line:#3a3f4f;--muted:#8d92a6}
+*{box-sizing:border-box}
+html,body{margin:0;background:#15161c;color:var(--mist);font-family:Nunito,system-ui,-apple-system,sans-serif}
+.board{width:1960px;padding:44px 40px 40px}
+h1{font-family:"Baloo 2",Nunito,sans-serif;font-weight:800;font-size:44px;line-height:1;margin:0 0 10px;letter-spacing:-.5px}
+h1 span{background:linear-gradient(90deg,var(--mint),var(--sky),var(--lilac));-webkit-background-clip:text;background-clip:text;color:transparent}
+.sub{color:var(--muted);font-size:17px;font-weight:600;margin:0 0 6px;max-width:1500px;line-height:1.45}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0 0}
+.chip{border:1px solid var(--line);border-radius:999px;padding:6px 12px;font-size:14px;font-weight:700;color:#cfd2de}
+.chip b{color:var(--mist)}
+h2{font-family:"Baloo 2",Nunito,sans-serif;font-weight:800;font-size:26px;margin:46px 0 14px;display:flex;align-items:baseline;gap:12px}
+h2 small{font-family:Nunito,sans-serif;font-size:15px;font-weight:600;color:var(--muted)}
+.row{display:flex;gap:20px;flex-wrap:wrap}
+.panel{position:relative;border-radius:14px;overflow:hidden;flex:none}
+.lab{position:absolute;left:12px;top:10px;font-size:12.5px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:rgba(245,244,251,.78);z-index:3;background:rgba(21,22,28,.72);padding:4px 9px;border-radius:7px}
+.lab.dk{color:rgba(44,48,60,.75);background:rgba(246,244,239,.85)}
+.big{width:930px;height:500px;display:flex;align-items:center;justify-content:center}
+.big img{width:900px;display:block}
+.glowbg{background:radial-gradient(ellipse 55% 65% at 40% 38%,rgba(196,156,242,.22),transparent 70%),radial-gradient(ellipse 45% 55% at 74% 62%,rgba(154,216,248,.15),transparent 70%),radial-gradient(ellipse 40% 50% at 20% 80%,rgba(165,237,197,.11),transparent 70%),var(--nb)}
+.sizes{display:grid;grid-template-columns:150px 340px 300px 300px 300px 330px;gap:0;border-radius:14px;overflow:hidden}
+.sizes>div{height:176px;display:flex;align-items:center;justify-content:center;position:relative}
+.sizes .rh{justify-content:flex-start;padding-left:18px;font-weight:800;font-size:15px;color:#cfd2de;background:#1a1b22}
+.sizes .rh small{display:block;margin-left:0;font-weight:600;color:var(--muted);font-size:12.5px;margin-top:3px}
+.sizes .ch{height:44px;background:#1a1b22;color:var(--muted);font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.05em}
+canvas{display:block}
+.zoom{background:var(--nb)}
+.zoom img{position:absolute;display:block;max-width:none}
+.cap{font-size:14px;color:var(--muted);font-weight:600;margin-top:8px;line-height:1.4}
+.cap b{color:var(--mist)}
+.split{width:930px;height:500px;position:relative}
+.split .half{position:absolute;inset:0}
+.split img{position:absolute;width:900px;left:15px;top:0}
+.checks{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:6px}
+.ck{border:1px solid var(--line);border-radius:14px;padding:16px 18px;font-size:14.5px;line-height:1.45;color:#cfd2de}
+.ck b{display:block;font-family:"Baloo 2",Nunito,sans-serif;font-size:19px;color:var(--mist);margin-bottom:4px}
+.ok{color:var(--mint)}
+</style></head>
+<body><div class="board" id="board">
+<h1>Sparkee · logo na tmavé pozadí · <span>D3 výřez + glow</span></h1>
+<p class="sub">Písmena mist #F5F4FB, „a“ a „r“ vyříznutá okolo ležícího maskota rovnoměrnou mezerou podle jeho siluety. Maskot (holo hlava, bílé tělo, obličej, plamínek) i poloha jsou 1:1 z 124:3; tmavý obrys maskota je vyříznutý, takže výplně → tmavý kanál → písmena je jeden čistý řez na jakémkoli tmavém pozadí. Za hlavou jemný pastelový holo glow, který nezasahuje do písmen.</p>
+<div class="chips">
+<span class="chip">mezera <b>1,45</b> = 0,5× obrysu 2,9</span><span class="chip">viditelný kanál výplň → písmeno <b>4,36</b> (90 % řezu 4,33–4,63)</span>
+<span class="chip">zaoblení konců řezu <b>r 2,9</b></span><span class="chip">nejmenší prvek <b>5,8</b> (žádné třísky)</span>
+<span class="chip">viewBox <b>0 0 568 292</b> jako logo.svg</span><span class="chip">glow: 2 vrstvy blur 4 + 14, jen nad písmeny</span>
+<span class="chip">≤ 120 px: <b>D3-logo-dark-flat.svg</b> (bez blur)</span>
+</div>
+
+<h2>1 · 900 px na třech tmavých pozadích <small>D3-cut-glow.svg</small></h2>
+<div class="row">
+ <div class="panel big" style="background:var(--ink)"><span class="lab">ink #2C303C</span><img src="../variants/D3-cut-glow.svg"></div>
+ <div class="panel big" style="background:var(--nb)"><span class="lab">near-black #1E2029</span><img src="../variants/D3-cut-glow.svg"></div>
+ <div class="panel big glowbg"><span class="lab">tmavý holo glow</span><img src="../variants/D3-cut-glow.svg"></div>
+ <div class="panel big" style="background:var(--paper)"><span class="lab dk">oficiální logo 124:3 · paper #F6F4EF · 900 px</span><img src="../../../assets/img/logo.svg"></div>
+</div>
+
+<h2>2 · Důkaz polohy maskota <small>vlevo oficiální světlé logo, vpravo D3 – stejný rámeček 900 px, dělicí čára přes hlavu</small></h2>
+<div class="row">
+ <div class="panel split" id="split">
+  <div class="half" style="background:var(--paper)"><img src="../../../assets/img/logo.svg"></div>
+  <div class="half" id="splitdark" style="background:var(--ink)"><img src="../variants/D3-cut-glow.svg"></div>
+  <div id="splitline" style="position:absolute;top:0;bottom:0;width:2px;background:repeating-linear-gradient(#F5B8DC 0 8px,transparent 8px 14px);z-index:4"></div>
+  <span class="lab dk">oficiální</span><span class="lab" style="left:auto;right:14px">D3 dark</span>
+ </div>
+ <div class="panel split" id="onion" style="background:var(--ink)">
+  <img src="../variants/D3-cut-glow.svg">
+  <img src="../../../assets/img/logo.svg" style="opacity:.5;mix-blend-mode:normal">
+  <span class="lab">prolnutí 50 %: oficiální přes D3 – maskot se kryje beze stínu</span>
+ </div>
+</div>
+<p class="cap">Všech <b>28 výplní maskota</b> je bajtově shodných se zdrojem (bez transformace), stejně jako písmena s, p, k, e, e. Pixelová kontrola při 900 px: uvnitř maskota <b id="pxproof">26 246 / 26 246 pixelů identických</b> se světlým logem (na #2C303C).</p>
+
+<h2>3 · Velikosti <small>300 px = D3 s blur glow · 120 a 40 px = flat fallback bez blur · poslední sloupec 40 px zvětšeno 4× (skutečné pixely)</small></h2>
+<div class="sizes" id="sizes"></div>
+
+<h2>4 · Detaily řezu 4× <small>zvětšení 4× oproti 900 px (tj. logo 3600 px) · #1E2029</small></h2>
+<div class="row" id="zooms"></div>
+<p class="cap"><b>a</b>: řez sleduje tlapku a tělo, rovnoměrný kanál, konce zaoblené r 2,9. <b>r</b>: noha překrývá rameno „r“ – dřík a vlajka zůstávají jako dva čisté díly se zaoblenými konci (žádná tříska mezi nohou a vnitřním obloukem r). <b>k</b>: koleno je 10,85 od dříku k, nic se neřeže. <b>✦</b>: jiskra je 19,2 od posledního „e“, řez není potřeba; holo jiskra má vlastní malý glow, který se k „e“ nepřiblíží na méně než 4.</p>
+<div class="row" id="construct" style="margin-top:18px"></div>
+
+<h2>5 · Zkouška mezery <small>0,5× · 0,8× · 1,1× obrysu (1,45 · 2,32 · 3,19) – výřez „ar“ při 900 px (zvětšeno 2×) a celé logo při 120 px</small></h2>
+<div class="row" id="gaps"></div>
+<p class="cap">Vybráno <b>0,5×</b>: při 900 px je kanál 6,9 px (čistý, jistý řez) a zůstane nejvíc z „a“ a „r“ – vlajka „r“ je o 28 % větší než při 1,1×. Širší mezera od 0,8× už ukusuje vlajku „r“ a tenčí horní oblouk „a“; při 120 px je rozdíl oddělení mezi mezerami pod 0,4 px, takže čitelnost „r“ rozhoduje i tam.</p>
+
+<h2>6 · Kontroly</h2>
+<div class="checks">
+ <div class="ck"><b class="ok">Mezera drží</b>hrana řezu je od siluety maskota 1,435–1,458 (cíl 1,45; tolerance fitu 0,015). Kanál výplň → písmeno: medián 4,36, 90 % řezu 4,33–4,63; do 4,98 jen v zaobleném zářezu mezi nohou a kolenem.</div>
+ <div class="ck"><b class="ok">Jen odebírá</b>0 bodů nových obrysů „a“ a „r“ leží mimo oficiální písmeno; originální Bézierovy křivky zachovány všude mimo řez.</div>
+ <div class="ck"><b class="ok">Žádné třísky</b>otevření r 2,9: každý zbylý díl má šířku ≥ 5,8. Díly: a 5040 (+ bříško beze změny), r dřík 1002, r vlajka 364. Ostrovy: 0.</div>
+ <div class="ck"><b class="ok">Samostatné SVG</b>žádné externí odkazy, ID s prefixem sd- / sdf-, viewBox 0 0 568 292. Glow nikdy nepřekrývá maskota a k okrajům viewBoxu slábne na 0 (nic se neořízne).</div>
+</div>
+</div>
+<script>
+const D3='../variants/D3-cut-glow.svg', FLAT='../variants/D3-logo-dark-flat.svg', LIGHT='../../../assets/img/logo.svg';
+const S900=900/568;
+// split + onion geometry
+(function(){const splitX=15+228*S900; document.getElementById('splitdark').style.clipPath=`inset(0 0 0 ${splitX}px)`;
+ const l=document.getElementById('splitline'); l.style.left=(splitX-1)+'px';
+ document.querySelectorAll('#split img, #onion img').forEach(im=>{im.style.top=((500-292*S900)/2)+'px'});})();
+// sizes table
+const bgs=[['ink #2C303C','#2C303C',''],['near-black #1E2029','#1E2029',''],['tmavý holo glow','#1E2029','glowbg']];
+const sz=document.getElementById('sizes');
+['', '300 px · D3', '120 px · flat', '120 px · D3 (pro srovnání)', '40 px · flat', '40 px · flat · 4× pixely'].forEach(t=>{const d=document.createElement('div');d.className='ch';d.textContent=t;sz.appendChild(d);});
+function cell(bg,cls,inner){const d=document.createElement('div');d.style.background=bg;if(cls)d.className=cls;if(inner)d.appendChild(inner);sz.appendChild(d);return d;}
+function img(src,w){const i=new Image();i.src=src;i.style.width=w+'px';i.style.display='block';return i;}
+function pix(src,bg,cls,w,k){const c=document.createElement('canvas');const h=Math.round(w*292/568)+2;c.width=w*k+8*k;c.height=h*k+8*k;
+ const i=new Image();i.onload=()=>{const s=document.createElement('canvas');s.width=w+8;s.height=h+8;const x=s.getContext('2d');
+  x.drawImage(i,4,4,w,w*292/568);const X=c.getContext('2d');X.imageSmoothingEnabled=false;X.drawImage(s,0,0,c.width,c.height);};i.src=src;return c;}
+for(const [name,bg,cls] of bgs){const h=document.createElement('div');h.className='rh';const m=name.match(/^(.*?)( #\w+)?$/);h.innerHTML=m[1]+(m[2]?'<small>'+m[2].trim()+'</small>':'<small>#1E2029 + holo</small>');sz.appendChild(h);
+ cell(bg,cls,img(D3,300)); cell(bg,cls,img(FLAT,120)); cell(bg,cls,img(D3,120)); cell(bg,cls,img(FLAT,40)); cell(bg,cls,pix(FLAT,bg,cls,40,4));}
+// zooms (4x of 900 px)
+const Z=4*S900;
+function zoom(parent,src,bg,x,y,w,h,label,scale,extra){const d=document.createElement('div');d.className='panel zoom';d.style.width=w*scale+'px';d.style.height=h*scale+'px';d.style.background=bg;
+ const i=new Image();i.src=src;i.style.width=568*scale+'px';i.style.left=(-x*scale)+'px';i.style.top=(-y*scale)+'px';d.appendChild(i);
+ if(extra)extra(d);const l=document.createElement('span');l.className='lab';l.textContent=label;d.appendChild(l);parent.appendChild(d);return d;}
+const zr=document.getElementById('zooms');
+zoom(zr,D3,'#1E2029',180,172,62,44,'a · tlapka + tělo',Z);
+zoom(zr,D3,'#1E2029',244,178,60,46,'r · noha + koleno',Z);
+zoom(zr,D3,'#1E2029',284,150,48,50,'k · koleno (bez řezu)',Z);
+zoom(zr,D3,'#1E2029',512,140,56,74,'✦ jiskra + e',Z);
+// construction overlay
+const cr=document.getElementById('construct');
+zoom(cr,'construct.svg','#1E2029',186,172,118,52,'konstrukce · růžová = silueta maskota (vnější hrana obrysu) · tyrkys = offset 1,45 · bílé body = uzly nových křivek',Z*1.2);
+// gap trials
+const gr=document.getElementById('gaps');
+for(const [t,f] of [['0,5× · 1,45 ✓','0.5x'],['0,8× · 2,32','0.8x'],['1,1× · 3,19','1.1x']]){
+ const col=document.createElement('div');
+ zoom(col,'../variants/D3-gaps/D3-gap-'+f+'.svg','#1E2029',180,150,130,110,t+' · 900 px, 2×',S900*2);
+ const c2=document.createElement('div');c2.className='panel';c2.style.cssText='margin-top:10px;background:#1E2029;padding:10px;display:inline-block';
+ c2.appendChild(pix('../variants/D3-gaps/D3-flat-gap-'+f+'.svg','#1E2029','',120,3));col.appendChild(c2);
+ const cap=document.createElement('div');cap.className='cap';cap.textContent='120 px flat, 3× pixely';col.appendChild(cap);
+ gr.appendChild(col);}
+</script>
+</body></html>

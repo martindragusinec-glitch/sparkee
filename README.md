@@ -6,7 +6,7 @@
 - `assets/css/site.css` – brand tokeny v `:root` (ink `#2C303C`, mint/sky/lav/pink, holo gradient), fonty Fredoka + Plus Jakarta Sans
 - `assets/js/site.js` – nav, parallax karet v hero, reveal, počítadla, přepínač ceníku, formulář
 - `assets/js/mascot-rig.js` + `assets/js/mascot.js` + `assets/css/mascot.css` – živý hero maskot (JS rig, viz níže)
-- `assets/img/` – `mascot.svg` (póza s telefonem), `mascot-head.svg` (hlava/favicon), `logo.svg`
+- `assets/img/` – `mascot.svg` (póza s telefonem), `mascot-head.svg` (hlava/favicon), loga (viz Logo níže)
 - `assets/figma/` – exporty z Figmy (soubor 4OdxiJ5jvTf0SMYucdkwtK)
 
 ## Maskot
@@ -19,19 +19,35 @@ Hero maskota oživuje JS rig (60 fps, jen SVG transformace + `d` rukou, nikdy ne
 - Scroll companion (`assets/js/companion.js` + `assets/css/companion.css`): malá živá kopie hero maskota (stejný engine `SparkeeMascot.create` na klonu SVG s přejmenovanými id, jeden sdílený rAF s hero). Vyskočí vpravo dole, když hero zmizí z obrazovky; v každé sekci se otočí k nadpisu, udělá gesto (`point`, `present`, `nod`, `hop`, `glance`, `tap`, `look`, u kontaktu mává) a jednou řekne krátkou bublinu (texty v `SECTIONS`). Po odeslání formuláře jásá + srdíčka. Nikdy nezakrývá CTA ani pole formuláře (IntersectionObserver s rootem ve tvaru jeho boxu → schová se pod okraj), schová se při fokusu ve formuláři a u patičky, × ho skryje natrvalo (`localStorage` `sparkee-companion`), `prefers-reduced-motion` = statická póza bez bublin. Test: `SparkeeCompanion.show('cenik', 1.1)` / `SparkeeCompanion.play()` / `.state()`, URL `/?companion=cenik@1.1#cenik` (sekce nebo `sent`), `?companion=reset` zruší skrytí.
 - Test/QA: `SparkeeMascot.set('wave', 0.8)` nebo URL `/?mascot=wave@0.8` zmrazí akci v čase (akce: idle look glance tap hop wave cheer jump spin); `SparkeeMascot.play()/pause()/trigger('hop')`; laboratoř snímků `/tools/parts/mascot-lab.html?f=wave@0.2,hop@0.4&w=240`.
 
+## Logo
+Jediné oficiální logo je z Figmy, stránka „🌟 Brand Identity“ (47:2). Tvar loga se nikdy nemění, jen se vybírá varianta podle podkladu.
+
+| Varianta | Figma | Soubor | Kdy |
+|---|---|---|---|
+| Primary | 124:3 (board 49:3) | `assets/img/logo.svg` (= `logo-primary.svg`) | světlý podklad (paper `#F6F4EF`, bílá, mist). Web: nav, patička, JSON-LD. |
+| Mono | 124:208 (board 49:5) | `assets/img/logo-mono.svg` | jednobarevně ink na světlém (razítko, tisk jednou barvou). |
+| Mono Holo | 124:311 (board 49:6) | `logo-mono.svg` na holo přechodu | ink logo na pastelovém holo podkladu. |
+| Dark | komponenta „Logo/Dark“ 242:18881, board „Logo / Dark“ 242:18882 | `assets/img/logo-dark.svg` (+ `logo-dark@2x.png`) | tmavý podklad: ink `#2C303C`, `#1E2029`, tmavá holo záře. OG karty. |
+
+Dark = stejná geometrie a poloha jako 124:3. Písmena mist `#F5F4FB`, „a“ a „r“ jsou vyříznutá kolem ležícího maskota rovnoměrnou mezerou 1,45 (měřeno od siluety maskota) a konce řezu mají poloměr 5 jako vlastní zakončení písmen. Maskot, obličej, plamínek i ✦ jsou beze změny; jeho ink obrys je vyříznutý (ukazuje podklad), za hlavou je jemná holo záře, která nezasahuje do písmen.
+- `logo-dark.svg` od 300 px šířky (záře přes blur). `logo-dark-flat.svg` pro 120 px a méně (stejná geometrie, záře bez filtru). Minimum pro wordmark na tmavé: 120 px šířky na 1× displeji; na avatar/favicon patří hlava maskota (`poses/head.svg`), ne wordmark.
+- `logo-dark-onglow.svg` jen na světlou/silnou záři za logem (video end card): maskot si nechává oficiální ink obrys, aby se kontura nerozpila do záře.
+- **Logo nikdy nedávat na světlý štítek / podložku / badge na tmavém pozadí** (klient 27. 9. 2026). Na tmavé vždy `logo-dark*`.
+- Zdroj a kontroly: `python3 tools/logo-dark/final/build_final.py` (SVG do `assets/img/` a `assets/figma/`, kontroly do `tools/logo-dark/final/checks.json`), PNG `tools/logo-dark/final/render_png.sh assets/img/logo-dark.svg assets/img/logo-dark@2x.png 1136 584`. Needitovat ručně. Varianty a porota: `tools/logo-dark/variants/`.
+
 ## Náhled
 `node tools/serve.js` → http://localhost:8770 (launch config „sparkee“)
 
 ## OG obrázky
 Jeden sdílecí obrázek 1200×630 (JPEG) na stránku: homepage, přehled služeb, 4 služby, blog, 3 články; 404 používá homepage. K tomu ikony a `favicon.ico`.
-- Regenerace: `node tools/og_build.mjs` a potom `python3 tools/build_pages.py`. První příkaz vyrenderuje `assets/img/og/*.jpg`, ikony v `assets/img/icons/`, `/favicon.ico` a `assets/img/logo-light.svg`. Druhý zapíše do podstránek `og:image` s `?v=<hash souboru>` a v ruční `index.html` srovná jen URL a alt obrázku homepage.
+- Regenerace: `node tools/og_build.mjs` a potom `python3 tools/build_pages.py`. První příkaz vyrenderuje `assets/img/og/*.jpg`, ikony v `assets/img/icons/` a `/favicon.ico`. Druhý zapíše do podstránek `og:image` s `?v=<hash souboru>` a v ruční `index.html` srovná jen URL a alt obrázku homepage.
 - Data: `tools/og/cards.json` (cesta stránky → soubor, varianta `home | page | article`, póza z `assets/img/poses/`, akcent `mint | sky | lav | pink | holo`, nadpis s `<em>` pro zvýraznění, samolepka, alt). Každá dvojice póza + akcent je jen jednou. Česká „vlna“ po jednopísmenných předložkách se doplní sama.
 - Rodiny: `home` (velký maskot, claim, pilulka sparkee.cz), `page` pro služby (logo nahoře, štítek, nadpis, maskot v kruhu se samolepkou) a `article` pro blog a články (štítek kategorie nahoře, široký nadpis, logo dole, maskot vykukuje z rohu a mluví bublinou).
 - Šablona: `tools/og/template.html`. Náhled: http://localhost:8770/tools/og/template.html?all, `?card=home` nebo ikona `?icon=180`. Tvrdé stíny štítků a samolepek jsou v barvě akcentu. Vykřičník pózy `surprised` je na tmavé bílý (úprava se dělá jen v šabloně).
 - Kontroly při renderu: počká na `document.fonts.ready` a ověří Baloo 2 a Nunito včetně latin-ext (háčky a čárky), jinak skončí chybou. Nadpis musí být aspoň 24 px od maskota (po pixelech), od kruhu i od samolepek. Soubor musí mít do 300 kB.
-- Přepínače: `--only home,blog` (jen vybrané karty, ikony se pak negenerují), `--no-icons`, `--out <adresář>` na zkoušku, `--logo badge` (původní logo na bílém štítku).
+- Přepínače: `--only home,blog` (jen vybrané karty, ikony se pak negenerují), `--no-icons`, `--out <adresář>` na zkoušku, `--logo flat` (`logo-dark-flat.svg` místo výchozího `logo-dark.svg`).
 - Požadavky: Node 22+ (se starším Node `npm i` v `remotion/` kvůli balíčku `ws`), Chrome, internet (Google Fonts), `python3` s Pillow (JPEG q88 4:4:4 a favicon.ico).
-- Světlé logo `assets/img/logo-light.svg` se generuje z `logo.svg`: bílá písmena, maskot si nechává ink obrys a jemně lila tělo. Needitovat ručně. [DOPLNIT] odsouhlasit s klientem.
+- Logo na kartách je `assets/img/logo-dark.svg` přímo na tmavém pozadí karty, bez štítku (starý režim `--logo badge` i generované `logo-light.svg` jsou zrušené).
 - Po změně obrázku na produkci: v [Facebook Sharing Debugger](https://developers.facebook.com/tools/debug/) a [LinkedIn Post Inspector](https://www.linkedin.com/post-inspector/) dát u dotčených URL znovu načíst. `?v=` zajistí, že si stáhnou nový obrázek, ale samotnou stránku mají v cache.
 - Ořezy: WhatsApp v malém náhledu bere prostřední čtverec (x 285 až 915). Homepage má obličej maskota uvnitř. U podstránek je vidět část nadpisu a maskota, to je záměr.
 - Ikony a manifest: `site.webmanifest` v kořeni, odkazy v `index.html` a v partialu `HEAD` v `build_pages.py`. SVG favicona (`mascot-head.svg`) zůstává hlavní; `/favicon.ico` je jen pro crawlery a čtečky, které ho hledají napřímo.

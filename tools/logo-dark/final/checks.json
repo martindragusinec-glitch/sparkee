@@ -1,0 +1,71 @@
+{
+ "gap": 1.45,
+ "rho": 5.0,
+ "a": {
+  "min_signed_dist_to_silhouette": 1.435,
+  "cut_edge_dist_to_silhouette": {
+   "min": 1.435,
+   "p05": 1.436,
+   "median": 1.449,
+   "p95": 1.584
+  },
+  "visible_channel_fill_to_letter": {
+   "min": 4.314,
+   "p05": 4.327,
+   "median": 4.356,
+   "p95": 4.644
+  },
+  "points_outside_official_letter": 0,
+  "pieces_area": [
+   5038.8,
+   1162.5
+  ],
+  "islands_removed": []
+ },
+ "r": {
+  "min_signed_dist_to_silhouette": 1.435,
+  "cut_edge_dist_to_silhouette": {
+   "min": 1.435,
+   "p05": 1.439,
+   "median": 1.45,
+   "p95": 1.611
+  },
+  "visible_channel_fill_to_letter": {
+   "min": 4.337,
+   "p05": 4.341,
+   "median": 4.363,
+   "p95": 4.519
+  },
+  "points_outside_official_letter": 0,
+  "pieces_area": [
+   974.1,
+   339.2
+  ],
+  "islands_removed": []
+ },
+ "unchanged_letters_s_p_k_e_e": true,
+ "logo-dark.svg": {
+  "bytes": 72112,
+  "official_mascot_flame_sparkle_paths_identical": true,
+  "paths_checked": 33,
+  "external_refs": [],
+  "transforms": 0,
+  "dangling_url_refs": []
+ },
+ "logo-dark-flat.svg": {
+  "bytes": 65805,
+  "official_mascot_flame_sparkle_paths_identical": true,
+  "paths_checked": 33,
+  "external_refs": [],
+  "transforms": 0,
+  "dangling_url_refs": []
+ },
+ "logo-dark-onglow.svg": {
+  "bytes": 74742,
+  "official_mascot_flame_sparkle_paths_identical": true,
+  "paths_checked": 33,
+  "external_refs": [],
+  "transforms": 0,
+  "dangling_url_refs": []
+ }
+}

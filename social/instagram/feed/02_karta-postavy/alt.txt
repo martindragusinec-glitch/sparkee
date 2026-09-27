@@ -1,0 +1,8 @@
+01: Herní karta maskota Sparkee s nápisem Seznam se: Sparkee.
+02: Profil postavy: jméno Sparkee, druh jiskra s nohama, věk čerstvě spuštěný, bydliště tvůj feed. Maskot mává.
+03: Superschopnost: zastavím scroll. Maskot ťukl do telefonu, vyletělo srdíčko a on mrká.
+04: Statistiky jako ve hře: energie 100, nápady 99, pravidelnost 100, trpělivost s posty ať tam něco je 2. Maskot vykukuje přes horní hranu karty.
+05: Co maskota naštve: posty na poslední chvíli, zprávy bez odpovědi, report, kterému nerozumí ani autor.
+06: Co Sparkee umí s týmem: správa sítí, tvorba obsahu, influenceři, paid social pro dosah. Maskot poskočí s rukama od těla.
+07: Pravidla: nic nevyjde bez tvého souhlasu, jeden kontakt a rychlé odpovědi, paušál bez hodin navíc. Maskot pod nimi v klidu leží.
+08: Jásající maskot vedle náhledu profilu sparkee.cz se záložkou. Text: Sleduj mě. Každý týden nová jiskra. Ulož si kartu, ať mě neztratíš.

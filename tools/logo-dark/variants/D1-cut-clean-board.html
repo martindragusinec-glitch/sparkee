@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<title>Sparkee logo D1 board</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=Nunito:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#2C303C; --night:#1E2029; --paper:#F6F4EF; --mist:#F5F4FB;
+  --mint:#A5EDC5; --sky:#9AD8F8; --lilac:#C49CF2; --blush:#F5B8DC;
+  --board:#13141A; --label:#9DA3B8; --rule:#262833;
+  --u: 1.5845070422535212px;       /* 900 px logo: 1 logo unit */
+  --z: 6.338028169014085px;        /* 4x zoom of the 900 px logo */
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--board);color:var(--mist);font-family:"Nunito",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+.board{width:2000px;padding:56px 56px 64px}
+h1{font:800 44px/1.05 "Baloo 2",system-ui;margin:0;letter-spacing:-.01em}
+h1 small{font-weight:600;color:var(--label);font-size:26px;margin-left:14px}
+.spec{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0 0}
+.chip{display:inline-flex;align-items:center;gap:8px;padding:7px 14px;border-radius:99px;background:#1C1E27;border:1px solid var(--rule);font:700 15px "Nunito";color:#D9DCE8}
+.chip i{width:14px;height:14px;border-radius:50%;display:inline-block;border:1px solid #ffffff22}
+h2{font:800 24px "Baloo 2",system-ui;margin:52px 0 16px;display:flex;align-items:baseline;gap:14px}
+h2 span{font:600 15px "Nunito";color:var(--label)}
+.row{display:flex;gap:20px}
+.panel{position:relative;border-radius:22px;overflow:hidden}
+.cap{position:absolute;left:18px;top:14px;font:700 14px "Nunito";color:var(--label);letter-spacing:.02em}
+.panel.paper .cap{color:#7C7F8C}
+.bg-ink{background:var(--ink)} .bg-night{background:var(--night)} .paper{background:var(--paper)}
+.bg-holo{background:
+  radial-gradient(34% 50% at 36% 40%, rgba(165,237,197,.34), rgba(165,237,197,0) 72%),
+  radial-gradient(36% 56% at 52% 60%, rgba(154,216,248,.30), rgba(154,216,248,0) 72%),
+  radial-gradient(34% 50% at 68% 42%, rgba(196,156,242,.36), rgba(196,156,242,0) 72%),
+  radial-gradient(60% 80% at 50% 50%, rgba(245,184,220,.10), rgba(245,184,220,0) 70%),
+  var(--night)}
+.big{width:950px;height:560px}
+.big img{position:absolute;left:25px;top:58px;width:900px}
+/* sizes */
+.sizes{width:616px;height:410px}
+.sizes .s300{position:absolute;left:30px;top:66px;width:300px}
+.sizes .s120{position:absolute;left:30px;top:300px;width:120px}
+.sizes .s40{position:absolute;left:210px;top:322px;width:40px}
+.sizes .mk{position:absolute;font:700 13px "Nunito";color:var(--label)}
+.sizes .hdr{position:absolute;left:370px;top:92px;width:230px;height:128px;border-radius:14px;border:1px dashed #ffffff26}
+.sizes .hdr img{position:absolute;left:18px;top:34px;width:120px}
+.sizes .hdr b{position:absolute;left:14px;top:9px;font:700 12px "Nunito";color:var(--label)}
+.sizes .hdr u{position:absolute;right:16px;top:44px;width:64px;height:26px;border-radius:99px;background:linear-gradient(90deg,var(--mint),var(--sky),var(--lilac));opacity:.9}
+.sizes .av{position:absolute;left:370px;top:262px;width:72px;height:72px;border-radius:50%;overflow:hidden;background:inherit;box-shadow:0 0 0 1px #ffffff1f inset}
+.sizes .av img{position:absolute;left:16px;top:26px;width:40px}
+/* zooms */
+.zoom{width:450px;height:430px}
+.zoom .win{position:absolute;left:18px;top:42px;width:414px;height:370px;overflow:hidden;border-radius:12px}
+.zoom .win img{position:absolute;width:calc(568 * var(--z));height:calc(292 * var(--z))}
+.zoom .note{position:absolute;right:18px;top:14px;font:700 13px "Nunito";color:#C7CBD9}
+/* comparison */
+.cmp{width:950px;height:560px}
+.cmp img{position:absolute;left:25px;top:58px;width:900px}
+.guides{position:absolute;inset:0;pointer-events:none}
+.gh{position:absolute;left:0;right:0;height:0;border-top:1px dashed #FF4FA3}
+.gv{position:absolute;top:40px;bottom:0;width:0;border-left:1px dashed #FF4FA3}
+.gl{position:absolute;right:10px;font:700 12px "Nunito";color:#FF4FA3;transform:translateY(-16px)}
+.diff{width:950px;height:560px;background:#000}
+.diff .stack{position:absolute;left:25px;top:58px;width:900px;height:calc(292 * var(--u));isolation:isolate}
+.diff .stack img{position:absolute;left:0;top:0;width:900px}
+.diff .stack img+img{mix-blend-mode:difference}
+.facts{margin:22px 0 0;display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.fact{background:#1A1C24;border:1px solid var(--rule);border-radius:16px;padding:12px 18px;font:600 14.5px/1.42 "Nunito";color:#C9CDDA}
+.fact b{display:block;font:800 17px "Baloo 2";color:var(--mist);margin-bottom:4px}
+</style>
+</head>
+<body>
+<div class="board">
+  <h1>Sparkee logo na tmavé pozadí <small>D1 · čistý výřez (cut clean)</small></h1>
+  <div class="spec">
+    <span class="chip"><i style="background:var(--mist)"></i>písmena mist #F5F4FB</span>
+    <span class="chip"><i style="background:var(--ink)"></i>obrys maskota ink #2C303C (beze změny)</span>
+    <span class="chip">výřez = rovnoměrná mezera 2,32 j. (0,8 × obrys 2,9)</span>
+    <span class="chip">zaoblení konců písmen r = 2,9 j. (= šířka obrysu)</span>
+    <span class="chip">bez lemu, bez záře</span>
+    <span class="chip"><i style="background:linear-gradient(135deg,#9BEFC2,#A8DDF0,#C9A8EE)"></i>✦ pastelová holo</span>
+  </div>
+
+  <h2>900 px <span>hero, závěrečná karta videa</span></h2>
+  <div class="row">
+    <div class="panel big bg-ink"><span class="cap">ink #2C303C</span><img src="D1-cut-clean.svg" alt=""></div>
+    <div class="panel big bg-night"><span class="cap">near-black #1E2029</span><img src="D1-cut-clean.svg" alt=""></div>
+  </div>
+  <div class="row" style="margin-top:20px">
+    <div class="panel big bg-holo"><span class="cap">tmavá holo záře (pozadí)</span><img src="D1-cut-clean.svg" alt=""></div>
+    <div class="panel big bg-night" style="display:flex;flex-direction:column;justify-content:center;padding:0 56px">
+      <span class="cap">jak výřez funguje</span>
+      <div style="font:800 30px/1.2 'Baloo 2';margin-bottom:14px">Písmena jsou vyříznutá kolem maskota, žádný štítek.</div>
+      <div style="font:600 18px/1.55 'Nunito';color:#C9CDDA">
+        Hrana výřezu je přesný offset siluety maskota (včetně jeho obrysu) o 2,32 j., takže mezera je všude stejná.
+        Kde se písmeno přeruší, konec je zaoblený poloměrem 2,9 j. jako vlastní zakončení písmen. Úzký krček mezi nožkou a obloukem „r“ je čistě odříznutý, nezůstal žádný vlas ani ostrůvek.
+        Maskot, plamínek a ✦ jsou vektorově beze změny, na stejném místě a ve stejném měřítku i náklonu.
+        Obrys maskota zůstává ink #2C303C: na #2C303C splyne s mezerou v jeden klidný pás, na #1E2029 je vidět jako jemný lem.
+      </div>
+    </div>
+  </div>
+
+  <h2>Malé velikosti <span>300 px · 120 px (header) · 40 px (avatar)</span></h2>
+  <div class="row">
+    <div class="panel sizes bg-ink"><span class="cap">ink #2C303C</span>
+      <img class="s300" src="D1-cut-clean.svg" alt=""><span class="mk" style="left:30px;top:44px">300 px</span>
+      <img class="s120" src="D1-cut-clean.svg" alt=""><span class="mk" style="left:30px;top:278px">120 px</span>
+      <img class="s40" src="D1-cut-clean.svg" alt=""><span class="mk" style="left:210px;top:300px">40 px</span>
+      <div class="hdr"><b>header</b><img src="D1-cut-clean.svg" alt=""><u></u></div>
+      <div class="av bg-ink"><img src="D1-cut-clean.svg" alt=""></div>
+    </div>
+    <div class="panel sizes bg-night"><span class="cap">near-black #1E2029</span>
+      <img class="s300" src="D1-cut-clean.svg" alt=""><span class="mk" style="left:30px;top:44px">300 px</span>
+      <img class="s120" src="D1-cut-clean.svg" alt=""><span class="mk" style="left:30px;top:278px">120 px</span>
+      <img class="s40" src="D1-cut-clean.svg" alt=""><span class="mk" style="left:210px;top:300px">40 px</span>
+      <div class="hdr"><b>header</b><img src="D1-cut-clean.svg" alt=""><u></u></div>
+      <div class="av bg-night"><img src="D1-cut-clean.svg" alt=""></div>
+    </div>
+    <div class="panel sizes bg-holo"><span class="cap">tmavá holo záře</span>
+      <img class="s300" src="D1-cut-clean.svg" alt=""><span class="mk" style="left:30px;top:44px">300 px</span>
+      <img class="s120" src="D1-cut-clean.svg" alt=""><span class="mk" style="left:30px;top:278px">120 px</span>
+      <img class="s40" src="D1-cut-clean.svg" alt=""><span class="mk" style="left:210px;top:300px">40 px</span>
+      <div class="hdr"><b>header</b><img src="D1-cut-clean.svg" alt=""><u></u></div>
+      <div class="av" style="background:#262335"><img src="D1-cut-clean.svg" alt=""></div>
+    </div>
+  </div>
+
+  <h2>Detail výřezů 4× <span>(4× oproti logu 900 px) · nahoře #1E2029, dole #2C303C</span></h2>
+  <div class="row" id="zrow1"></div>
+  <div class="row" id="zrow2" style="margin-top:20px"></div>
+
+  <h2>Srovnání s oficiálním logem 124:3 <span>900 px · stejná poloha, měřítko i náklon maskota</span></h2>
+  <div class="row">
+    <div class="panel cmp paper"><span class="cap">oficiální logo (assets/img/logo.svg) na paper #F6F4EF</span><img src="../../../assets/img/logo.svg" alt=""><div class="guides" data-g></div></div>
+    <div class="panel cmp bg-ink"><span class="cap">D1 na ink #2C303C</span><img src="D1-cut-clean.svg" alt=""><div class="guides" data-g></div></div>
+  </div>
+  <div class="row" style="margin-top:20px">
+    <div class="panel diff"><span class="cap" style="color:#8A8FA3">rozdíl (difference) oficiální × D1: černá = pixelově shodné</span>
+      <div class="stack"><img src="../../../assets/img/logo.svg" alt=""><img src="D1-cut-clean.svg" alt=""></div>
+    </div>
+    <div class="panel cmp bg-night" style="padding:48px 40px 0">
+      <span class="cap">kontroly</span>
+      <div class="facts" style="grid-template-columns:1fr;margin:0;gap:10px">
+        <div class="fact"><b>Maskot 1:1</b>Plocha maskota, plamínku a ✦ při 900 px: 37 173 z 37 173 pixelů shodných s oficiálním logem (max. rozdíl 0/255). V rozdílovém snímku je maskot celý černý, svítí jen písmena (jiná barva a výřez).</div>
+        <div class="fact"><b>Rovnoměrná mezera</b>Nejmenší vzdálenost písmen od siluety maskota: a 2,315 j., r 2,315 j. (cíl 2,32). Všechna napojení nových křivek na původní obrysy jsou hladká (G1, 0,000°).</div>
+        <div class="fact"><b>Na co dát pozor</b>Oblouk „r“ z velké části zakrývá nožka, takže při 300 px a menších se „r“ čte hlavně díky zákrytu (dřík + malý konec oblouku za nohou). Na #1E2029 je obrys maskota vidět jako jemný lem vedle mezery, pás tam není jednolitý.</div>
+        <div class="fact"><b>Písmena</b>s, p, k, e, e beze změny. U a, r jsou všechny neproříznuté úseky původní Bézierovy segmenty; nové jsou jen hrana výřezu a zaoblení. Žádné ostrůvky ani vlasy (min. tloušťka u výřezu 5,8 j.). k je 10,8 j. od ruky, ✦ je 19,2 j. od e, obojí bez výřezu.</div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+// zoom windows: [label, x, y] in logo units; window = 414x370 px at 6.338 px/unit (65.3 x 58.4 units)
+const Z = 6.338028169014085, W = 414 / Z, H = 370 / Z;
+const crops = [
+  ['a · tlapka a bříško', 184, 166],
+  ['r · nožka a oblouk', 240, 172],
+  ['k · ruka, konec r, dřík k', 276, 150],
+  ['✦ · hvězdička a e', 503, 140],
+];
+for (const [rowId, bg, bgName] of [['zrow1', 'bg-night', '#1E2029'], ['zrow2', 'bg-ink', '#2C303C']]) {
+  const row = document.getElementById(rowId);
+  for (const [lab, x, y] of crops) {
+    const p = document.createElement('div'); p.className = 'panel zoom ' + bg;
+    p.innerHTML = `<span class="cap">${lab}</span><span class="note">${bgName}</span><div class="win ${bg}"><img src="D1-cut-clean.svg" alt="" style="left:${-x * Z}px;top:${-y * Z}px"></div>`;
+    row.appendChild(p);
+  }
+}
+// guides on the comparison panels (logo units -> px at 900 px, logo at left 25 / top 58)
+const U = 900 / 568, OX = 25, OY = 58;
+const hs = [[0, 'plamínek 0'], [51.46, 'hlava 51,5'], [186.4, 'x-výška 186,4'], [214.85, 'nožka 214,9'], [262.3, 'účaří 262,3']];
+const vs = [[151.86, 'hlava vlevo'], [295.38, 'ruka vpravo']];
+document.querySelectorAll('[data-g]').forEach(g => {
+  for (const [y, t] of hs) { const d = document.createElement('div'); d.className = 'gh'; d.style.top = (OY + y * U) + 'px'; d.innerHTML = `<span class="gl">${t}</span>`; g.appendChild(d); }
+  for (const [x] of vs) { const d = document.createElement('div'); d.className = 'gv'; d.style.left = (OX + x * U) + 'px'; g.appendChild(d); }
+});
+</script>
+</body>
+</html>

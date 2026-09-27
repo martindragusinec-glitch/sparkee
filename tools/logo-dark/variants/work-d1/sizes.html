@@ -1,0 +1,5 @@
+<!doctype html><html><head><style>html,body{margin:0;background:#101116;color:#9aa;font:13px system-ui}.row{display:flex;gap:10px;margin:10px;align-items:stretch}.p{padding:30px;display:flex;align-items:center;gap:30px}.p img{display:block}.lab{margin:10px 10px 0}</style></head><body><script>
+const q=new URLSearchParams(location.search);const bgs=(q.get('bg')||'#2C303C|#1E2029').split('|');
+const files=(q.get('files')||'').split('|');const ws=(q.get('ws')||'600,300,120').split(',').map(Number);
+for(const f of files){const l=document.createElement('div');l.className='lab';l.textContent=f;document.body.appendChild(l);const r=document.createElement('div');r.className='row';for(const bg of bgs){const d=document.createElement('div');d.className='p';d.style.background=bg;for(const w of ws){const im=new Image();im.src=f;im.style.width=w+'px';d.appendChild(im);}r.appendChild(d);}document.body.appendChild(r);}
+</script></body></html>

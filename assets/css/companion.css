@@ -29,7 +29,8 @@
 .companion__bubble.is-in{visibility:visible;opacity:1;animation:cmpSay .56s var(--spring) both,cmpBob 2.6s ease-in-out .56s infinite}
 .companion__bubble.is-out{visibility:visible;animation:cmpUnsay .24s cubic-bezier(.5,0,.75,0) both}
 .companion__bubble.is-static{visibility:visible;opacity:1}
-.companion__spark{display:inline-block;margin-left:.28em;background:var(--holo-ink);-webkit-background-clip:text;background-clip:text;color:transparent}
+/* bílá bublina = světlé pozadí: žádný přechod na textu, jiskřička plná ink */
+.companion__spark{display:inline-block;margin-left:.28em;color:var(--ink)}
 @keyframes cmpSay{0%{opacity:0;transform:translate(10px,12px) scale(.3) rotate(10deg)}35%{opacity:1}100%{opacity:1;transform:none}}
 @keyframes cmpBob{50%{transform:translateY(-3px)}}
 @keyframes cmpUnsay{to{opacity:0;visibility:hidden;transform:translate(8px,8px) scale(.45) rotate(8deg)}}

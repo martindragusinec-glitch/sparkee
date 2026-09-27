@@ -1,0 +1,33 @@
+<!doctype html>
+<!-- Sparkee ✦ Instagram kit: šablony. Renderuje build.mjs (KIT.render(id) → PNG přesně w×h).
+     Náhled přes build server nebo `node tools/serve.js`: /social/instagram/_src/kit.html?id=p04-02 · ?all (galerie) · ?all=p06 -->
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<title>Sparkee IG kit</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&family=Nunito:wght@600;700;800;900&display=block" rel="stylesheet">
+<link rel="stylesheet" href="kit.css">
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <!-- pastelový holo 45° zleva nahoře doprava dolů (stejné zastávky jako --holo-diag na textu v kit.css) -->
+    <linearGradient id="gHolo" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#A5EDC5"/><stop offset=".38" stop-color="#9AD8F8"/><stop offset=".72" stop-color="#C49CF2"/><stop offset="1" stop-color="#F5B8DC"/>
+    </linearGradient>
+    <!-- sytý holo jen pro drobné dekorativní ✦ na světlé (ikony, ne text) -->
+    <linearGradient id="gHoloInk" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#139770"/><stop offset=".36" stop-color="#2489CF"/><stop offset=".68" stop-color="#6E4FD8"/><stop offset="1" stop-color="#C9468C"/>
+    </linearGradient>
+    <linearGradient id="gHoloH" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#A5EDC5"/><stop offset=".33" stop-color="#9AD8F8"/><stop offset=".66" stop-color="#C49CF2"/><stop offset="1" stop-color="#F5B8DC"/>
+    </linearGradient>
+  </defs>
+</svg>
+<div id="root"></div>
+<script type="module" src="kit.js"></script>
+</body>
+</html>

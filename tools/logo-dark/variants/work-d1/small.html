@@ -1,0 +1,5 @@
+<!doctype html><html><head><style>html,body{margin:0;background:#2C303C}img{position:absolute;display:block}</style></head><body><script>
+const files=['d1_g1.45_r2.0.svg','d1_g2.32_r3.2.svg','d1_g3.19_r4.5.svg'];
+files.forEach((f,i)=>{[[300,10],[120,330],[40,470]].forEach(([w,x])=>{const im=new Image();im.src=f;im.style.width=w+'px';im.style.left=x+'px';im.style.top=(10+i*170)+'px';document.body.appendChild(im);});
+ [[300,530],[120,850]].forEach(([w,x])=>{const d=document.createElement('div');d.style.cssText=`position:absolute;left:${x-10}px;top:${i*170}px;width:${w+20}px;height:170px;background:#1E2029`;document.body.appendChild(d);const im=new Image();im.src=f;im.style.width=w+'px';im.style.left=x+'px';im.style.top=(10+i*170)+'px';document.body.appendChild(im);});});
+</script></body></html>

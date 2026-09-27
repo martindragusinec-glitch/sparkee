@@ -1,0 +1,7 @@
+<!doctype html><html><head><style>html,body{margin:0;background:#fff}img{display:block}</style></head>
+<body><script>
+const q=new URLSearchParams(location.search);const s=parseFloat(q.get('s')||'4');const bg=q.get('bg')||'#fff';
+document.body.style.background=bg;
+const im=new Image();im.src=q.get('src');im.style.width=(568*s)+'px';im.style.height=(292*s)+'px';
+if(q.get('crop')){const [x,y,w,h]=q.get('crop').split(',').map(Number);const d=document.createElement('div');d.style.cssText=`width:${w*s}px;height:${h*s}px;overflow:hidden;position:relative`;im.style.position='absolute';im.style.left=(-x*s)+'px';im.style.top=(-y*s)+'px';d.appendChild(im);document.body.appendChild(d);}else document.body.appendChild(im);
+</script></body></html>

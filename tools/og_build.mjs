@@ -1,10 +1,11 @@
 // OG obrázky (1200×630, JPEG) a ikony Sparkee: HTML šablona → headless Chrome → soubory.
 // Použití (z kořene sparkee-web, server NENÍ potřeba, fonty se tahají z Google Fonts):
-//   node tools/og_build.mjs                   všechno: assets/img/og/*.jpg, ikony v assets/img/icons/, /favicon.ico, logo-light.svg
+//   node tools/og_build.mjs                   všechno: assets/img/og/*.jpg, ikony v assets/img/icons/, /favicon.ico
 //   node tools/og_build.mjs --only home,blog  jen vybrané karty (klíč "file" v tools/og/cards.json); ikony se pak NEgenerují
 //   node tools/og_build.mjs --no-icons        bez ikon
 //   node tools/og_build.mjs --out /tmp/og     jiný výstupní adresář (ikony do /tmp/og/icons)
-//   node tools/og_build.mjs --logo badge      původní logo na bílém štítku místo světlé varianty (test)
+//   node tools/og_build.mjs --logo flat       logo-dark-flat.svg (bez blur) místo logo-dark.svg; výchozí --logo dark
+// Logo na kartách = assets/img/logo-dark.svg (Figma komponenta „Logo/Dark“), NIKDY na světlém štítku / podložce.
 // Potom vždy `python3 tools/build_pages.py`: přepíše og:image (s ?v=<hash souboru>) v podstránkách a srovná homepage.
 // Data karet: tools/og/cards.json (stejný soubor čte tools/build_pages.py pro og:image a alt).
 // Šablona: tools/og/template.html (náhled: http://localhost:8770/tools/og/template.html?all).
@@ -30,7 +31,11 @@ const only = arg('only') ? new Set(arg('only').split(',')) : null;
 const OUT = path.resolve(ROOT, arg('out', 'assets/img/og'));
 const customOut = argv.includes('--out');
 const withIcons = !argv.includes('--no-icons') && !only;
-const logo = arg('logo', 'light');
+const LOGO_MODES = ['dark', 'flat'];   // dark = assets/img/logo-dark.svg, flat = logo-dark-flat.svg (štítek zrušen)
+const logo = arg('logo', 'dark');
+if (!LOGO_MODES.includes(logo)) { console.error(`--logo ${logo}: neznámý režim (jen ${LOGO_MODES.join(', ')}); logo na štítku je zrušené`); process.exit(1); }
+for (const f of ['logo-dark.svg', 'logo-dark-flat.svg'])
+  if (!fs.existsSync(path.join(ROOT, 'assets/img', f))) { console.error(`chybí assets/img/${f} (python3 tools/logo-dark/final/build_final.py)`); process.exit(1); }
 
 // ikony: [soubor, velikost, pozadí, výška hlavy]; pozadí ink = tmavá se září (jako OG), none = průhledné
 const ICON_DIR = customOut ? path.join(OUT, 'icons') : path.join(ROOT, 'assets/img/icons');
@@ -48,33 +53,6 @@ const cards = Object.entries(cardsRaw).filter(([k]) => !k.startsWith('_')).map((
 if (!cards.length && !withIcons) { console.error('žádná karta neodpovídá --only'); process.exit(1); }
 if (only) console.log('  (--only: ikony a favicon.ico se přeskakují)');
 
-// Světlé logo pro tmavé pozadí: odvozené z assets/img/logo.svg. Písmena bílá, maskot si nechává ink obrys
-// (jinak by bílé tělo splynulo s písmeny „ar“) a tělo má jemný lila nádech. Tvar loga se nemění.
-function buildLightLogo() {
-  const INK = '#2C303C';
-  const src = fs.readFileSync(path.join(ROOT, 'assets/img/logo.svg'), 'utf8');
-  let s = src;
-  for (const id of ['Vector_2', 'Vector_3', 'Subtract', 'Letter e1', 'Letter e2', 'Mascot outline + ar']) {
-    const re = new RegExp(`(<path id="${id.replace('+', '\\+')}[^"]*"[^>]*?fill=")${INK}(")`);
-    if (!re.test(s)) throw new Error('logo-light: v logo.svg chybí cesta ' + id);
-    s = s.replace(re, '$1#FFFFFF$2');
-  }
-  const pathD = start => {
-    const m = src.match(new RegExp(`<path[^>]* d="(M${start.replace(/\./g, '\\.')}[^"]*)"`));
-    if (!m) throw new Error('logo-light: v logo.svg chybí silueta ' + start);
-    return m[1];
-  };
-  // tělo, dvě končetiny, hlava
-  const rim = ['575.59 317.66', '502.7 376.52', '479.41 366.15', '428.27 161.45'].map(pathD)
-    .map(d => `<path d="${d}"/>`).join('');
-  s = s.replace(/(<path id="Mascot outline \+ ar[^>]*\/>)/,
-    `$1\n<g id="light-rim" fill="${INK}" stroke="${INK}" stroke-width="20" stroke-linejoin="round">${rim}</g>`);
-  s = s.replace(/(<path d="M575\.59 317\.66[^"]*" fill=")white(")/, '$1#F0EAFB$2');
-  s = s.replace('<svg ', '<!-- Generováno z logo.svg: node tools/og_build.mjs (needitovat ručně) -->\n<svg ');
-  const out = path.join(ROOT, 'assets/img/logo-light.svg');
-  if (!fs.existsSync(out) || fs.readFileSync(out, 'utf8') !== s) { fs.writeFileSync(out, s); console.log('  assets/img/logo-light.svg  (z logo.svg)'); }
-}
-buildLightLogo();
 
 // WebSocket: Node 22+ ho má vestavěný, jinak ws z remotion/node_modules
 const WS = globalThis.WebSocket || createRequire(import.meta.url)(path.join(ROOT, 'remotion/node_modules/ws'));

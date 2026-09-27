@@ -1,0 +1,111 @@
+<!doctype html>
+<!-- Final dark logo board. Render: tools/logo-dark/final/work/shot0.sh 1960 <h> tools/logo-dark/final/board.png http://localhost:8770/tools/logo-dark/final/board.html -->
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<title>Sparkee logo dark, final</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@800&family=Nunito:wght@600;800&display=block" rel="stylesheet">
+<style>
+:root{--ink:#2C303C;--nb:#1E2029;--mist:#F5F4FB;--paper:#F6F4EF;--mut:#9CA0B4}
+*{box-sizing:border-box;margin:0}
+body{background:#15171E;color:var(--mist);font:600 16px/1.45 Nunito,sans-serif;padding:44px 40px 56px;width:1960px}
+h1{font:800 44px/1.1 "Baloo 2",sans-serif}
+h1 em{font-style:normal;background:linear-gradient(135deg,#A5EDC5,#9AD8F8 38%,#C49CF2 72%,#F5B8DC);-webkit-background-clip:text;background-clip:text;color:transparent}
+h2{font:800 26px/1.1 "Baloo 2",sans-serif;margin:44px 0 16px}
+h2 small{font:600 15px Nunito;color:var(--mut);margin-left:10px}
+.lead{color:#C3C6D6;max-width:1500px;margin-top:10px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.chips span{border:1px solid #343849;border-radius:99px;padding:5px 12px;font-size:14px;color:#C3C6D6}.chips b{color:#fff}
+.grid{display:grid;gap:20px}
+.g2{grid-template-columns:1fr 1fr}.g3{grid-template-columns:repeat(3,1fr)}.g4{grid-template-columns:repeat(4,1fr)}
+.card{position:relative;border-radius:18px;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.card .tag{position:absolute;left:12px;top:12px;font:800 12px/1 Nunito;letter-spacing:.06em;text-transform:uppercase;background:rgba(0,0,0,.35);color:#E6E8F2;padding:6px 8px;border-radius:6px;z-index:2}
+.card.light .tag{background:rgba(44,48,60,.08);color:#2C303C}
+.ink{background:var(--ink)}.nb{background:var(--nb)}
+.glow{background:radial-gradient(520px 360px at 36% 34%,rgba(196,156,242,.34),rgba(154,216,248,.10) 55%,transparent 80%),radial-gradient(420px 300px at 80% 80%,rgba(165,237,197,.12),transparent 70%),var(--nb)}
+.lit{background:radial-gradient(460px 330px at 36% 34%,rgba(196,156,242,.80),rgba(154,216,248,.35) 55%,transparent 82%),var(--nb)}
+.paper{background:var(--paper)}
+.big{height:520px}.big img{width:860px}
+.mid{height:300px}
+.zoom{height:520px;display:block}
+.zoom img{position:absolute}
+.cap{color:var(--mut);font-size:14px;margin-top:8px}
+.sizes .card{height:220px;gap:34px}
+canvas.px{image-rendering:pixelated;width:480px}
+.checks{display:grid;grid-template-columns:repeat(3,1fr);gap:14px 30px;background:#1D2029;border:1px solid #2E3242;border-radius:18px;padding:24px 28px}
+.checks div b{display:block;font:800 15px Nunito;color:#fff;margin-bottom:3px}
+.checks div{color:#C3C6D6;font-size:14.5px}
+.ok{color:#A5EDC5}
+.header{display:flex;align-items:center;justify-content:space-between;height:72px;padding:0 28px;border-radius:14px}
+.header nav{display:flex;gap:22px;color:#C3C6D6;font:800 15px Nunito}
+</style>
+</head>
+<body>
+<h1>Sparkee · logo na tmavé pozadí · <em>finál</em></h1>
+<p class="lead">Vítěz poroty D3 (výřez + záře, 2 ze 3 hlasů) s úpravami poroty: konce řezu zaoblené r 5 jako vlastní zakončení písmen (bylo 2,9), záře bez ostré hrany nahoře, vnitřní vrstva záře slabší, v malé verzi mint/sky halo jiskry místo šedého kolečka a navíc verze s ink obrysem na silnou záři. Písmena mist #F5F4FB, „a“ a „r“ vyříznuté rovnoměrnou mezerou kolem ležícího maskota. Maskot, obličej, plamínek i ✦ jsou 1:1 z 124:3.</p>
+<div class="chips">
+  <span>mezera <b>1,45</b> od siluety (0,5× obrysu 2,9)</span><span>viditelný kanál výplň → písmeno <b id="ch">4,36</b></span>
+  <span>konce řezu <b>r 5</b></span><span>nejmenší kus „r“ <b id="rp">339 j²</b></span><span>viewBox <b>0 0 568 292</b> jako logo.svg</span>
+  <span><b>logo-dark.svg</b> ≥ 300 px</span><span><b>logo-dark-flat.svg</b> ≤ 120 px</span><span><b>logo-dark-onglow.svg</b> silná záře / video</span>
+</div>
+
+<h2>1 · 900 px na třech tmavých pozadích <small>assets/img/logo-dark.svg</small></h2>
+<div class="grid g2">
+  <div class="card big ink"><span class="tag">ink #2C303C</span><img src="../../../assets/img/logo-dark.svg"></div>
+  <div class="card big nb"><span class="tag">near-black #1E2029</span><img src="../../../assets/img/logo-dark.svg"></div>
+  <div class="card big glow"><span class="tag">tmavá holo záře</span><img src="../../../assets/img/logo-dark.svg"></div>
+  <div class="card big paper light"><span class="tag">oficiální 124:3 na paper · stejná poloha maskota</span><img src="../../../assets/img/logo.svg"></div>
+</div>
+
+<h2>2 · Silná záře za logem (video end card) <small>logo-dark.svg vlevo, logo-dark-onglow.svg vpravo</small></h2>
+<div class="grid g2">
+  <div class="card big lit"><span class="tag">logo-dark.svg · obrys přebírá barvu záře</span><img src="../../../assets/img/logo-dark.svg"></div>
+  <div class="card big lit"><span class="tag">logo-dark-onglow.svg · oficiální ink obrys drží</span><img src="../../../assets/img/logo-dark-onglow.svg"></div>
+</div>
+
+<h2>3 · Velikosti <small>300 px logo-dark.svg · 120 px a 40 px logo-dark-flat.svg</small></h2>
+<div class="grid g3 sizes">
+  <div class="card ink"><span class="tag">ink</span><img src="../../../assets/img/logo-dark.svg" width="300"><img src="../../../assets/img/logo-dark-flat.svg" width="120"><img src="../../../assets/img/logo-dark-flat.svg" width="40"></div>
+  <div class="card nb"><span class="tag">#1E2029</span><img src="../../../assets/img/logo-dark.svg" width="300"><img src="../../../assets/img/logo-dark-flat.svg" width="120"><img src="../../../assets/img/logo-dark-flat.svg" width="40"></div>
+  <div class="card glow"><span class="tag">záře</span><img src="../../../assets/img/logo-dark.svg" width="300"><img src="../../../assets/img/logo-dark-flat.svg" width="120"><img src="../../../assets/img/logo-dark-flat.svg" width="40"></div>
+</div>
+<div class="grid g2" style="margin-top:20px">
+  <div class="card nb" style="height:auto;padding:22px;display:block">
+    <div class="header ink"><img src="../../../assets/img/logo-dark-flat.svg" width="120"><nav><span>Služby</span><span>Ceník</span><span>Blog</span><span>Kontakt</span></nav></div>
+    <p class="cap">Hlavička 120 px na ink. Pod 120 px šířky wordmark nepoužívat; na avatar a favicon patří hlava maskota (assets/img/poses/head.svg).</p>
+  </div>
+  <div class="card nb" style="height:auto;padding:22px;display:flex;gap:30px;justify-content:flex-start">
+    <div><canvas class="px" id="px1" data-src="../../../assets/img/logo-dark-flat.svg" data-w="120" data-bg="#2C303C"></canvas><p class="cap">120 px na 1× displeji, skutečné pixely ×4</p></div>
+  </div>
+</div>
+
+<h2>4 · Detail řezu 4× <small>vlevo D3 z poroty (r 2,9), vpravo finál (r 5) · #1E2029</small></h2>
+<div class="grid g2">
+  <div class="card zoom nb"><span class="tag">D3 · r 2,9</span><img src="../variants/D3-cut-glow.svg" style="width:2272px;left:-560px;top:-600px"></div>
+  <div class="card zoom nb"><span class="tag">finál · r 5</span><img src="../../../assets/img/logo-dark.svg" style="width:2272px;left:-560px;top:-600px"></div>
+  <div class="card zoom ink"><span class="tag">k · beze změny (10,8 j. od kolena)</span><img src="../../../assets/img/logo-dark.svg" style="width:2272px;left:-1180px;top:-600px"></div>
+  <div class="card zoom ink"><span class="tag">✦ · holo beze změny, vlastní záře mimo „e“</span><img src="../../../assets/img/logo-dark.svg" style="width:2272px;left:-1640px;top:-520px"></div>
+</div>
+
+<h2>5 · Kontroly <small>tools/logo-dark/final/checks.json · work/proof/proof.json</small></h2>
+<div class="checks" id="checks">
+  <div><b>Mezera</b>řez „a“ i „r“ 1,435 až 1,458 od siluety (cíl 1,45); medián 1,45</div>
+  <div><b>Kanál výplň → písmeno</b>medián 4,36, 5 až 95 % 4,33 až 4,64 (a) a 4,34 až 4,52 (r)</div>
+  <div><b>Zaoblení r 5</b>jen na straně písmene, řez sám zůstává na offsetu → kanál se nemění</div>
+  <div><b>Kusy</b>a: 5 039 j² + původní očko · r: kmen 974 j² + vlajka 339 j² · žádné ostrůvky ani třísky</div>
+  <div><b>Písmena</b>s, p, k, e, e byte-identické s logo.svg; a, r jen ořezané (0 bodů mimo oficiální tvar)</div>
+  <div><b>Maskot 1:1</b>33 oficiálních cest (28 maskot, 4 plamínek, ✦) byte-identické, žádné transformace</div>
+  <div><b>Pixelový důkaz 900 px</b>vnitřek maskota vs. oficiální logo: 26 246 / 26 246 px identických na ink (max Δ 0)</div>
+  <div><b>Soubory</b>bez externích odkazů, xmllint OK; 72 kB / 66 kB (flat) / 75 kB (onglow); PNG @2x 1136×584</div>
+  <div><b>Figma</b>komponenta „Logo/Dark“ 242:18881 + board „Logo / Dark“ 242:18882 na 🌟 Brand Identity</div>
+</div>
+<script>
+for (const c of document.querySelectorAll('canvas.px')) {
+  const w = +c.dataset.w, img = new Image();
+  img.onload = () => { const h = Math.round(w * 292 / 568); c.width = w + 16; c.height = h + 16; const x = c.getContext('2d');
+    x.fillStyle = c.dataset.bg; x.fillRect(0, 0, c.width, c.height); x.drawImage(img, 8, 8, w, h); c.style.width = (c.width * 4) + 'px'; };
+  img.src = c.dataset.src;
+}
+</script>
+</body>
+</html>

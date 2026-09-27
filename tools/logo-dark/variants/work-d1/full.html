@@ -1,0 +1,5 @@
+<!doctype html><html><head><style>html,body{margin:0;background:#15161c;color:#aaa;font:13px system-ui}.p{padding:40px 50px;margin:10px}.p img{display:block}</style></head><body><script>
+const q=new URLSearchParams(location.search);const w=+(q.get('w')||900);const bgs=(q.get('bg')||'#2C303C|#1E2029').split('|');
+const files=(q.get('files')||'d1_g2.32.svg').split('|');
+for(const f of files){for(const bg of bgs){const d=document.createElement('div');d.className='p';d.style.background=bg;d.style.display='inline-block';const im=new Image();im.src=f;im.style.width=w+'px';d.appendChild(im);document.body.appendChild(d);}document.body.appendChild(document.createElement('br'));}
+</script></body></html>

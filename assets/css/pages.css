@@ -42,6 +42,8 @@
 .page-hero{position:relative;padding:24px 0 0}
 .page-hero__band{position:relative;overflow:hidden;border-radius:var(--r-xl);border:var(--line);background:var(--holo-soft);padding:clamp(28px,3.6vw,52px) clamp(28px,4.4vw,64px);box-shadow:var(--pop-lg)}
 .page-hero__band .blob{opacity:.45}
+/* pastelový pás: zvýrazňovač pod ink slovem by při .55 splynul s holo pozadím */
+.page-hero__band .holo-text::after{opacity:.85}
 .page-hero__band .blob--mint{left:-200px;top:-120px;width:420px;height:420px}
 .page-hero__band .blob--lav{right:-160px;top:-200px;width:460px;height:460px}
 .page-hero__band .blob--pink{right:30%;bottom:-240px;width:360px;height:360px}
@@ -150,7 +152,6 @@
 .newsletter__inner{position:relative;z-index:1;display:grid;grid-template-columns:auto 1fr;gap:40px;align-items:center}
 .newsletter__art{width:170px;height:auto;animation:bob 4.2s ease-in-out infinite;filter:drop-shadow(0 0 30px rgba(196,156,242,.5))}
 .newsletter h2{font-size:clamp(28px,3.4vw,44px);margin-bottom:10px}
-.newsletter h2 .holo-text{background-image:var(--holo)}
 .newsletter p{color:rgba(255,255,255,.72);max-width:560px}
 .nl-form{display:flex;gap:10px;margin-top:24px;max-width:560px;padding:6px;border-radius:99px;background:#fff;border:var(--line)}
 .nl-form input{flex:1;min-width:0;border:0;background:none;font:inherit;font-size:16px;padding:10px 16px;color:var(--ink)}
@@ -347,7 +348,12 @@
 .nf__art:hover img,.nf__art.is-lit img{filter:grayscale(0) drop-shadow(0 0 40px rgba(196,156,242,.6))}
 @keyframes nfWobble{0%,100%{transform:rotate(-6deg) translateY(0)}50%{transform:rotate(5deg) translateY(-12px)}}
 .nf p.nf__code{font-family:var(--f-display);font-weight:800;font-size:clamp(80px,11vw,150px);line-height:.9;letter-spacing:-.05em;margin-top:-10px;max-width:none;color:transparent;-webkit-text-stroke:3px var(--ink)}
-.nf p.nf__code span{background:var(--holo-ink);-webkit-background-clip:text;background-clip:text;-webkit-text-stroke:0}
+/* světlé pozadí: „0“ plná ink (žádný přechod na textu), akcent = pastelový holo zvýrazňovač pod ní jako u .holo-text */
+.nf p.nf__code span{position:relative;display:inline-block;isolation:isolate;color:var(--ink);-webkit-text-stroke:0}
+.nf p.nf__code span::after{content:"";position:absolute;z-index:-1;left:.01em;right:.01em;bottom:.15em;height:.26em;border-radius:.08em;background:var(--holo);opacity:.55;
+  transform-origin:left center;transform:scaleX(0) skewX(-8deg);animation:underline .9s .45s var(--ease) forwards}
+html.is-still .nf p.nf__code span::after{animation:none;transform:skewX(-8deg)}
+@media (prefers-reduced-motion:reduce){.nf p.nf__code span::after{transform:skewX(-8deg)}}
 .nf h1{font-size:clamp(30px,4vw,52px);margin:14px 0 14px}
 .nf p{color:var(--ink-soft);font-size:18px;max-width:520px}
 .nf__ctas{display:flex;flex-wrap:wrap;justify-content:center;gap:14px;margin-top:30px}
@@ -373,7 +379,7 @@
   .toc summary{justify-content:flex-start;gap:10px;margin:0;min-height:58px;padding:14px 18px 14px 22px;font:800 18px/1.25 var(--f-display);letter-spacing:0;text-transform:none;color:var(--ink)}
   .toc__count{display:inline-grid;place-items:center;min-width:28px;height:26px;padding:0 8px;border-radius:99px;background:var(--holo);border:1.5px solid var(--ink);font:800 13px/1 var(--f-body)}
   .toc summary::after{margin-left:auto;width:30px;height:30px;border:0;border-radius:50%;transform:none;transition:transform .35s var(--spring),background-color .3s;
-    background:var(--paper) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23272A33' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9.5l6 6 6-6'/%3E%3C/svg%3E") center/14px no-repeat}
+    background:var(--paper) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232C303C' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9.5l6 6 6-6'/%3E%3C/svg%3E") center/14px no-repeat}
   .toc[open] summary::after{transform:rotate(180deg);background-color:var(--mint)}
   .toc nav{padding:0 22px 16px}
   .toc ol a{padding-block:12px}

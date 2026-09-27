@@ -1,0 +1,6 @@
+<!doctype html><html><head><style>html,body{margin:0;background:#15161c;color:#aaa;font:14px system-ui}.row{display:flex;gap:12px;padding:8px}.c{position:relative;overflow:hidden}.c img{position:absolute;display:block}.lab{padding:4px 8px}</style></head><body><script>
+const q=new URLSearchParams(location.search);const s=+(q.get('s')||8);const [x,y,w,hh]=(q.get('crop')||'185,160,120,65').split(',').map(Number);const bg=q.get('bg')||'#2C303C';
+const files=(q.get('files')||'d1_g1.45.svg|d1_g2.32.svg|d1_g3.19.svg').split('|');
+const col=document.createElement('div');document.body.appendChild(col);
+for(const f of files){const lab=document.createElement('div');lab.className='lab';lab.textContent=f;col.appendChild(lab);const d=document.createElement('div');d.className='c';d.style.cssText=`width:${w*s}px;height:${hh*s}px;background:${bg};margin:0 8px 8px`;const im=new Image();im.src=f;im.style.width=568*s+'px';im.style.height=292*s+'px';im.style.left=-x*s+'px';im.style.top=-y*s+'px';d.appendChild(im);col.appendChild(d);}
+</script></body></html>

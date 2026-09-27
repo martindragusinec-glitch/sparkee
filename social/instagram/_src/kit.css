@@ -1,0 +1,209 @@
+/* Sparkee ✦ Instagram kit: design systém šablon (brand Figma „🌟 Brand Identity“).
+   Ink na text, pastely na plochy, holo jen na akcenty (✦, pilulky, linky, podtržení). Na tmavé vždy glow. */
+:root{
+  /* tokeny podle klienta (27. 9.): ink #2C303C z vektorů loga, pastely = webová sada (mint2/lilac2 jsou jen aliasy) */
+  --ink:#2C303C; --ink-2:#242835; --ink-soft:#585D6C; --mist:#F5F4FB; --white:#fff;
+  --mint:#A5EDC5; --mint2:#A5EDC5; --sky:#9AD8F8; --lilac:#C49CF2; --lilac2:#C49CF2; --blush:#F5B8DC;
+  --holo:linear-gradient(115deg,#A5EDC5 0%,#9AD8F8 33%,#C49CF2 66%,#F5B8DC 100%);
+  --holo-soft:linear-gradient(115deg,#E0F9EB 0%,#DDF1FC 34%,#ECE4FB 67%,#FCE8F5 100%);
+  /* holo NA TEXTU (pravidlo klienta 27. 9., podle Figma Brand Identity „Aa“ a „sparkee.cz“): pastelový přechod
+     úhlopříčně 45° zleva nahoře doprava dolů, JEN na tmavém ink pozadí a jen na jedno krátké slovo, velké číslo
+     nebo malý brand řádek. Na světlém (mist, paper, bílá, pastelové karty) nikdy gradient na textu: text je ink,
+     akcent nese holo zvýrazňovač POD slovem. Sytý --holo-text / --holo-ink byl náš omyl a je zrušený. */
+  --holo-diag:linear-gradient(135deg,#A5EDC5 0%,#9AD8F8 38%,#C49CF2 72%,#F5B8DC 100%);
+  --fd:"Baloo 2",ui-rounded,system-ui,sans-serif;
+  --fb:"Nunito",system-ui,sans-serif;
+  --pad:72px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:#0E0F13}
+body.gallery{display:flex;flex-wrap:wrap;gap:24px;padding:24px}
+body.gallery .cv{zoom:.4}
+img{display:block}
+
+/* ---------- plátno ---------- */
+.cv{position:relative;width:var(--w);height:var(--h);overflow:hidden;isolation:isolate;font-family:var(--fb);
+  -webkit-font-smoothing:antialiased;text-rendering:geometricPrecision;font-kerning:normal}
+.cv.dark{color:var(--mist);
+  background:
+    radial-gradient(1000px 900px at var(--gx,50%) var(--gy,64%),#363B53 0%,rgba(54,59,83,0) 70%),
+    linear-gradient(165deg,#323746 0%,#2C303C 46%,#21242F 100%)}
+.cv.light{color:var(--ink);background:var(--mist)}
+
+/* akcent: --a hlavní (rgb), --b vedlejší, --as sytá varianta pro text/ikony na světlé, --surf pastelová karta */
+.cv[data-accent=mint] {--a:165,237,197;--b:154,216,248;--c:196,156,242;--as:#1B8A55;--chip:var(--mint);
+  --surf:linear-gradient(158deg,#F7FFFA 0%,#D9F8E6 42%,#AEEFCB 100%);--soft:#E4FAEE;--hr:190deg}
+.cv[data-accent=mint2]{--a:165,237,197;--b:154,216,248;--c:196,156,242;--as:#1B8A55;--chip:var(--mint2);
+  --surf:linear-gradient(158deg,#F7FFFA 0%,#D9F8E6 42%,#AEEFCB 100%);--soft:#E4FAEE;--hr:170deg}
+.cv[data-accent=sky]  {--a:154,216,248;--b:196,156,242;--c:165,237,197;--as:#1874B3;--chip:var(--sky);
+  --surf:linear-gradient(158deg,#F6FCFF 0%,#D7F0FD 42%,#A3DDF9 100%);--soft:#E2F4FD;--hr:120deg}
+.cv[data-accent=lilac]{--a:196,156,242;--b:245,184,220;--c:154,216,248;--as:#6346CC;--chip:var(--lilac);
+  --surf:linear-gradient(158deg,#FCFAFE 0%,#EADCFB 42%,#D0B1F5 100%);--soft:#F1E7FC;--hr:30deg}
+.cv[data-accent=blush]{--a:245,184,220;--b:196,156,242;--c:154,216,248;--as:#BC3A74;--chip:var(--blush);
+  --surf:linear-gradient(158deg,#FEF9FD 0%,#FBE1F0 42%,#F7C3E1 100%);--soft:#FCEBF5;--hr:300deg}
+.cv[data-accent=holo] {--a:196,156,242;--b:154,216,248;--c:165,237,197;--as:#6346CC;--chip:var(--holo);
+  --surf:var(--holo-soft);--soft:#F1E7FC;--hr:200deg}
+
+/* ---------- pozadí ---------- */
+.bg{position:absolute;inset:0;z-index:0;pointer-events:none}
+.blob{position:absolute;border-radius:50%;translate:-50% -50%;filter:blur(var(--bl,120px));opacity:var(--o,.5)}
+.pattern{position:absolute;inset:0;opacity:.07;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='96' height='96' viewBox='0 0 96 96'%3E%3Cpath fill='%23fff' d='M48 36c.7 6.6 4.8 10.9 11.4 11.4-6.6.7-10.7 4.8-11.4 11.4-.7-6.6-4.8-10.7-11.4-11.4 6.6-.5 10.7-4.8 11.4-11.4z'/%3E%3C/svg%3E");
+  -webkit-mask-image:radial-gradient(900px 700px at var(--px,0%) var(--py,0%),#000 0%,transparent 100%);
+          mask-image:radial-gradient(900px 700px at var(--px,0%) var(--py,0%),#000 0%,transparent 100%)}
+.light .pattern{opacity:.06;filter:invert(1)}
+.ring{position:absolute;border-radius:50%;translate:-50% -50%;border:3px dashed rgba(245,244,251,.16)}
+.ring::after{content:"";position:absolute;inset:10%;border-radius:50%;border:2px solid rgba(245,244,251,.07)}
+.light .ring{border-color:rgba(44,48,60,.14)}
+.light .ring::after{border-color:rgba(44,48,60,.06)}
+
+/* ---------- maskot ---------- */
+.mascot{position:absolute;z-index:4;max-width:none;transform-origin:var(--ox,50%) var(--oy,100%)}
+.dark .mascot{filter:drop-shadow(0 0 34px rgba(var(--a),.55)) drop-shadow(0 28px 34px rgba(8,9,14,.5))}
+.light .mascot{filter:drop-shadow(0 24px 26px rgba(44,48,60,.14))}
+.mascot.flat{filter:none}
+/* glow louže za maskotem na tmavé (radiální + rozmazaný holo kužel) */
+.puddle{position:absolute;z-index:2;border-radius:50%;translate:-50% -50%;
+  background:radial-gradient(closest-side,rgba(var(--a),.78) 0%,rgba(var(--a),.42) 34%,rgba(var(--b),.14) 64%,rgba(var(--b),0) 100%)}
+.puddle::after{content:"";position:absolute;inset:14%;border-radius:50%;
+  background:conic-gradient(from var(--hr,200deg),#A5EDC5,#9AD8F8,#C49CF2,#F5B8DC,#A5EDC5);filter:blur(90px);opacity:.5}
+.floor{position:absolute;z-index:3;border-radius:50%;translate:-50% -50%;background:radial-gradient(closest-side,rgba(var(--a),.55),rgba(var(--a),0))}
+
+/* ---------- jiskry ✦ ---------- */
+.spk{display:inline-block;width:.6em;height:.6em;vertical-align:.02em;margin-left:.06em;overflow:visible}
+.spk path{fill:currentColor}
+/* ✦ v nadpisu je součást textu: na tmavé pastelový holo (úhlopříčka jako text), na světlé ink jako nadpis */
+.dark .h .spk path,.dark .spk.holo path,.spk.pastel path{fill:url(#gHolo)}
+.light .spk.holo path{fill:url(#gHoloInk)}
+.light .h .spk path{fill:currentColor}
+.sp{position:absolute;z-index:3;width:var(--s,28px);height:var(--s,28px);translate:-50% -50%}
+.sp path{fill:var(--f,#fff)}
+.dark .sp{filter:drop-shadow(0 0 12px rgba(255,255,255,.5))}
+.dark .sp.holo{filter:drop-shadow(0 0 16px rgba(var(--b),.8))}
+.sp.holo path{fill:url(#gHolo)}
+.light .sp.holo path{fill:url(#gHoloInk)}
+.sig{position:absolute;z-index:6;left:948px;top:88px;width:44px;height:44px}
+.dark .sig path{fill:url(#gHolo)}
+.dark .sig{filter:drop-shadow(0 0 14px rgba(var(--b),.7))}
+.light .sig path{fill:var(--ink)}
+
+/* ---------- typografie ---------- */
+.h{font-family:var(--fd);font-weight:800;font-size:var(--fs,112px);line-height:1.0;letter-spacing:-.022em;text-wrap:balance}
+.h.nobal{text-wrap:wrap}
+.h small{font-size:.5em;letter-spacing:-.01em;font-weight:700;opacity:.62;vertical-align:.18em}
+/* akcent v nadpisu (<em>, .hl), pravidlo klienta 27. 9.:
+   SVĚTLÉ pozadí: text zůstává ink (žádný gradient, ani pastelový, ani sytý), akcent nese pastelový holo
+     „zvýrazňovač“ ZA spodní částí slova jako hero na webu (left -.06em, right -.08em, výška .3em, skewX(-8deg), opacita .55).
+     Spodní hrana leží na účaří (line-height 1: účaří je .223em nad spodkem boxu), takže pruh nekříží dotahy j, p, y, g.
+   TMAVÉ pozadí: slovo v pastelovém holo přechodu 135deg (úhlopříčka zleva nahoře doprava dolů), box přechodu = jen slovo,
+     bez zvýrazňovače (jako Figma „Aa“ a „sparkee.cz“). */
+.h em,.hl{font-style:normal;position:relative;display:inline-block;line-height:1;padding-inline:.04em;margin-inline:-.04em;color:inherit}
+.light .h em::after,.light .hl::after,
+.dark :is(.row,.card,.panel,.bubble,.chipx) .h em::after{content:"";position:absolute;z-index:-1;left:-.06em;right:-.08em;bottom:.22em;height:.3em;border-radius:.14em;
+  background:var(--holo);opacity:.55;transform:skewX(-8deg)}
+.dark .h em,.dark .hl{background:var(--holo-diag) no-repeat;background-size:100% 100%;-webkit-background-clip:text;background-clip:text;color:transparent}
+/* bílá karta, řádek nebo bublina uvnitř tmavé dlaždice = světlé pozadí: ink text + zvýrazňovač */
+.dark :is(.row,.card,.panel,.bubble,.chipx) .h em{background:none;color:inherit}
+.dark .h{text-shadow:0 2px 30px rgba(15,16,22,.35)}
+.dark .h em,.dark :is(.row,.card,.panel,.bubble,.chipx) .h{text-shadow:none}
+.p{font-family:var(--fb);font-weight:700;font-size:var(--ps,40px);line-height:1.32;text-wrap:pretty}
+.dark .p{color:rgba(245,244,251,.8)}
+.light .p{color:#3A3E4B}
+.p b{font-weight:900;color:inherit}
+.light .p b{color:var(--ink)}
+.kick{font-family:var(--fb);font-weight:900;font-size:30px;letter-spacing:.1em;text-transform:uppercase}
+.light .kick{color:var(--as)}
+.dark .kick{color:rgb(var(--a))}
+.blk{position:absolute;z-index:5}
+.abs{position:absolute}
+
+/* ---------- komponenty ---------- */
+/* štítek nahoře vlevo */
+.pill{position:absolute;z-index:6;left:var(--pad);top:72px;display:inline-flex;align-items:center;gap:14px;height:68px;padding:3px 32px 0 24px;
+  border-radius:99px;border:4px solid var(--ink);font:900 30px/1 var(--fb);letter-spacing:.09em;text-transform:uppercase;white-space:nowrap}
+.pill .spk{width:26px;height:26px;margin:-3px 0 0}
+.light .pill{background:#fff;color:var(--ink);box-shadow:6px 6px 0 var(--ink)}
+.light .pill .spk path{fill:var(--ink)}  /* ✦ u textu štítku na světlé = ink jako text (žádný gradient u textu) */
+.dark .pill{background:var(--chip);color:var(--ink);box-shadow:6px 6px 0 var(--mist)}
+/* počítadlo carouselu */
+.count{position:absolute;z-index:6;right:var(--pad);top:72px;height:68px;display:flex;align-items:center;gap:12px;font:800 32px/1 var(--fb);letter-spacing:.02em}
+.count .spk{width:28px;height:28px;margin:-2px 0 0}
+.light .count{color:var(--ink-soft)}
+.light .count .spk path{fill:var(--ink)}
+.count b{font-weight:900;color:var(--ink)}
+/* velká pastelová karta (světlé dlaždice) */
+.card{position:absolute;z-index:1;border:5px solid var(--ink);border-radius:60px;background:var(--surf);box-shadow:14px 14px 0 var(--ink);overflow:hidden}
+.card::before{content:"";position:absolute;inset:0;border-radius:inherit;
+  background:radial-gradient(700px 420px at 12% 0%,rgba(255,255,255,.75),rgba(255,255,255,0) 70%);pointer-events:none}
+.card .pattern{opacity:.05}
+.card.foil::after{content:"";position:absolute;inset:18px;border-radius:44px;border:4px solid transparent;
+  background:var(--holo) border-box;-webkit-mask:linear-gradient(#000 0 0) padding-box,linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;mask-composite:exclude;opacity:.9;pointer-events:none}
+/* bílé řádky / štítky s ink obrysem a tvrdým stínem (jako web) */
+.row{position:relative;display:flex;align-items:center;gap:24px;background:#fff;border:4px solid var(--ink);border-radius:30px;box-shadow:7px 7px 0 var(--ink);
+  padding:22px 30px 22px 22px;font:800 var(--rs,38px)/1.2 var(--fb);color:var(--ink)}
+.mark{flex:none;display:grid;place-items:center;width:62px;height:62px;border-radius:50%;border:4px solid var(--ink);background:var(--chip);
+  font:800 34px/1 var(--fd);color:var(--ink);padding-top:4px}
+.mark svg{width:30px;height:30px;margin-top:-4px}
+.mark svg path{fill:none;stroke:var(--ink);stroke-width:4;stroke-linecap:round;stroke-linejoin:round}
+.chipx{display:inline-flex;align-items:center;gap:12px;height:76px;padding:4px 32px 0;border-radius:99px;background:#fff;border:4px solid var(--ink);
+  box-shadow:6px 6px 0 var(--ink);font:800 36px/1 var(--fb);color:var(--ink);white-space:nowrap}
+.tag{display:inline-flex;align-items:center;gap:12px;height:60px;padding:3px 26px 0;border-radius:99px;border:4px solid var(--ink);background:var(--chip);
+  font:900 28px/1 var(--fb);letter-spacing:.08em;text-transform:uppercase;color:var(--ink);white-space:nowrap}
+.tag .spk{width:24px;height:24px;margin:-3px 0 0}
+.tag.white{background:#fff}
+/* sparkee.cz (holo pilulka) */
+.url{display:inline-flex;align-items:center;gap:14px;height:80px;padding:4px 36px 0 28px;border-radius:99px;background:var(--holo);border:4px solid var(--ink);
+  box-shadow:7px 7px 0 var(--ink);font:800 36px/1 var(--fb);color:var(--ink);white-space:nowrap}
+.url .spk{width:28px;height:28px;margin:-4px 0 0}
+.url .spk path{fill:var(--ink)}
+.dark .url{box-shadow:7px 7px 0 var(--mist)}
+/* posuň → */
+.swipe{display:inline-flex;align-items:center;gap:16px;font:800 32px/1 var(--fb);color:var(--ink)}
+.swipe i{display:grid;place-items:center;width:64px;height:64px;border-radius:50%;background:var(--ink);color:var(--mist)}
+.swipe i svg{width:30px;height:30px}
+.swipe i svg path{fill:none;stroke:var(--mist);stroke-width:3.4;stroke-linecap:round;stroke-linejoin:round}
+.bubble{position:absolute;z-index:6;background:#fff;color:var(--ink);border:4px solid var(--ink);border-radius:40px;box-shadow:8px 8px 0 var(--ink)}
+.dark .bubble{box-shadow:8px 8px 0 rgba(var(--a),.9)}
+.icon path,.icon rect,.icon circle,.icon line,.icon polyline{fill:none;stroke:currentColor;stroke-width:4;stroke-linecap:round;stroke-linejoin:round}
+
+/* statistiky (herní karta) */
+.stat{display:grid;grid-template-columns:1fr auto;align-items:end;row-gap:14px}
+.stat .lab{font:800 36px/1.12 var(--fb)}
+.stat .lab small{display:block;font-size:28px;font-weight:700;color:var(--ink-soft)}
+.stat .val{font:800 60px/.9 var(--fd);letter-spacing:-.02em}
+.stat .bar{grid-column:1/-1;height:36px;border:4px solid var(--ink);border-radius:99px;background:#fff;overflow:hidden;position:relative}
+.stat .bar i{position:absolute;left:0;top:0;bottom:0;border-radius:99px;border-right:4px solid var(--ink)}
+.stat .bar i::after{content:"";position:absolute;left:14px;right:14px;top:6px;height:7px;border-radius:9px;background:rgba(255,255,255,.7)}
+
+/* bingo */
+.bingo{position:absolute;z-index:5;display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.bingo .c{position:relative;display:grid;place-items:center;text-align:center;padding:18px 20px;border-radius:38px;border:4px solid var(--ink);
+  font:900 34px/1.14 var(--fb);color:var(--ink);text-wrap:balance;box-shadow:0 0 0 3px rgba(245,244,251,.9)}
+.bingo .c.free{background:rgba(31,34,44,.55);box-shadow:0 0 0 3px rgba(245,244,251,.9),0 0 60px rgba(var(--b),.45)}
+
+
+/* obsah karet nad jejich leskem (::before) */
+.card::before{z-index:0}
+.card>*{position:relative;z-index:1}
+.card>.abs,.card>.pattern{position:absolute}
+/* plocha pro nativní sticker ve stories (otázka, anketa, kvíz, odkaz, sdílený Reel): jen měkká záře bez rámečku,
+   aby kolem menšího stickeru nic nevykukovalo. Obrys plochy kreslí jen průvodce (_preview/stories-guide.png). */
+.slot{position:absolute;z-index:2;border-radius:50%;pointer-events:none;filter:blur(50px)}
+.dark .slot{background:radial-gradient(closest-side,rgba(var(--a),.34),rgba(var(--a),.12) 60%,rgba(var(--a),0))}
+.light .slot{background:radial-gradient(closest-side,rgba(255,255,255,.95),rgba(255,255,255,.55) 55%,rgba(255,255,255,0))}
+.hint{position:absolute;z-index:5;display:flex;align-items:center;gap:14px;font:900 34px/1 var(--fb);letter-spacing:.06em;text-transform:uppercase}
+.dark .hint{color:rgb(var(--a))}
+.light .hint{color:var(--as)}
+.hint svg{width:36px;height:36px}
+
+/* bílé řádky na tmavé: tvrdý stín v barvě akcentu (ink stín by na ink zanikl) */
+.dark .row{box-shadow:7px 7px 0 rgba(var(--a),.9)}
+.dark .chipx{box-shadow:6px 6px 0 rgba(var(--a),.9)}
+.dark .tag{box-shadow:5px 5px 0 rgba(var(--a),.9)}
+/* bílý panel (DM okno, profil, kalendář, účtenka): skutečný předmět místo prázdné karty */
+.panel{position:absolute;z-index:3;background:#fff;border:5px solid var(--ink);border-radius:48px;box-shadow:12px 12px 0 var(--ink);overflow:hidden}
+.panel .bar{display:flex;align-items:center;gap:18px;padding:0 30px;height:104px;border-bottom:4px solid var(--ink);background:var(--soft);font:900 32px/1 var(--fb);color:var(--ink)}
+.msg{display:inline-flex;align-items:center;gap:12px;max-width:100%;padding:20px 30px 18px;border-radius:34px;border:4px solid var(--ink);font:800 34px/1.2 var(--fb);color:var(--ink)}
+.msg.in{background:#F1F0F7;border-radius:34px 34px 34px 10px}
+.msg.out{background:var(--holo);border-radius:34px 34px 10px 34px;font:900 40px/1 var(--fb);letter-spacing:.06em}

@@ -53,7 +53,7 @@ FILES TO EDIT:
 1. "Ahoj, tady Sparkee"
 2. "Sociální sítě bez systému = chaos."
 3. "…tak do toho dáme systém." (calendar + 4 services)
-4. "Obsah, který zastaví palec."
+4. "Obsah, který zastaví scroll."
 5. "Měřitelný posun, ne pocity."
 6. "Dodáme jiskru vašim sociálním sítím ✦" + CTA "Chci jiskru"
 
@@ -730,7 +730,7 @@ A channel that is not mentioned holds its previous value.
 - **t4**
   - Kicker "04 · Obsah": 10.75.
   - Words: from 10.85, overlapping the phone's settle. Sub-line ≈ 11.45.
-  - "palec." underline at 12.00, on the thumb-stop frame.
+  - "scroll." underline at 12.00, on the Reel-stop frame.
   - Out: from 13.95.
 - **t5**
   - Kicker "05 · Výsledky": 14.15.
