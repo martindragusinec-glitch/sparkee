@@ -1,0 +1,37 @@
+/* Sparkee – mascot.css
+   The hero mascot is driven every frame by assets/js/mascot.js (SVG transform attributes + arm path d).
+   CSS here only makes sure nothing fights the rig: no CSS transforms/animations on rig parts,
+   default SVG transform origin (0 0 in user space). */
+.mascot :is(.m-float,.m-body,.m-head-rig,.m-head,.m-flame,.m-flame *,.m-eye,.m-eyes,.m-eyes-happy,.m-eyes-happy *,
+  .m-mouth,.m-cheek,.m-hand,.m-thumb,.m-phone,.m-phone-heart,.m-shadow,.m-fx,.m-fx *){
+  transform-box:view-box;transform-origin:0 0}
+.mascot .m-fx{pointer-events:none}
+.mascot-wrap{touch-action:manipulation;-webkit-user-select:none;user-select:none}
+.mascot-wrap .mascot{overflow:visible}
+
+/* before the rig starts (or without JS): a calm float only */
+.mascot:not(.is-rigged) .m-float{animation:mascotFloat 4.2s ease-in-out infinite}
+@keyframes mascotFloat{50%{transform:translateY(-6px)}}
+@media (prefers-reduced-motion: reduce){
+  .mascot:not(.is-rigged) .m-float{animation:none}
+}
+
+/* page motion toggle (WCAG 2.2.2, assets/js/mascot.js): pauses the rigs and every CSS animation outside the story
+   (the story has its own pause button) */
+html.is-still *:not([data-story],[data-story] *),html.is-still *:not([data-story],[data-story] *)::before,html.is-still *:not([data-story],[data-story] *)::after{animation-play-state:paused!important}
+html.is-still .reaction{display:none}
+.motion-toggle{position:absolute;right:1%;bottom:1%;z-index:4;display:grid;place-items:center;width:36px;height:36px;padding:0;
+  border:2px solid var(--ink);border-radius:50%;background:rgba(255,255,255,.9);color:var(--ink);box-shadow:2px 2px 0 var(--ink);cursor:pointer;
+  opacity:.55;transition:opacity .2s,transform .3s var(--spring),background-color .2s}
+.motion-toggle::before{content:"";position:absolute;inset:-5px;border-radius:50%}
+.motion-toggle:hover,.motion-toggle:focus-visible,.motion-toggle[aria-pressed="true"]{opacity:1}
+.motion-toggle:hover{background:var(--holo);transform:translateY(-1px)}
+.motion-toggle:focus-visible{outline:3px solid var(--lav-d);outline-offset:2px}
+.motion-toggle svg{width:14px;height:14px;fill:currentColor}
+.motion-toggle .i-play,.motion-toggle[aria-pressed="true"] .i-pause{display:none}
+.motion-toggle[aria-pressed="true"] .i-play{display:block}
+@media (max-width:600px){.motion-toggle{width:32px;height:32px;right:0;bottom:0}}
+@media (prefers-reduced-motion: reduce){
+  .mascot-wrap{cursor:default}
+  .motion-toggle{display:none}
+}

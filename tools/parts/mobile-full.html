@@ -1,0 +1,6 @@
+<!doctype html><html><body style="margin:0;background:#888"><iframe id="f" style="height:100vh;border:0;display:block;background:#fff"></iframe>
+<script>/* audit wrapper: ?w=390&src=/&y=0 ; reveals forced visible, iframe scrolled to y (mobile layer audit) */
+const q=new URLSearchParams(location.search);const f=document.getElementById('f');f.style.width=(q.get('w')||390)+'px';
+f.onload=()=>{try{const d=f.contentDocument;const s=d.createElement('style');s.textContent='.reveal{opacity:1!important;transform:none!important;transition:none!important}';d.head.appendChild(s);
+const y=+q.get('y')||0;d.documentElement.style.scrollBehavior='auto';f.contentWindow.scrollTo(0,y);}catch(e){}};
+f.src=q.get('src')||'/';</script></body></html>

@@ -1,0 +1,8 @@
+<!doctype html><html><head><link rel="stylesheet" href="/assets/css/site.css"></head><body style="background:#F6F4EF;margin:0">
+<div style="display:flex;gap:30px;padding:20px">
+<div class="mascot-wrap" style="position:relative;inset:auto;width:360px;height:560px" id="a"></div>
+<div class="mascot-wrap is-waving" style="position:relative;inset:auto;width:360px;height:560px" id="b"></div>
+</div>
+<script>
+fetch('/').then(r=>r.text()).then(h=>{const m=h.match(/<svg class="mascot"[\s\S]*?<\/svg>/)[0]; a.innerHTML=m; b.innerHTML=m.replace(/id="/g,'id="b-').replace(/url\(#/g,'url(#b-').replace(/href="#/g,'href="#b-');});
+</script></body></html>

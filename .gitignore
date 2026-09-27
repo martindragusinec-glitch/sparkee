@@ -1,0 +1,12 @@
+# závislosti a buildy
+node_modules/
+remotion/out/
+remotion/build/
+
+# pracovní screenshoty a QA náhledy (generované)
+tools/parts/_shots/
+tools/parts/variants/_*.html
+
+# systém
+.DS_Store
+*.log

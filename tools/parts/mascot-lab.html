@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="cs"><head><meta charset="utf-8"><title>Sparkee mascot lab</title>
+<!-- QA: frozen frames of the JS rig.  /tools/parts/mascot-lab.html?f=wave@0,wave@0.3,hop@0.4&w=260
+     f = comma list of action@seconds (actions: idle hello look glance tap hop wave cheer jump hops hey point present nod;
+     wave / cheer = the hovered loop versions), w = cell width,
+     bg = cell background, guide=1 draws the head outline's bottom edge + shoulders -->
+<link rel="stylesheet" href="/assets/css/mascot.css">
+<style>
+  body{margin:0;background:#EDEAF3;font:600 12px/1.2 system-ui;display:flex;flex-wrap:wrap}
+  .cell{position:relative;width:var(--w);height:calc(var(--w) * 1.45);background:var(--bg,#F6F4EF);box-shadow:inset -1px -1px 0 #d8d3e3;overflow:hidden}
+  .cell svg{position:absolute;left:0;right:0;bottom:4%;width:100%;height:76%;overflow:visible}
+  .cell b{position:absolute;left:8px;top:6px;color:#2C303C;z-index:2}
+</style></head>
+<body>
+<script src="/assets/js/mascot-rig.js"></script>
+<script src="/assets/js/mascot.js"></script>
+<script>
+(async () => {
+  const qs = new URLSearchParams(location.search);
+  const frames = (qs.get('f') || 'idle@0').split(',');
+  document.body.style.setProperty('--w', (+(qs.get('w') || 240)) + 'px');
+  if (qs.get('bg')) document.body.style.setProperty('--bg', qs.get('bg'));
+  const html = await (await fetch('/index.html')).text();
+  const src = html.split('<!-- MASCOT:START -->')[1].split('<!-- MASCOT:END -->')[0];
+  for (const f of frames) {
+    const [a, t] = f.split('@');
+    const cell = document.createElement('div');
+    cell.className = 'cell';
+    cell.innerHTML = src + `<b>${a} ${(+t).toFixed(2)}s</b>`;
+    document.body.appendChild(cell);
+    const svg = cell.querySelector('svg');
+    const m = SparkeeMascot.create(svg, { lab: true, seed: 1 });
+    m.set(a, +t);
+    if (qs.get('guide')) {
+      const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+      g.innerHTML = '<circle cx="467" cy="338" r="2.5" fill="red"/><circle cx="541" cy="338" r="2.5" fill="red"/>';
+      svg.appendChild(g);
+    }
+  }
+  document.body.dataset.ready = '1';
+})();
+</script>
+</body></html>

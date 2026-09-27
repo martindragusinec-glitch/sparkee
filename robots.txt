@@ -1,0 +1,9 @@
+# Sparkee: robots.txt
+User-agent: *
+Allow: /
+Disallow: /tools/
+Disallow: /remotion/
+Disallow: /assets/figma/
+
+# [DOPLNIT] doména
+Sitemap: https://sparkee.cz/sitemap.xml

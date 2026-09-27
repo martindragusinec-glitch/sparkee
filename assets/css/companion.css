@@ -1,0 +1,72 @@
+/* Sparkee – companion.css: the scroll companion (assets/js/companion.js)
+   The figure is driven by the JS rig (mascot.js); CSS only moves the whole companion with translate / uniform scale
+   (brand rule: the mascot is never deformed). Default state = popped out; .is-on = shown; .is-ducked = hidden below the edge. */
+.companion{--ch:124px;position:fixed;z-index:40;right:max(12px,env(safe-area-inset-right));bottom:max(10px,env(safe-area-inset-bottom));
+  width:calc(var(--ch) * .6183);height:var(--ch);pointer-events:none}
+.companion__body{position:absolute;inset:0;transform-origin:50% 88%;transform:scale(.25);opacity:0;
+  transition:transform .3s cubic-bezier(.5,0,.75,0),opacity .2s linear .08s}
+.companion.is-on .companion__body{transform:none;opacity:1;transition:transform .62s var(--spring),opacity .16s linear}
+.companion.is-ducked .companion__body{transform:translateY(calc(100% + 30px));transition:transform .34s cubic-bezier(.5,0,.75,0),opacity .16s linear .18s}
+.companion.is-gone .companion__body{transform:scale(.2);opacity:0;transition:transform .3s cubic-bezier(.5,0,.75,0),opacity .2s linear .1s}
+.companion.is-instant .companion__body{transition:none}
+
+/* soft holo halo: separates him from busy content and keeps his ink outline readable on the dark sections */
+.companion__glow{position:absolute;left:50%;top:56%;width:175%;aspect-ratio:1;border-radius:50%;transform:translate(-50%,-50%);pointer-events:none;
+  background:radial-gradient(closest-side,rgba(255,255,255,.92),rgba(221,241,252,.62) 38%,rgba(237,226,251,.32) 62%,rgba(252,230,242,0))}
+.companion__fig{position:absolute;inset:0;-webkit-tap-highlight-color:transparent;touch-action:manipulation;-webkit-user-select:none;user-select:none}
+.companion__svg{display:block;width:100%;height:100%;overflow:visible;pointer-events:none}
+.companion.is-on .companion__svg .m-float{pointer-events:visiblePainted;cursor:pointer}   /* only the painted figure is clickable */
+.companion .reactions{z-index:3}
+.companion .reaction{font-size:17px}
+.companion .reaction--bubble{font-size:12px;padding:3px 8px}
+
+/* speech bubble: up-left of the head, tail pointing at him */
+.companion__bubble{position:absolute;right:74%;bottom:73%;z-index:2;padding:7px 13px 8px;border:2px solid var(--ink);border-radius:18px 18px 6px 18px;
+  background:#fff;color:var(--ink);box-shadow:3px 3px 0 var(--ink);font:800 15px/1.15 var(--f-display);letter-spacing:.005em;white-space:nowrap;
+  transform-origin:100% 120%;visibility:hidden;opacity:0;pointer-events:none}
+.companion__bubble::after{content:"";position:absolute;right:7px;bottom:-9px;width:12px;height:12px;background:#fff;
+  border:solid var(--ink);border-width:0 2px 2px 0;transform:rotate(40deg) skewX(12deg)}
+.companion__bubble.is-in{visibility:visible;opacity:1;animation:cmpSay .56s var(--spring) both,cmpBob 2.6s ease-in-out .56s infinite}
+.companion__bubble.is-out{visibility:visible;animation:cmpUnsay .24s cubic-bezier(.5,0,.75,0) both}
+.companion__bubble.is-static{visibility:visible;opacity:1}
+.companion__spark{display:inline-block;margin-left:.28em;background:var(--holo-ink);-webkit-background-clip:text;background-clip:text;color:transparent}
+@keyframes cmpSay{0%{opacity:0;transform:translate(10px,12px) scale(.3) rotate(10deg)}35%{opacity:1}100%{opacity:1;transform:none}}
+@keyframes cmpBob{50%{transform:translateY(-3px)}}
+@keyframes cmpUnsay{to{opacity:0;visibility:hidden;transform:translate(8px,8px) scale(.45) rotate(8deg)}}
+
+/* dismiss ×: top-left of his box (away from the flame and the phone), appears on hover / keyboard focus (always on touch);
+   42px hit area; fades while he is airborne (.is-air) so his head never passes under it */
+.companion__close{position:absolute;top:-4px;left:-26px;z-index:4;display:grid;place-items:center;width:26px;height:26px;padding:0;
+  border:2px solid var(--ink);border-radius:50%;background:#fff;color:var(--ink);box-shadow:2px 2px 0 var(--ink);cursor:pointer;
+  opacity:0;transform:scale(.6);transition:opacity .18s,transform .3s var(--spring)}
+.companion__close::before{content:"";position:absolute;inset:-9px;border-radius:50%}
+.companion__close svg{width:10px;height:10px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round}
+.companion.is-on .companion__close{pointer-events:auto}
+.companion.is-on .companion__body:hover .companion__close,.companion__close:focus-visible{opacity:1;transform:none}
+.companion__close:hover{background:var(--holo)}
+.companion__close:focus-visible{outline:3px solid var(--lav-d);outline-offset:2px}
+.companion.is-air .companion__close:not(:focus-visible){opacity:0;transform:scale(.6);pointer-events:none}
+/* "Skrýt maskota" right after the skip link: hidden until focused (same pattern as .skip) */
+.companion-skip{position:absolute;left:-999px;top:8px;z-index:100;padding:8px 14px;border:0;border-radius:8px;background:var(--ink);color:#fff;font:inherit;cursor:pointer}
+.companion-skip:focus-visible{left:8px;outline:3px solid var(--lav-d);outline-offset:2px}
+main[tabindex="-1"]:focus{outline:none}
+
+@media (hover:none){.companion.is-on .companion__close{opacity:1;transform:none}}
+@media (max-width:600px){
+  /* phones: smaller and tucked into the corner (≈44 px wide), so he covers at most the edge of the 16px gutter + card padding;
+     the × sits above his head at the screen edge (over the gutter / card padding, never over text lines),
+     clear of the bubble that opens up-left of his head */
+  .companion{--ch:72px;right:max(4px,env(safe-area-inset-right));bottom:max(6px,env(safe-area-inset-bottom))}
+  .companion__glow{width:150%}
+  .companion__bubble{font-size:13px;padding:5px 10px 6px;border-radius:14px 14px 5px 14px;right:66%;bottom:84%}
+  .companion__close{width:22px;height:22px;top:-24px;left:auto;right:0;border-width:1.5px;box-shadow:1.5px 1.5px 0 var(--ink)}
+  .companion__close::before{inset:-11px}
+  .companion__close svg{width:8px;height:8px}
+  .companion .reaction{font-size:14px}
+}
+@media (max-height:460px){.companion{display:none}}
+@media print{.companion{display:none}}
+@media (prefers-reduced-motion:reduce){
+  .companion__body,.companion.is-on .companion__body,.companion.is-ducked .companion__body,.companion.is-gone .companion__body{transform:none;transition:opacity .2s linear}
+  .companion__bubble,.companion .reactions{display:none}
+}
