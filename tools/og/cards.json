@@ -1,0 +1,78 @@
+{
+  "_readme": "OG obrázky 1200×630 (JPEG). Klíč = cesta stránky. Čte tools/og_build.mjs (render do assets/img/og/<file>.jpg) i tools/build_pages.py (og:image + alt). Varianta: home | page (služby) | article (blog a články). Nadpis: <em>…</em> = zvýraznění, <br> = zalomení. Barva: mint | sky | lav | pink | holo. Póza: soubor z assets/img/poses/ (každá dvojice póza + barva jen jednou). Stránka bez záznamu (404) dostane obrázek z \"/\".",
+  "/": {
+    "file": "home", "variant": "home", "accent": "holo", "pose": "sticker",
+    "title": "Dodáme <em>jiskru</em><br>vašim sociálním<br>sítím",
+    "sub": "Social media agentura",
+    "pill": "sparkee.cz",
+    "react": "heart", "reactPos": "right:-14px;top:176px",
+    "alt": "Maskot Sparkee, holografická hvězdička, a claim „Dodáme jiskru vašim sociálním sítím“"
+  },
+  "/sluzby/": {
+    "file": "sluzby", "variant": "page", "accent": "holo", "pose": "stand",
+    "eyebrow": "Služby",
+    "title": "Čtyři služby,<br>jeden <em>paušál.</em>",
+    "sticker": "4 pilíře ✦",
+    "alt": "Sparkee služby: Čtyři služby, jeden paušál. Správa sítí, obsah, influenceři a paid social."
+  },
+  "/sluzby/sprava-socialnich-siti.html": {
+    "file": "sluzba-sprava-socialnich-siti", "variant": "page", "accent": "mint", "pose": "phone-wave",
+    "eyebrow": "Služba",
+    "title": "Správa sociálních sítí, které žijí <em>každý den.</em>",
+    "sticker": "Komunita",
+    "alt": "Sparkee: Správa sociálních sítí, které žijí každý den. Maskot s telefonem mává."
+  },
+  "/sluzby/tvorba-obsahu.html": {
+    "file": "sluzba-tvorba-obsahu", "variant": "page", "accent": "sky", "pose": "phone",
+    "eyebrow": "Služba",
+    "title": "Tvorba obsahu, který zastaví <em>palec.</em>",
+    "sticker": "Reels",
+    "alt": "Sparkee: Tvorba obsahu, který zastaví palec. Maskot drží telefon s příspěvkem."
+  },
+  "/sluzby/influencer-marketing.html": {
+    "file": "sluzba-influencer-marketing", "variant": "page", "accent": "lav", "pose": "happy", "lines": 4,
+    "eyebrow": "Služba",
+    "title": "Influencer marketing s tvářemi, které <em>sedí.</em>",
+    "sticker": "@tvůrci",
+    "alt": "Sparkee: Influencer marketing s tvářemi, které sedí. Nano- a mikrotvůrci, maskot se raduje."
+  },
+  "/sluzby/paid-social.html": {
+    "file": "sluzba-paid-social", "variant": "page", "accent": "pink", "pose": "lie",
+    "eyebrow": "Služba",
+    "title": "Paid social: dobrý obsah uvidí <em>víc lidí.</em>",
+    "sticker": "+ dosah", "stickerUnder": true, "stickerPos": "left:62px;bottom:114px;--sr:-6deg;height:76px;padding:6px 36px 0;font-size:41px",
+    "streaks": [[300, 360, 120], [322, 398, 84], [276, 326, 70]],
+    "sparks": [[26, 262, 36, 1], [396, 150, 22, 0], [402, 452, 16, 0], [64, 548, 16, 0]],
+    "alt": "Sparkee: Paid social, dobrý obsah uvidí víc lidí. Maskot letí vpřed na samolepce + dosah."
+  },
+  "/blog/": {
+    "file": "blog", "variant": "article", "accent": "holo", "pose": "peek", "fs": 112,
+    "eyebrow": "Blog",
+    "title": "<em>Jiskry</em> pro<br>vaše sítě",
+    "sticker": "Tipy ✦", "stickerPos": "left:-34px;top:236px;--sr:-8deg",
+    "sparks": [[140, 196, 30, 1], [306, 300, 18, 0], [16, 420, 16, 0]],
+    "alt": "Blog Sparkee: Jiskry pro vaše sítě. Návody, čísla a tipy. Maskot vykukuje zpoza okraje."
+  },
+  "/blog/kolik-stoji-sprava-socialnich-siti.html": {
+    "file": "blog-kolik-stoji-sprava-socialnich-siti", "variant": "article", "accent": "mint", "pose": "surprised",
+    "eyebrow": "Strategie",
+    "title": "Kolik stojí správa sociálních sítí v&nbsp;roce <em>2026?</em>",
+    "sticker": "Kč?", "stickerPos": "left:-18px;top:250px;--sr:-8deg",
+    "sparks": [[112, 212, 30, 1], [314, 250, 18, 0], [20, 400, 16, 0]],
+    "alt": "Článek Sparkee z kategorie Strategie: Kolik stojí správa sociálních sítí v roce 2026?"
+  },
+  "/blog/jak-casto-postovat-na-instagram.html": {
+    "file": "blog-jak-casto-postovat-na-instagram", "variant": "article", "accent": "sky", "pose": "wave",
+    "eyebrow": "Content",
+    "title": "Jak často postovat na Instagram v&nbsp;roce <em>2026</em>",
+    "sticker": "IG", "stickerPos": "left:232px;top:250px;--sr:8deg",
+    "alt": "Článek Sparkee z kategorie Content: Jak často postovat na Instagram v roce 2026."
+  },
+  "/blog/influencer-marketing-pro-male-firmy.html": {
+    "file": "blog-influencer-marketing-pro-male-firmy", "variant": "article", "accent": "pink", "pose": "head",
+    "eyebrow": "Influenceři",
+    "title": "Influencer marketing pro malé firmy bez velkého <em>rozpočtu</em>",
+    "sticker": "@",
+    "alt": "Článek Sparkee z kategorie Influenceři: Influencer marketing pro malé firmy bez velkého rozpočtu."
+  }
+}

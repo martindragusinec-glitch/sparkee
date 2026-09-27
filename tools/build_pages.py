@@ -9,6 +9,7 @@ Spuštění z kořene projektu:
 
 Generuje (a PŘEPISUJE):  blog/index.html, blog/*.html, sluzby/index.html, sluzby/*.html,
                          404.html, sitemap.xml, robots.txt
+V index.html jen srovná: og:image / twitter:image / JSON-LD image (URL s ?v=) a alt podle tools/og/cards.json "/".
 Negeneruje:              index.html (homepage je ruční), assets/css/pages.css, assets/js/pages.js
 
 Mapa souboru
@@ -28,6 +29,7 @@ Fonty: HEAD načítá GOOGLE_FONTS; rodiny se přiřazují v assets/css/site.css
 Tón:   [DOPLNIT] texty jsou zatím ve vykání, brand je tykání – převést v PARTIALS, v šablonách
        stránek (sekce 7) i v datech (sekce 4–6).
 """
+import hashlib
 import html
 import json
 import re
@@ -38,7 +40,27 @@ from pathlib import Path
 # =====================================================================
 ROOT = Path(__file__).resolve().parent.parent   # sparkee-web/
 SITE = "https://sparkee.cz"                     # [DOPLNIT] finální doména (canonical, OG, JSON-LD, sitemap)
-OG_DEFAULT = "/assets/img/og-sparkee.png"       # sdílený OG obrázek 1200×630
+# OG obrázky 1200×630 (JPEG): jeden na stránku, data v tools/og/cards.json (cesta stránky → soubor + alt).
+# Generuje `node tools/og_build.mjs` do assets/img/og/. Stránka bez karty (404) dostane kartu homepage "/".
+# URL nese ?v=<hash obsahu>: po přegenerování se změní a Facebook/LinkedIn si stáhnou nový obrázek.
+OG_CARDS = {k: v for k, v in json.loads((ROOT / "tools/og/cards.json").read_text(encoding="utf-8")).items()
+            if not k.startswith("_")}
+OG_FALLBACK = {"/404.html"}                     # stránky, které záměrně sdílí kartu "/"
+
+
+def og_for(path):
+    """(absolutní URL obrázku s ?v=hash, alt) pro cestu stránky."""
+    if path not in OG_CARDS and path not in OG_FALLBACK:
+        print(f"  ! OG: {path} nemá kartu v tools/og/cards.json, použije se homepage")
+    card = OG_CARDS.get(path, OG_CARDS["/"])
+    rel = f"assets/img/og/{card['file']}.jpg"
+    f = ROOT / rel
+    if not f.exists():
+        print(f"  ! OG: chybí {rel}, spusťte node tools/og_build.mjs")
+        return f"{SITE}/{rel}", card["alt"]
+    return f"{SITE}/{rel}?v={hashlib.sha1(f.read_bytes()).hexdigest()[:8]}", card["alt"]
+
+
 SITEMAP_LASTMOD = "2026-09-26"                  # lastmod pro homepage, služby a blog index
 
 # Brand fonty (Figma): Baloo 2 Bold/ExtraBold = nadpisy, Nunito = text.
@@ -84,7 +106,10 @@ HEAD = """<!doctype html>
 <link rel="canonical" href="{{url}}">
 <meta name="theme-color" content="#F6F4EF">
 <link rel="icon" href="/assets/img/mascot-head.svg" type="image/svg+xml">
-<link rel="apple-touch-icon" href="/assets/img/mascot-head.svg">
+<link rel="icon" href="/assets/img/icons/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="/assets/img/icons/icon-192.png" type="image/png" sizes="192x192">
+<link rel="apple-touch-icon" href="/assets/img/icons/apple-touch-icon.png" sizes="180x180">
+<link rel="manifest" href="/site.webmanifest">
 <meta property="og:locale" content="cs_CZ">
 <meta property="og:site_name" content="Sparkee">
 <meta property="og:type" content="{{og_type}}">
@@ -92,12 +117,15 @@ HEAD = """<!doctype html>
 <meta property="og:description" content="{{description}}">
 <meta property="og:url" content="{{url}}">
 <meta property="og:image" content="{{og_image}}">
+<meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="{{og_alt}}">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="{{title}}">
 <meta name="twitter:description" content="{{description}}">
 <meta name="twitter:image" content="{{og_image}}">
+<meta name="twitter:image:alt" content="{{og_alt}}">
 {{article_meta}}<link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="{{fonts}}" rel="stylesheet">
@@ -244,9 +272,10 @@ def ld(obj):
     return '<script type="application/ld+json">\n' + json.dumps(obj, ensure_ascii=False, indent=2) + '\n</script>'
 
 
-def head(title, desc, path, og_type="website", lds=(), article_meta="", robots="index, follow", canonical=True):
+def head(title, desc, path, og_type="website", lds=(), article_meta="", robots="index, follow, max-image-preview:large", canonical=True):
+    og_image, og_alt = og_for(path)
     out = fill(HEAD, title=esc(title), description=esc(desc), robots=robots, url=SITE + path,
-               og_type=og_type, og_image=SITE + OG_DEFAULT, article_meta=article_meta,
+               og_type=og_type, og_image=og_image, og_alt=esc(og_alt), article_meta=article_meta,
                fonts=GOOGLE_FONTS, json_ld="".join(ld(o) + "\n" for o in lds))
     if not canonical:  # např. 404: bez canonical a og:url
         out = re.sub(r'<link rel="canonical"[^>]*>\n|<meta property="og:url"[^>]*>\n', "", out)
@@ -1144,7 +1173,7 @@ def build_article(slug):
         "@context": "https://schema.org", "@type": "BlogPosting",
         "mainEntityOfPage": {"@type": "WebPage", "@id": SITE + path},
         "headline": p["title"], "description": M["desc"],
-        "image": [SITE + OG_DEFAULT],  # [DOPLNIT] vlastní OG obrázek článku
+        "image": [og_for(path)[0]],
         "datePublished": p["date"] + "T08:00:00+02:00", "dateModified": M["date_modified"] + "T08:00:00+02:00",
         "author": {"@type": "Organization", "name": AUTHOR_NAME, "url": SITE + "/"},  # [DOPLNIT] Person, pokud bude konkrétní autor
         "publisher": ORG_REF, "inLanguage": "cs-CZ", "articleSection": p["cat_name"],
@@ -1464,6 +1493,23 @@ def build_404():
     write("404.html", out)
 
 
+def sync_home_og():
+    """index.html je ruční: srovná jen URL a alt OG obrázku homepage s kartou "/" (zapisuje jen při změně)."""
+    p = ROOT / "index.html"
+    s = p.read_text(encoding="utf-8")
+    url, alt = og_for("/")
+    alt = esc(alt)
+    out = re.sub(r'https?://[^"\s]*/assets/img/og/home\.(?:png|jpg)(?:\?v=[0-9a-f]+)?', url, s)
+    out = re.sub(r'(<meta property="og:image:type" content=")[^"]*(")', r'\g<1>image/jpeg\g<2>', out)
+    out = re.sub(r'(<meta (?:property="og:image:alt"|name="twitter:image:alt") content=")[^"]*(")', lambda m: m.group(1) + alt + m.group(2), out)
+    for need in (f'property="og:image" content="{url}"', f'name="twitter:image" content="{url}"', f'property="og:image:alt" content="{alt}"'):
+        if need not in out:
+            print(f"  ! index.html: chybí {need}")
+    if out != s:
+        p.write_text(out, encoding="utf-8")
+        print(f"  index.html  (OG homepage → {url.rsplit('/', 1)[-1]})")
+
+
 def build_sitemap_and_robots():
     urls = [("/", SITEMAP_LASTMOD, "weekly", "1.0"), ("/sluzby/", SITEMAP_LASTMOD, "monthly", "0.9")]
     urls += [(f"/sluzby/{s['slug']}.html", SITEMAP_LASTMOD, "monthly", "0.9") for s in SERVICES]
@@ -1501,6 +1547,7 @@ def main():
     build_services_index()
     build_404()
     build_sitemap_and_robots()
+    sync_home_og()
     print(f"Hotovo: {len(WRITTEN)} souborů.")
 
 

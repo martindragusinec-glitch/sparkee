@@ -22,6 +22,20 @@ Hero maskota oživuje JS rig (60 fps, jen SVG transformace + `d` rukou, nikdy ne
 ## Náhled
 `node tools/serve.js` → http://localhost:8770 (launch config „sparkee“)
 
+## OG obrázky
+Jeden sdílecí obrázek 1200×630 (JPEG) na stránku: homepage, přehled služeb, 4 služby, blog, 3 články; 404 používá homepage. K tomu ikony a `favicon.ico`.
+- Regenerace: `node tools/og_build.mjs` a potom `python3 tools/build_pages.py`. První příkaz vyrenderuje `assets/img/og/*.jpg`, ikony v `assets/img/icons/`, `/favicon.ico` a `assets/img/logo-light.svg`. Druhý zapíše do podstránek `og:image` s `?v=<hash souboru>` a v ruční `index.html` srovná jen URL a alt obrázku homepage.
+- Data: `tools/og/cards.json` (cesta stránky → soubor, varianta `home | page | article`, póza z `assets/img/poses/`, akcent `mint | sky | lav | pink | holo`, nadpis s `<em>` pro zvýraznění, samolepka, alt). Každá dvojice póza + akcent je jen jednou. Česká „vlna“ po jednopísmenných předložkách se doplní sama.
+- Rodiny: `home` (velký maskot, claim, pilulka sparkee.cz), `page` pro služby (logo nahoře, štítek, nadpis, maskot v kruhu se samolepkou) a `article` pro blog a články (štítek kategorie nahoře, široký nadpis, logo dole, maskot vykukuje z rohu a mluví bublinou).
+- Šablona: `tools/og/template.html`. Náhled: http://localhost:8770/tools/og/template.html?all, `?card=home` nebo ikona `?icon=180`. Tvrdé stíny štítků a samolepek jsou v barvě akcentu. Vykřičník pózy `surprised` je na tmavé bílý (úprava se dělá jen v šabloně).
+- Kontroly při renderu: počká na `document.fonts.ready` a ověří Baloo 2 a Nunito včetně latin-ext (háčky a čárky), jinak skončí chybou. Nadpis musí být aspoň 24 px od maskota (po pixelech), od kruhu i od samolepek. Soubor musí mít do 300 kB.
+- Přepínače: `--only home,blog` (jen vybrané karty, ikony se pak negenerují), `--no-icons`, `--out <adresář>` na zkoušku, `--logo badge` (původní logo na bílém štítku).
+- Požadavky: Node 22+ (se starším Node `npm i` v `remotion/` kvůli balíčku `ws`), Chrome, internet (Google Fonts), `python3` s Pillow (JPEG q88 4:4:4 a favicon.ico).
+- Světlé logo `assets/img/logo-light.svg` se generuje z `logo.svg`: bílá písmena, maskot si nechává ink obrys a jemně lila tělo. Needitovat ručně. [DOPLNIT] odsouhlasit s klientem.
+- Po změně obrázku na produkci: v [Facebook Sharing Debugger](https://developers.facebook.com/tools/debug/) a [LinkedIn Post Inspector](https://www.linkedin.com/post-inspector/) dát u dotčených URL znovu načíst. `?v=` zajistí, že si stáhnou nový obrázek, ale samotnou stránku mají v cache.
+- Ořezy: WhatsApp v malém náhledu bere prostřední čtverec (x 285 až 915). Homepage má obličej maskota uvnitř. U podstránek je vidět část nadpisu a maskota, to je záměr.
+- Ikony a manifest: `site.webmanifest` v kořeni, odkazy v `index.html` a v partialu `HEAD` v `build_pages.py`. SVG favicona (`mascot-head.svg`) zůstává hlavní; `/favicon.ico` je jen pro crawlery a čtečky, které ho hledají napřímo.
+
 ## [DOPLNIT]
 - počet klientů v hero, KPI čísla, case studies (foto/video, názvy, čísla)
 - ceny balíčků (`data-price` v ceníku), ceny doplňků, výpovědní lhůta ve FAQ

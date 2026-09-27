@@ -103,24 +103,27 @@
         return {
           H: 56.25, Hc, U: 34 / 442, S: 1.1, wy: 2.2, wOut: 1.5, lift: 1.15, bob: .5, look: 17, itemS: 1.12,
           t1: { x: 6, y: 20, w: 46 }, txt: { x: 6, y: 6.2, w: 40 }, t6: { x: 6, y: 13, w: 62 }, cta: { x: 6.3, gap: 3.4 },
-          st: { H: [79, 52], C: [68, 50], H5: [80, 52], D: [71, 45], A: null },
-          rel: 2.64, hover: [-4.2, -2.5], hold: [-1.35, -1.2], halo: { rx: 11.6, ry: 3.4, tilt: -12 }, B: [52, 23], apexB: 16, bang: [5.2, -1.5],
+          st: { H: [79, 52], C: [68, 50], H5: [80, 52], D: [73, 45], A: [76, 52] },   // A = u telefonu (beat 4)
+          rel: 2.64, hover: [-4.2, -2.5], hold: [-1.35, -1.2], halo: { rx: 11.6, ry: 3.4, tilt: -12 }, B: [50.5, 23], apexB: 16, bang: [5.2, -1.5],
           // vír kolem hlavy: přední oblouk (ryF) vede pod bradou, zadní (ryB) nad plamínkem → obličej zůstává volný
-          swarm: { cx: 67.5, cy: 32, rx: [17, 21], ryF: [14, 16], ryB: [19, 23], out: [12, 19], arcs: [[-110, 25], [75, 140]] },
-          cal: { x: 39.2, y: 10.5, w: 37, pad: 1.7, head: 3.6, days: 2.4, gap: .55 },
+          swarm: { cx: 67.5, cy: 31.5, rx: [17, 21], ryF: [13, 15], ryB: [19, 23], out: [12, 19], arcs: [[-110, 25], [75, 140]],
+            // hromádka notifikací pod titulkem (levý dolní kvadrant): 2 rovnou z výbuchu (t0 null), 1 opustí vír u levého okraje
+            park: [{ i: 0, x: 15.1, y: 33.7, r: -3.5, d: .42, buzz: [3.5, 4.95] }, { i: 3, x: 21, y: 38.5, r: 2.5, d: .55, buzz: [3.75, 6.05] },
+              { i: 11, x: 16.7, y: 43.3, r: -2, t0: 4.65, d: .62, arc: -3, buzz: [5.29] }] },
+          cal: { x: 39.2, y: 10.5, w: 38, pad: 1.7, head: 3.6, days: 2.4, gap: .55 },
           ok: { ox: 1, oy: .48, inset: 0 },  // odznak: kotva v pravém horním rohu kalendáře, posun −100 % / −48 %
-          chips: { x: 6, y: 28.5, w: 15, h: 4.6, gx: 1.2, gy: 1.3 }, bead: 2.4,
-          phone: { x: 49, y: 4, w: 24 }, screenPt: [.9, .92],
-          cmt: [[28.5, 28], [31, 34], [27.5, 40], [30, 46]],
-          hearts: { x: [42.5, 46], y: [6, 24], cols: 2, rows: 6 },
-          dash: { x: 34, y: 27.5, w: 40, h: 25 },
-          kpi: { x: 6, y: [30.4, 37, 43.6], w: 25, h: 5.6 },
+          chips: { x: 6, y: 28.5, w: 14, h: 4.6, gx: 1.2, gy: 1.3 }, bead: 2.4,
+          phone: { x: 47.8, y: 5.7, w: 22 }, screenPt: [.9, .92],   // v bezpečném rámu ≥ 5,6 cqw nahoře i dole
+          cmt: [[22.5, 29.5], [26, 35], [21.5, 40.5], [25, 46]],
+          hearts: { x: [41.5, 44.5], y: [6, 24], cols: 2, rows: 6 },
+          dash: { x: 34, y: 26.2, w: 40, h: 24 },
+          kpi: { x: 6, y: [28, 34.6, 41.2], w: 25, h: 5.6 },
           tw: [[3.5, 47], [44, 3.2], [96, 4], [97, 33], [40, 52.5], [62, 2.5], [22, 3.5]],
-          dolly: [62, 30], backstep: [14.0, 14.45],
+          dolly: [56, 30], backstep: [14.0, 14.45],
           cam: [pan(0, 1), pan(2.5, 1), pan(2.95, 1), pan(3.3, 1), zf(6.8, 1.035, [66.8, 33]),      // vír: nájezd na hlavu
-            pan(7.6, 1), pan(8.2, 1), zf(10.2, 1.02, [67, 40.5]), zf(10.9, 1.08, [62, 28]),        // Reel dlaždice → roh telefonu
-            zf(11.6, 1.03, [61, 28.5]), zf(12.2, 1.03, [61, 28.5]), pan(13.9, 1), pan(15.3, 1),   // telefon
-            zf(16.8, 1.02, [72.5, 34]), zf(17.4, 1.06, [74, 31]), pan(18.2, 1), pan(20, 1)],     // tečka grafu → úchop
+            pan(7.6, 1), pan(8.2, 1), zf(10.2, 1.02, [67, 40.5]), zf(10.9, 1.03, [58.8, 28.1]),    // Reel dlaždice → telefon (max 1,03: telefon v rámu)
+            zf(11.6, 1.03, [58.8, 28.1]), zf(12.2, 1.03, [58.8, 28.1]), pan(13.9, 1), pan(15.3, 1),   // telefon
+            zf(16.8, 1.02, [72.5, 33]), zf(17.4, 1.06, [74, 30]), pan(18.2, 1), pan(20, 1)],     // tečka grafu → úchop
         };
       })(),
       // mobil (≤720 px): výška scény H (cqw) podle výšky okna – story.css: 100svh − lišta − nadpis − ovládání,
@@ -940,15 +943,17 @@
         const ex = B[0] + Math.cos(a) * dist, ey = B[1] + Math.sin(a) * dist * .8;
         return { a, rx, ry, ryF, w, ex, ey, al: Math.atan2((ey - sw.cy) / ry, (ex - sw.cx) / rx) };
       });
+      // desktop (sw.park): část položek skončí v hromádce pod titulkem; ty rovnou z výbuchu (t0 null) nedostanou slot na elipse
+      const park = sw.park || [], direct = i => park.some(p => p.i === i && p.t0 == null);
       // sloty rovnoměrně po elipse, přiřazené ve stejném kruhovém pořadí jako konce výstřelu (nejkratší přelety)
-      const order = P0.map((p, i) => i).sort((i, j) => P0[i].al - P0[j].al);
+      const order = P0.map((p, i) => i).filter(i => !direct(i)).sort((i, j) => P0[i].al - P0[j].al), m = order.length;
       let bestOff = 0, bestCost = 1e9;
-      for (let off = 0; off < n; off++) {
+      for (let off = 0; off < m; off++) {
         let c = 0;
-        order.forEach((i, j) => { const phi = (j + off) / n * TAU - Math.PI; let d = Math.abs(((P0[i].al - phi) % TAU + TAU) % TAU); c += Math.min(d, TAU - d); });
+        order.forEach((i, j) => { const phi = (j + off) / m * TAU - Math.PI; let d = Math.abs(((P0[i].al - phi) % TAU + TAU) % TAU); c += Math.min(d, TAU - d); });
         if (c < bestCost) { bestCost = c; bestOff = off; }
       }
-      order.forEach((i, j) => { P0[i].slot = (j + bestOff) / n * TAU - Math.PI + (rnd() - .5) * .25; });
+      order.forEach((i, j) => { P0[i].slot = (j + bestOff) / m * TAU - Math.PI + (rnd() - .5) * .25; });
       SW = IT.map((it, i) => {
         const { rx, ry, ryF, w, ex, ey } = P0[i];
         const ph = rnd() * TAU, rr = (rnd() - .5) * 30, sc = L.itemS * (.9 + rnd() * .2), spin = (i % 2 ? 1 : -1) * 90;
@@ -958,12 +963,29 @@
           const ryE = lerp(ry, ryF, (1 + dep) / 2); // vejčitá dráha: vpředu plošší (pod bradou), vzadu vyšší (nad plamínkem)
           return { x: sw.cx + Math.cos(th) * rx * Rm, y: sw.cy + dep * ryE * Rm, r: rr + 12 * Math.sin(t * 1.9 + ph), s: sc * (.84 + .2 * dep), dep };
         };
-        const orbit = orbitRaw;
+        // hromádka: jemné vznášení, po dopadu krátké „bzučení“ notifikace (třes rotací); dep −1 = za vírem, mimo pohled maskota
+        const pk = park.find(p => p.i === i);
+        const pile = t => {
+          let r = pk.r;
+          for (const tb of pk.buzz || []) { const x = t - tb; if (x > 0 && x < .32) r += 4.5 * Math.sin(TAU * 17 * x) * (1 - x / .32) ** 2; }
+          return { x: pk.x + .25 * Math.sin(t * 1.3 + ph), y: pk.y + .3 * Math.sin(t * 1.7 + ph), r, s: L.itemS, dep: -1 };
+        };
+        const orbit = !pk ? orbitRaw : pk.t0 == null ? t => { // rovnou z výbuchu (outX dosedne bez rázu)
+          const k = E.outX(clamp01((t - 2.94) / pk.d)), h = pile(t);
+          return { x: lerp(B[0], h.x, k), y: lerp(B[1], h.y, k), r: lerp(rr + spin * .5, h.r, k), s: lerp(.2, h.s, k), dep: -1 };
+        } : t => { // opustí vír po oblouku do hromádky
+          if (t <= pk.t0) return orbitRaw(t);
+          const k = clamp01((t - pk.t0) / pk.d), h = pile(t);
+          if (k >= 1) return h;
+          const e = E.io2(k), o = orbitRaw(pk.t0 + .12 * (1 - Math.exp((pk.t0 - t) / .12))); // vír ji pustí plynule (dál už nestoupá)
+          return { x: lerp(o.x, h.x, e), y: lerp(o.y, h.y, e) - pk.arc * Math.sin(Math.PI * k) ** 2, r: lerp(o.r, h.r, e), s: lerp(o.s, h.s, e), dep: lerp(o.dep, -1, e) };
+        };
         const at = t => { // 2,94 výstřel z bodu B → 3,2–3,8 plynule do orbity (i hloubka se prolíná, žádný skok)
+          if (pk && pk.t0 == null) return orbit(t);
           const k = E.outX(clamp01((t - 2.94) / .36));
           const rad = { x: B[0] + (ex - B[0]) * k, y: B[1] + (ey - B[1]) * k, r: rr + spin * k, s: lerp(.2, sc, k), dep: 1 };
           if (t <= 3.2) return rad;
-          const o = orbitRaw(t), m = smooth(3.2, 3.8, t);
+          const o = orbit(t), m = smooth(3.2, 3.8, t);
           return { x: lerp(rad.x, o.x, m), y: lerp(rad.y, o.y, m), r: lerp(rad.r, o.r, m), s: lerp(rad.s, o.s, m), dep: lerp(1, o.dep, m) };
         };
         return { at, orbit };
@@ -1080,7 +1102,10 @@
         return { fx: lerp(pinX(t), T[0] + 37 * u + Math.sqrt(Math.max(0, R * R - dy * dy)), k), ry };
       };
       if (!isM) {
-        P.fn(o, 10.25, 10.85, t => { const p = pull(t), e = E.io2(clamp01((t - 10.6) / .25)); return { fx: lerp(p.fx, Hx, e), ry: p.ry * (1 - e) }; });
+        // čas tahu se od 10,6 plynule zastaví (10,66 v 10,72): roh telefonu pak klesne pod dosah paže → odmocnina v pull() by
+        // škubla celým maskotem; tlapka roh pouští od 10,7
+        const tq = t => (t < 10.6 ? t : t < 10.72 ? t - (t - 10.6) ** 2 / .24 : 10.66), Ax = L.st.A ? L.st.A[0] : Hx; // A: stanice u telefonu
+        P.fn(o, 10.25, 10.85, t => { const p = pull(tq(t)), e = E.io2(clamp01((t - 10.6) / .25)); return { fx: lerp(p.fx, Ax, e), ry: p.ry * (1 - e) }; });
         to({ wIK: 0 }, 10.7, .25); arm('l', 'rest', 10.7, .25);
         to({ lean: 6 }, 10.7, .06, E.out2); to({ lean: 0 }, 10.76, .35, E.springIn);   // pustí → zhoupnutí
         to({ wI: 1 }, 10.85, .3);
@@ -1126,7 +1151,7 @@
       to({ ry: -ST.P.f }, 15.55, 1.15, E.io2);
       to({ lean: -4 }, 15.45, .4); to({ flame: 1.2 }, 15.45, .4);
       arm('l', 'out', 15.6, .3); to({ fx: ST.P.x }, 16.2, .5); to({ wI: 0 }, 16.2, .15);
-      arm('l', 'offer', 16.2, .4);
+      arm('l', isM ? 'offer' : 'yayL', 16.2, .4);            // desktop: tlapka výš → menší zvednutí (plamínek zůstane v rámu)
       to({ wIK: 1 }, 16.62, .08);
       [15.45, 15.8, 16.15, 16.5].forEach(ts => { const lh = lutAt(lineK(ts + .1)); lookW(lh, ts, headAt(ts < 16.2 ? H5x : ST.P.x, H5y, ST.P.f * env(ts)), .2); });
       pulse('dLb', -20, 16.8, .04, .06, E.out2, E.io2);         // ÚCHOP
@@ -1415,6 +1440,8 @@
       const hc = [HERO_IT.cx, HERO_IT.cy];
       T.base(CR[1], { x: hc[0], y: hc[1], s: .8, o: 0 }).to(CR[1], { o: .8 }, 9.5, .06, E.lin).to(CR[1], { s: 1.6 }, 9.5, .5, E.out2).to(CR[1], { o: 0 }, 9.56, .44, E.out2);
       T.base(CR[2], { x: hc[0], y: hc[1], s: .2, o: 0 }).to(CR[2], { o: 1 }, 10.25, .04, E.lin).to(CR[2], { s: 1 }, 10.25, .35, E.out2).to(CR[2], { o: 0 }, 10.29, .31, E.out2);
+      // desktop: čipy a KPI stojí ve sloupci titulků → posun kompenzuje kameru (levá hrana drží x = 6 i při nájezdu)
+      const pinCam = (px, py, t) => { const c = camAt(t); return [c.cx + (px - 50) / c.z - px, c.cy + (py - L.Hc) / c.z - py]; };
       // barevné kuličky z dlaždic → ikonky služeb
       COPY.chips.forEach((chp, i) => {
         const t1 = 8.15 + i * .1, t0 = t1 - .6, dst = G.chips[i];
@@ -1447,7 +1474,9 @@
         T.base(CHIP_I[i].firstChild, { o: 0 }).to(CHIP_I[i].firstChild, { o: 1 }, t1, .12, E.lin);
         // odchod: nasátí do displeje telefonu
         const te = 10.4 + i * .05, sx = dst.cx, sy = dst.cy, ex = G.phone.cx, ey = G.phone.cy;
-        T.fn(c, te, te + .5, t => { const q = (t - te) / .5, k = E.in2(q); return { x: (ex - sx) * k, y: (ey - sy) * k - .8 * Math.sin(Math.PI * k), s: lerp(1, .3, k), o: 1 - smooth(.25, .75, q) }; });
+        const pin = t => (isM ? [0, 0] : pinCam(dst.x, dst.cy, t));
+        if (!isM) T.fn(c, t1, te, t => { const p = pin(t); return { x: p[0], y: p[1] }; });
+        T.fn(c, te, te + .5, t => { const q = (t - te) / .5, k = E.in2(q), p = pin(t); return { x: (ex - sx) * k + p[0] * (1 - k), y: (ey - sy) * k - .8 * Math.sin(Math.PI * k) + p[1] * (1 - k), s: lerp(1, .3, k), o: 1 - smooth(.25, .75, q) }; });
       });
       // odznak „Vše naplánováno“: vyskočí u tlapky, hod na roh kalendáře
       const okH = [G.ok.cx, G.ok.cy];
@@ -1529,7 +1558,7 @@
       const FL0 = 15.0, FLS = .14, FLD = isM ? .62 : .55, SAVE0 = 14.62; // odlety komentářů → KPI (až když report stojí)
       const flyAt = ci => { const j = COPY.cmtToKpi.findIndex(p => p[0] === ci); return j < 0 ? SAVE0 : FL0 + FLS * j; };
       CMTS.forEach((el, i) => {
-        const t0 = 13.3 + .22 * i, tf = flyAt(i);
+        const t0 = isM ? 13.3 + .22 * i : 12.45 + .3 * i, tf = flyAt(i); // desktop: hned po spuštění Reelu (sloupec titulků není prázdný)
         T.base(el, { o: 0, s: .5, y: 1.2, x: 0 }).to(el, { o: 1 }, t0, .12, E.lin).to(el, { s: 1 }, t0, .5, E.back2)
           .to(el, { y: 0 }, t0, .5, E.out3).to(el, { y: -.9 }, t0 + .5, Math.max(.05, tf - t0 - .5), E.lin);
       });
@@ -1583,11 +1612,13 @@
       const sp0 = G.dot;
       sc.map((p, i) => [Math.hypot(p[0] - sp0[0], p[1] - sp0[1]), i]).sort((a, b) => b[0] - a[0]).forEach(([, i], j) => {
         const el = suck[i], c = sc[i], dir = i % 2 ? 20 : -20, t0 = 16.84 + .035 * j, du = .38;
+        const pin = t => (isM || !i ? [0, 0] : pinCam(G.kpi[i - 1].x, c[1], t)); // KPI (ne report) drží sloupec titulků
+        if (!isM && i) T.fn(el, 15.3, t0, t => { const p = pin(t); return { x: p[0], y: p[1] }; });
         T.fn(el, t0, t0 + du, t => {
-          const k = clamp01((t - t0) / du), e = E.io2(k), S = sparkAt(t), s = lerp(1, .06, E.io2(k));
+          const k = clamp01((t - t0) / du), e = E.io2(k), S = sparkAt(t), s = lerp(1, .06, E.io2(k)), p = pin(t);
           const x = lerp(c[0], S.x, e), y = lerp(c[1], S.y, e), P = plateB(t);
           const inside = clamp01((P.r - Math.hypot(x - P.x, y - P.y) - hd[i] * s) / 3 + 1);
-          return { x: x - c[0], y: y - c[1], s, r: dir * e, o: (1 - smooth(.7, 1, k)) * inside };
+          return { x: x - c[0] + p[0] * (1 - e), y: y - c[1] + p[1] * (1 - e), s, r: dir * e, o: (1 - smooth(.7, 1, k)) * inside };
         }).set(el, { o: 0 }, t0 + du);
       });
 
@@ -1609,7 +1640,7 @@
         if (sub) T.base(sub, { o: 0, y: .8 }).to(sub, { o: 1, y: 0 }, o.sub, .45, E.out3).to(sub, { y: -L.wOut, o: 0 }, tout + W.length * so, .28, E.in2);
       };
       const line = (el, t0) => T.base(el, { sx: 0 }).to(el, { sx: 1 }, t0, .5, E.out3);
-      txt(K.t1, .85, .95, 2.45, { st: .09, big: 1, so: .03 });
+      txt(K.t1, isM ? .85 : .5, .95, 2.45, { st: .09, big: 1, so: .03 }); // desktop: kicker dřív (první snímek bez textu kratší)
       txt(K.t2, 3.05, 3.2, 6.85, { sub: 3.75, kd: .12 });
       $$('.st-l', K.t2).forEach((l, i) => T.fn(l, 3.8, 6.4, t => {
         const k = Math.min(1, (t - 3.8) / .3, (6.4 - t) / .25);

@@ -1,0 +1,330 @@
+<!doctype html>
+<!-- Šablona OG obrázků a ikon Sparkee (1200×630). Renderuje tools/og_build.mjs přes headless Chrome.
+     Náhled na dev serveru: /tools/og/template.html?card=home  ·  ?all (všechny karty pod sebou)  ·  ?icon=180 -->
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<title>Sparkee OG šablona</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@800&family=Nunito:wght@700;800&display=block" rel="stylesheet">
+<style>
+:root{
+  --ink:#272A33; --ink-2:#1F222C; --paper:#F6F4EF;
+  --mint:#A5EDC5; --sky:#9AD8F8; --lav:#C49CF2; --pink:#F5B8DC;
+  --holo:linear-gradient(115deg,#A5EDC5 0%,#9AD8F8 34%,#C49CF2 68%,#F5B8DC 100%);
+  --pad-x:72px; --pad-y:54px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:#111318}
+body{font-family:"Nunito",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+html:has(.icon),html:has(.icon) body{background:transparent}
+body.gallery{display:grid;gap:24px;padding:24px;justify-content:center}
+
+/* ---------- plátno ---------- */
+.og{position:relative;width:1200px;height:630px;overflow:hidden;isolation:isolate;color:#fff;
+  background:
+    radial-gradient(760px 620px at var(--gx,78%) var(--gyy,52%),#343850 0%,rgba(52,56,80,0) 70%),
+    linear-gradient(160deg,#2B2F3A 0%,#272A33 45%,#1D1F27 100%)}
+/* Akcent nese barvu karty: záře, zvýrazněné slovo, samolepky a tvrdé stíny.
+   --a hlavní, --b vedlejší, --c třetí (rgb trojice); --em = výsek holo přechodu od akcentu (zvýraznění, samolepky) */
+.og[data-accent=mint]{--a:165,237,197;--b:154,216,248;--c:196,156,242;--hr:200deg;--em:linear-gradient(100deg,#A5EDC5 10%,#9AD8F8 100%)}
+.og[data-accent=sky] {--a:154,216,248;--b:196,156,242;--c:165,237,197;--hr:110deg;--em:linear-gradient(100deg,#9AD8F8 10%,#C49CF2 100%)}
+.og[data-accent=lav] {--a:196,156,242;--b:245,184,220;--c:154,216,248;--hr:20deg; --em:linear-gradient(100deg,#C49CF2 10%,#F5B8DC 100%)}
+.og[data-accent=pink]{--a:245,184,220;--b:196,156,242;--c:154,216,248;--hr:300deg;--em:linear-gradient(100deg,#F5B8DC 10%,#C49CF2 100%)}
+.og[data-accent=holo]{--a:196,156,242;--b:154,216,248;--c:165,237,197;--hr:0deg;  --em:var(--holo)}
+/* síla záře: pastelové akcenty potřebují víc než holo, aby byly vidět i v náhledu */
+.og{--glow-a:.78;--blob-a:.30}
+.og:not([data-accent=holo]){--glow-a:.95;--blob-a:.46}
+
+/* záře a bloby („na tmavé vždy záře“) */
+.bg{position:absolute;inset:0;z-index:0;pointer-events:none}
+.blob{position:absolute;border-radius:50%;filter:blur(90px)}
+.blob--1{width:460px;height:460px;right:-150px;top:-190px;background:rgb(var(--a));opacity:var(--blob-a)}
+.blob--2{width:560px;height:560px;left:-280px;bottom:-350px;background:rgb(var(--b));opacity:.16}
+.blob--3{width:360px;height:360px;right:120px;bottom:-300px;background:rgb(var(--c));opacity:.16}
+/* jemný vzor jiskřiček vlevo nahoře, mizí do ztracena */
+.pattern{position:absolute;inset:0;opacity:.07;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='72' height='72' viewBox='0 0 72 72'%3E%3Cpath fill='%23fff' d='M36 26c.5 5 3.6 8.2 8.6 8.6-5 .5-8.1 3.6-8.6 8.6-.5-5-3.6-8.1-8.6-8.6 5-.4 8.1-3.6 8.6-8.6z'/%3E%3C/svg%3E");
+  background-position:-2px -6px;
+  -webkit-mask-image:radial-gradient(640px 460px at 0% 0%,#000 0%,transparent 100%);mask-image:radial-gradient(640px 460px at 0% 0%,#000 0%,transparent 100%)}
+
+/* ---------- scéna s maskotem ---------- */
+.stage{position:absolute;z-index:1}
+.stage__glow{position:absolute;left:50%;top:var(--gy,50%);width:var(--glow,760px);aspect-ratio:1;translate:-50% -50%;border-radius:50%;
+  background:radial-gradient(circle,rgba(var(--a),var(--glow-a)) 0%,rgba(var(--a),calc(var(--glow-a) * .5)) 22%,rgba(var(--b),.14) 44%,rgba(var(--b),0) 66%)}
+/* holografická aura: rozmazaný kužel brand barev, akcent určuje natočení */
+.stage__holo{position:absolute;left:50%;top:var(--gy,50%);width:calc(var(--ring,500px) * .86);aspect-ratio:1;translate:-50% -50%;border-radius:50%;
+  background:conic-gradient(from var(--hr,0deg),#A5EDC5,#9AD8F8,#C49CF2,#F5B8DC,#A5EDC5);filter:blur(64px);opacity:.42}
+.stage__ring{position:absolute;left:50%;top:var(--ry,50%);width:var(--ring,500px);aspect-ratio:1;translate:-50% -50%;border-radius:50%;
+  border:2px dashed rgba(255,255,255,.16)}
+.stage__ring::after{content:"";position:absolute;inset:11%;border-radius:50%;border:1.5px solid rgba(255,255,255,.07)}
+.mascot{position:absolute;left:50%;bottom:var(--mb,0px);height:var(--mh,480px);width:auto;translate:calc(-50% + var(--mx,0px)) 0;
+  rotate:var(--mr,0deg);transform-origin:50% 90%;
+  filter:drop-shadow(0 0 34px rgba(var(--a),.55)) drop-shadow(0 22px 28px rgba(8,9,14,.45))}
+.spark{position:absolute;width:var(--s,24px);height:var(--s,24px);filter:drop-shadow(0 0 10px rgba(255,255,255,.55))}
+.spark--holo{filter:drop-shadow(0 0 14px rgba(var(--b),.8))}
+/* rychlostní čáry za letícím maskotem (paid social) */
+.streak{position:absolute;height:8px;border-radius:99px;background:linear-gradient(90deg,rgba(255,255,255,0),rgba(255,255,255,.9));
+  box-shadow:0 0 14px rgba(255,255,255,.35);rotate:var(--rot,-18deg)}
+
+/* ---------- text ---------- */
+.brand{position:absolute;z-index:3;left:var(--pad-x);top:var(--pad-y)}
+.brand img{display:block;height:var(--logo-h,80px);width:auto}
+.brand--badge{padding:10px 20px 8px;border-radius:22px;background:#fff;border:2.5px solid var(--ink);box-shadow:6px 6px 0 rgb(var(--a))}
+.copy{position:absolute;z-index:3;left:var(--pad-x);width:var(--cw,610px);top:var(--ct,150px);bottom:var(--cb,60px);
+  display:flex;flex-direction:column;justify-content:center;align-items:flex-start}
+/* Neo-brutal na tmavé: výplň + 2,5px ink obrys + tvrdý stín v barvě akcentu (jedno pravidlo pro štítek, pilulku, samolepku i reakci).
+   Bílý obrys má jen die-cut póza sticker. */
+.chip{display:inline-flex;align-items:center;gap:12px;height:58px;padding:4px 26px 0 20px;border-radius:99px;
+  background:#fff;color:var(--ink);border:2.5px solid var(--ink);box-shadow:6px 6px 0 rgb(var(--a));
+  font:800 33px/1 "Baloo 2",sans-serif;letter-spacing:.005em;white-space:nowrap;margin-bottom:30px}
+.chip svg{width:24px;height:24px;margin-top:-4px}
+.chip svg path{fill:rgb(var(--a));stroke:var(--ink);stroke-width:2;stroke-linejoin:round}
+.og[data-accent=holo] .chip svg path{fill:url(#og-holo)}
+.title{font:800 var(--fs,80px)/1.0 "Baloo 2",sans-serif;letter-spacing:-.018em;color:#fff;text-wrap:balance;width:100%;
+  text-shadow:0 2px 24px rgba(15,16,22,.35)}
+.title em{font-style:normal;position:relative;display:inline-block;vertical-align:top;background:var(--em);-webkit-background-clip:text;background-clip:text;color:transparent;
+  text-shadow:none;filter:drop-shadow(0 0 18px rgba(var(--a),.4))}
+/* zvýrazňovač za x-výškou (nekříží dotahy písmen, nečte se jako odkaz) */
+.title em::after{content:"";position:absolute;left:-.04em;right:-.04em;bottom:.1em;height:.3em;border-radius:.1em;background:rgb(var(--a));opacity:.26;z-index:-1}
+.sub{margin-top:22px;font:700 29px/1.25 "Nunito",sans-serif;color:rgba(255,255,255,.76);max-width:100%;text-wrap:balance}
+.foot{position:absolute;z-index:3;left:var(--pad-x);bottom:var(--pad-y);display:flex;align-items:center;gap:24px}
+.pill{display:inline-flex;align-items:center;gap:12px;height:60px;padding:4px 28px 0 20px;border-radius:99px;
+  background:var(--holo);color:var(--ink);border:2.5px solid var(--ink);box-shadow:6px 6px 0 rgb(var(--a));
+  font:800 31px/1 "Baloo 2",sans-serif;white-space:nowrap}
+.pill svg{width:22px;height:22px;fill:var(--ink);margin-top:-4px}
+.foot__note{font:800 26px/1 "Nunito",sans-serif;color:rgba(255,255,255,.72);letter-spacing:.01em}
+.sticker{position:absolute;z-index:4;display:inline-flex;align-items:center;justify-content:center;height:66px;padding:5px 26px 0;border-radius:99px;
+  background:var(--em);color:var(--ink);border:2.5px solid var(--ink);box-shadow:6px 6px 0 rgb(var(--a));
+  font:800 36px/1 "Baloo 2",sans-serif;white-space:nowrap;rotate:var(--sr,8deg)}
+
+/* reakce (srdíčko jako u příspěvku): bílá, ink obrys, tvrdý stín v akcentu */
+.react{position:absolute;z-index:4;display:grid;place-items:center;width:88px;height:88px;border-radius:50%;background:#fff;
+  border:2.5px solid var(--ink);box-shadow:6px 6px 0 rgb(var(--a));rotate:10deg}
+.react svg{width:46px;height:46px;margin-top:3px}
+
+/* ---------- varianty ---------- */
+/* home: velký maskot se samolepkovým obrysem, claim přes 3 řádky. Obličej kolem x 820,
+   aby ho čtvercový ořez WhatsAppu (x 285 až 915) nepřeřízl. */
+.og--home{--gx:66%}
+.og--home .brand{--logo-h:96px}
+.og--home .copy{--ct:170px;--cb:140px;--cw:580px}
+.og--home .title{--fs:80px}
+.og--home .stage{left:612px;top:0;width:420px;height:630px;--glow:800px;--ring:520px;--mh:526px;--mb:40px;--mr:4deg}
+/* kruh za claimem mizí doleva, aby nekřížil text (kontrola odstupu počítá s --ring-fade) */
+.og--home .stage__ring{--ring-fade:150px;-webkit-mask-image:linear-gradient(90deg,transparent var(--ring-fade),#000 calc(var(--ring-fade) + 110px));mask-image:linear-gradient(90deg,transparent var(--ring-fade),#000 calc(var(--ring-fade) + 110px))}
+
+/* služby: logo nahoře, štítek + nadpis, celý maskot v kruhu vpravo se samolepkou */
+.og--page .copy{--cw:640px}
+.og--page .title{--fs:80px}
+.og--page .stage{right:30px;top:0;width:440px;height:630px;--glow:700px;--ring:440px;--mh:470px;--mb:62px}
+
+/* blog a články: vlastní podrodina. Štítek kategorie nahoře, široký nadpis, logo dole jako podpis,
+   menší maskot vykukuje z pravého dolního rohu a mluví samolepkou. */
+.og--article{--gx:92%;--gyy:96%}
+.og--article .brand{top:auto;bottom:var(--pad-y);--logo-h:70px}
+.og--article .copy{--cw:790px;--ct:148px;--cb:150px;justify-content:center}
+.og--article .eyebrow{position:absolute;z-index:3;left:var(--pad-x);top:var(--pad-y)}
+.og--article .title{--fs:82px}
+.og--article .stage{right:14px;top:0;width:340px;height:630px;--glow:640px;--ring:340px;--gy:76%;--ry:82%;--mh:440px;--mb:-66px}
+.og--article .blob--1{right:-120px;top:auto;bottom:-220px;width:520px;height:520px}
+
+/* per póza (nikdy nedeformovat, jen velikost / posun / náklon / ořez okrajem) */
+.og--page[data-pose=lie] .stage{--mh:420px;--mb:134px;--mx:-12px;--mr:-6deg}
+.og--article[data-pose=peek] .stage{--mh:360px;--mb:-4px;--gy:78%;--ry:80%}
+.og--article[data-pose=head] .stage{--mh:380px;--mb:-6px;--mr:-7deg;--gy:72%;--ry:78%}
+.og--article[data-pose=wave] .stage{--mh:460px;--mb:-74px}
+
+/* ---------- ikony ---------- */
+.icon{position:relative;overflow:hidden;width:var(--size);height:var(--size);isolation:isolate}
+.icon--ink{background:radial-gradient(circle at 50% 56%,#3A3F57 0%,#272A33 62%,#1D1F27 100%)}
+.icon--ink::before{content:"";position:absolute;left:50%;top:58%;width:96%;aspect-ratio:1;translate:-50% -50%;border-radius:50%;
+  background:radial-gradient(circle,rgba(196,156,242,.7) 0%,rgba(154,216,248,.34) 32%,rgba(165,237,197,.12) 54%,rgba(165,237,197,0) 70%)}
+.icon--ink::after{content:"";position:absolute;z-index:-1;left:50%;top:58%;width:70%;aspect-ratio:1;translate:-50% -50%;border-radius:50%;
+  background:conic-gradient(from 200deg,#A5EDC5,#9AD8F8,#C49CF2,#F5B8DC,#A5EDC5);filter:blur(calc(var(--size) * .12));opacity:.5}
+.icon img{position:absolute;left:50%;top:50%;height:var(--hh,78%);width:auto;translate:-50% -50%;
+  filter:drop-shadow(0 0 calc(var(--size) * .05) rgba(196,156,242,.55))}
+.icon--none img{filter:none}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs><linearGradient id="og-holo" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#A5EDC5"/><stop offset=".34" stop-color="#9AD8F8"/><stop offset=".68" stop-color="#C49CF2"/><stop offset="1" stop-color="#F5B8DC"/>
+  </linearGradient></defs>
+</svg>
+<div id="root"></div>
+<script>
+const IMG = '../../assets/img/';
+const SPARK_D = 'M12 0c1 7 5 11 12 12-7 1-11 5-12 12-1-7-5-11-12-12C7 11 11 7 12 0z';
+const spark = (x, y, s, holo, extra = '') =>
+  `<svg class="spark${holo ? ' spark--holo' : ''}" viewBox="0 0 24 24" style="left:${x}px;top:${y}px;--s:${s}px;${extra}" aria-hidden="true"><path d="${SPARK_D}" fill="${holo ? 'url(#og-holo)' : '#fff'}"/></svg>`;
+const inkSpark = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="${SPARK_D}"/></svg>`;
+
+// jiskřičky kolem maskota: [x, y, velikost, holo] v rámci .stage
+const SPARKS = {
+  home:    [[16, 96, 46, 1], [372, 64, 24, 0], [398, 330, 18, 0], [40, 520, 18, 0], [300, 18, 14, 0]],
+  page:    [[34, 96, 40, 1], [398, 250, 22, 0], [402, 452, 16, 0], [64, 548, 16, 0]],
+  article: [[18, 300, 32, 1], [44, 470, 16, 0], [314, 400, 16, 0]],
+};
+
+// Úpravy SVG póz před vykreslením (pózy se berou z assets/img/poses/ beze změny tvaru).
+// surprised: ink vykřičník by na tmavé zmizel, na OG je bílý se září.
+const POSE_PATCH = {
+  surprised: s => {
+    const out = s.replace(/(<g class="m-excl"[^>]*>)([\s\S]*?)(<\/g>)/, (m, open, body, close) =>
+      open.replace('<g ', '<g filter="url(#og-excl-glow)" ') + body.replace(/#2C303C/gi, '#FFFFFF') + close)
+      .replace('</defs>', '<filter id="og-excl-glow" x="-150%" y="-60%" width="400%" height="220%"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>');
+    if (out === s || !out.includes('og-excl-glow')) throw new Error('surprised: vykřičník (g.m-excl) nenalezen');
+    return out;
+  },
+};
+// XHR (ne fetch), aby to šlo i z file:// s --allow-file-access-from-files
+const getText = url => new Promise((res, rej) => {
+  const x = new XMLHttpRequest(); x.open('GET', url);
+  x.onload = () => x.responseText ? res(x.responseText) : rej(new Error('prázdné: ' + url));
+  x.onerror = () => rej(new Error('nelze načíst: ' + url)); x.send();
+});
+// vždy data: URL, aby šel maskot přečíst po pixelech (kontrola odstupu od textu) bez „tainted canvas“
+async function poseSrc(pose) {
+  const svg = await getText(`${IMG}poses/${pose}.svg`);
+  return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(POSE_PATCH[pose] ? POSE_PATCH[pose](svg) : svg);
+}
+
+function cardHTML(c, logo) {
+  const v = c.variant;
+  const sparks = (c.sparks || SPARKS[v] || []).map(s => spark(...s)).join('');
+  const brand = logo === 'badge'
+    ? `<div class="brand brand--badge"><img src="${IMG}logo.svg" alt=""></div>`
+    : `<div class="brand"><img src="${IMG}logo-light.svg" alt=""></div>`;
+  const chip = c.eyebrow ? `<span class="chip">${inkSpark}${c.eyebrow}</span>` : '';
+  const sub = c.sub && v !== 'home' ? `<p class="sub">${c.sub}</p>` : '';
+  const note = v === 'home' && c.sub ? `<span class="foot__note">${c.sub}</span>` : '';
+  const react = c.react ? `<span class="react" style="${c.reactPos || ''}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.6s-7.6-4.5-9.5-9.1C1 8 3.1 4.4 6.8 4.4c2.2 0 3.9 1.2 5.2 3 1.3-1.8 3-3 5.2-3 3.7 0 5.8 3.6 4.3 7.1-1.9 4.6-9.5 9.1-9.5 9.1z" fill="#F5B8DC" stroke="#272A33" stroke-width="1.9" stroke-linejoin="round"/><path d="M6.6 7.6c-1 .3-1.7 1.2-1.8 2.3" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/></svg></span>` : '';
+  const sticker = c.sticker ? `<span class="sticker" style="${c.stickerUnder ? 'z-index:0;' : ''}${c.stickerPos || stickerPos(v)}">${c.sticker}</span>` : '';
+  const streaks = (c.streaks || []).map(([x, y, w]) => `<span class="streak" style="left:${x}px;top:${y}px;width:${w}px"></span>`).join('');
+  const pill = v === 'home' ? `<div class="foot"><span class="pill">${inkSpark}${c.pill || 'sparkee.cz'}</span>${note}</div>` : '';
+  // blog/články: štítek kategorie nahoře místo loga, logo dole; služby: logo nahoře, štítek nad nadpisem
+  const top = v === 'article' ? `<div class="eyebrow">${chip}</div>` : '';
+  return `<div class="og og--${v}" data-accent="${c.accent || 'holo'}" data-pose="${c.pose}">
+    <div class="bg"><span class="blob blob--1"></span><span class="blob blob--2"></span><span class="blob blob--3"></span><span class="pattern"></span></div>
+    <div class="stage"><span class="stage__holo"></span><span class="stage__glow"></span><span class="stage__ring"></span>${streaks}
+      ${c.stickerUnder ? sticker : ''}<img class="mascot" src="${c._src || `${IMG}poses/${c.pose}.svg`}" alt="">${sparks}${c.stickerUnder ? '' : sticker}${react}</div>
+    ${brand}${top}
+    <div class="copy">${v === 'article' ? '' : chip}<h1 class="title"${c.fs ? ` style="--fs:${c.fs}px"` : ''}>${vlna(c.title)}</h1>${sub}</div>
+    ${pill}
+  </div>`;
+}
+// česká typografie: jednopísmenné předložky a spojky nezůstávají na konci řádku
+const vlna = t => t.replace(/(^|[\s>(])([ksvzouaiKSVZOUAI]) (?=\S)/g, '$1$2&nbsp;');
+function stickerPos(v) {
+  // služby: pravý horní roh (mimo plamen); články: bublina vpravo od plamene
+  return v === 'article' ? 'left:214px;top:276px;--sr:8deg' : 'right:-4px;top:34px;--sr:6deg';
+}
+
+function iconHTML(o) {
+  const bg = o.bg || 'ink';
+  return `<div class="icon icon--${bg}" style="--size:${o.size}px;--hh:${o.hh || (bg === 'none' ? '100%' : '74%')}">
+    <img src="${IMG}poses/head.svg" alt=""></div>`;
+}
+
+// počká na obrázky a fonty (včetně latin-ext kvůli háčkům a čárkám)
+async function settle(el) {
+  await Promise.all([...el.querySelectorAll('img')].map(i => i.decode().catch(() => { throw new Error('obrázek se nenačetl: ' + i.src.slice(0, 120)); })));
+  await Promise.all(['800 80px "Baloo 2"', '700 29px "Nunito"', '800 26px "Nunito"']
+    .map(f => document.fonts.load(f, 'ěščřžýáíéůúťďňó ĚŠČŘŽÝÁÍÉŮÚ')));
+  await document.fonts.ready;
+}
+function fontReport() {
+  const want = 'ěščřžýáíéůú';
+  const loaded = fam => [...document.fonts].filter(f => f.family.replace(/["']/g, '') === fam && f.status === 'loaded').length;
+  const cv = document.createElement('canvas').getContext('2d');
+  const w = f => { cv.font = f; return cv.measureText('Dodáme jiskru ' + want).width; };
+  return {
+    baloo: loaded('Baloo 2'), nunito: loaded('Nunito'),
+    balooCheck: document.fonts.check('800 80px "Baloo 2"', want), nunitoCheck: document.fonts.check('700 29px "Nunito"', want),
+    // skutečně jiný font než záložní (jinak by se šířky shodovaly)
+    balooReal: Math.abs(w('800 80px "Baloo 2"') - w('800 80px monospace')) > 5 && Math.abs(w('800 80px "Baloo 2"') - w('800 80px serif')) > 5,
+  };
+}
+// zmenšuje nadpis, dokud se nevejde do max. řádků a šířky sloupce
+function fit(root, c) {
+  const t = root.querySelector('.title'); if (!t) return {};
+  const maxLines = c.lines || 3, min = 60;
+  let fs = parseFloat(getComputedStyle(t).fontSize);
+  const lines = () => Math.round(t.getBoundingClientRect().height / (fs * 1.0));
+  const copy = root.querySelector('.copy');
+  // přetečení podle skutečných boxů (scrollHeight by započítal i prázdný prostor pod dotahy Baloo 2)
+  const vOver = () => { const cb = copy.getBoundingClientRect();
+    return copy.firstElementChild.getBoundingClientRect().top < cb.top - 1 || copy.lastElementChild.getBoundingClientRect().bottom > cb.bottom + 1; };
+  const over = () => lines() > maxLines || t.scrollWidth > t.clientWidth + 1 || vOver();
+  while (over() && fs > min) { fs -= 2; t.style.setProperty('--fs', fs + 'px'); }
+  return { fontSize: fs, lines: lines(), overflow: over() };
+}
+// Kontrola rozložení (px plátna): pro každý řádek nadpisu nejmenší vodorovný odstup od
+// neprůhledných pixelů maskota (i s náklonem), od čárkovaného kruhu a od samolepek/reakce.
+function layoutReport(root) {
+  const og = root.querySelector('.og').getBoundingClientRect();
+  const range = document.createRange(); range.selectNodeContents(root.querySelector('.title'));
+  const rects = [...range.getClientRects()].filter(b => b.width > 2).map(b => ({ l: b.left - og.left, r: b.right - og.left, t: b.top - og.top, b: b.bottom - og.top }));
+  const lines = [];   // sloučit fragmenty na stejném řádku
+  for (const b of rects.sort((a, c) => a.t - c.t)) {
+    const L = lines.find(x => Math.abs(x.t - b.t) < 20);
+    if (L) { L.r = Math.max(L.r, b.r); L.b = Math.max(L.b, b.b); } else lines.push({ ...b });
+  }
+  // maskot: vykreslit se stejnou rotací kolem 50 % / 90 % do plátna a hledat první pixel s alfou
+  const img = root.querySelector('.mascot'), mb = img.getBoundingClientRect();
+  const w = img.offsetWidth, h = img.offsetHeight, th = parseFloat(getComputedStyle(img).rotate) * Math.PI / 180 || 0;
+  const cx = mb.left - og.left + mb.width / 2, cy = mb.top - og.top + mb.height / 2;
+  const ox = cx - 0.4 * h * Math.sin(th), oy = cy + 0.4 * h * Math.cos(th);
+  const cv = document.createElement('canvas'); cv.width = 1200; cv.height = 630;
+  const ctx = cv.getContext('2d', { willReadFrequently: true });
+  ctx.translate(ox, oy); ctx.rotate(th); ctx.drawImage(img, -w / 2, -0.9 * h, w, h);
+  const px = ctx.getImageData(0, 0, 1200, 630).data;
+  const mascotLeft = (t, b) => { let m = 1200; for (let y = Math.max(0, t | 0); y < Math.min(630, b); y++) for (let x = 0; x < m; x++) if (px[(y * 1200 + x) * 4 + 3] > 40) { m = x; break; } return m; };
+  // kruh
+  const ring = root.querySelector('.stage__ring').getBoundingClientRect();
+  const rc = { x: ring.left - og.left + ring.width / 2, y: ring.top - og.top + ring.height / 2, r: ring.width / 2 };
+  const fade = ring.left - og.left + (parseFloat(getComputedStyle(root.querySelector('.stage__ring')).getPropertyValue('--ring-fade')) || 0);
+  const ringLeft = (t, b) => { let m = 1200; for (let y = t; y <= b; y += 2) { const dy = y - rc.y; if (Math.abs(dy) < rc.r) m = Math.min(m, Math.max(fade, rc.x - Math.sqrt(rc.r * rc.r - dy * dy))); } return m; };
+  const boxes = [...root.querySelectorAll('.sticker,.react')].map(e => { const b = e.getBoundingClientRect(); return { l: b.left - og.left, t: b.top - og.top, b: b.bottom - og.top }; });
+  const boxLeft = (t, b) => Math.min(1200, ...boxes.filter(x => x.b > t && x.t < b).map(x => x.l));
+  const gap = f => Math.round(Math.min(...lines.map(L => f(L.t, L.b) - L.r)));
+  return { gap: gap(mascotLeft), ringGap: gap(ringLeft), stickerGap: gap(boxLeft),
+           textRight: Math.round(Math.max(...lines.map(L => L.r))), textBottom: Math.round(Math.max(...lines.map(L => L.b))) };
+}
+
+async function render(c, logo = 'light') {
+  const root = document.getElementById('root');
+  if (c.variant !== 'icon') c._src = await poseSrc(c.pose);
+  root.innerHTML = c.variant === 'icon' ? iconHTML(c) : cardHTML(c, c.logo || logo);
+  await settle(root);
+  const f = c.variant === 'icon' ? {} : fit(root, c);
+  await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
+  return { ...f, ...(c.variant === 'icon' ? {} : layoutReport(root)), fonts: fontReport() };
+}
+window.render = render;
+
+// náhled na dev serveru
+(async () => {
+  if (!location.protocol.startsWith('http')) return;
+  const q = new URLSearchParams(location.search);
+  if (q.has('icon')) return render({ variant: 'icon', size: +q.get('icon') || 180, bg: q.get('bg') || 'ink' });
+  const cards = await (await fetch('cards.json')).json();
+  const list = Object.entries(cards).filter(([k, x]) => !k.startsWith('_') && typeof x === 'object').map(([, x]) => x);
+  if (q.has('all')) {
+    document.body.classList.add('gallery');
+    for (const c of list) c._src = await poseSrc(c.pose);
+    document.getElementById('root').innerHTML = list.map(c => cardHTML(c, q.get('logo') || 'light')).join('');
+    await settle(document.body);
+    document.querySelectorAll('.og').forEach((el, i) => fit(el, list[i]));
+    return;
+  }
+  const c = list.find(x => x.file === (q.get('card') || 'home')) || list[0];
+  render(c, q.get('logo') || 'light');
+})();
+</script>
+</body>
+</html>

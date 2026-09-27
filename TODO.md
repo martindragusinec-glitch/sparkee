@@ -12,6 +12,14 @@
 ## Další
 - [ ] 20s animace v2: čeká na zpětnou vazbu klienta (recenze „meh“ → zapracováno; zbývá: hod jiskrou 2,6–2,9 s nejrychlejší pohyb, zvednutá ruka částečně za hlavou)
 
+## Probíhá (2026-09-27)
+- [ ] 20s animace – nová desktopová kompozice (větší maskot, vyvážené scény) + přenahrát MP4 (desktop + mobil)
+- [ ] OG obrázky pro všechny stránky + apple-touch-icon, PNG favicony, manifest
+- [ ] Instagram launch kit (social/instagram): plán + bio, avatar, highlighty, 9 prvních příspěvků, stories, Reel s živým maskotem (MP4)
+- [ ] Po doběhnutí IG kitu: import do Figmy, stránka „📱 Instagram“ (191:2, sekce Profil / Feed / Stories / Reel už připravené) – avatar, highlighty, 9 příspěvků vč. carouselů, stories, Reel cover + klíčové snímky, popisky
+- [x] Figma „🎬 Animace 20 s“ (191:3): snímky desktop + mobil
+- [ ] Po doběhnutí: commit + push na GitHub
+
 ## Potom (zadání klienta 2026-09-26)
 - [x] **Hero vždy celé na 1. screenu** (headline, perex, CTA, maskot) – ověřit 1440×900, 1280×720, 390×844
 - [x] **Podstránky (služby, blog) jsou moc úzké** – rozšířit layout, víc využít šířku, vizuálně sjednotit s homepage

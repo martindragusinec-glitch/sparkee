@@ -8,26 +8,34 @@
 <meta name="theme-color" content="#F6F4EF">
 <meta name="color-scheme" content="light">
 <link rel="icon" href="assets/img/mascot-head.svg" type="image/svg+xml">
+<link rel="icon" href="assets/img/icons/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="assets/img/icons/icon-192.png" type="image/png" sizes="192x192">
+<link rel="apple-touch-icon" href="assets/img/icons/apple-touch-icon.png" sizes="180x180">
+<link rel="manifest" href="site.webmanifest">
 <meta property="og:title" content="Sparkee | Social Media with a Spark">
 <meta property="og:description" content="Dodáme jiskru vašim sociálním sítím. Obsah, systém a měřitelný posun bez chaosu.">
 <meta property="og:type" content="website">
 <link rel="canonical" href="https://sparkee.cz/">
-<meta name="robots" content="index, follow">
+<meta name="robots" content="index, follow, max-image-preview:large">
 <meta property="og:locale" content="cs_CZ">
 <meta property="og:site_name" content="Sparkee">
 <meta property="og:url" content="https://sparkee.cz/">
-<meta property="og:image" content="https://sparkee.cz/assets/img/og-sparkee.png">
+<!-- OG obrázek: tools/og/cards.json (klíč "/") → node tools/og_build.mjs; URL (?v=) a alt srovnává python3 tools/build_pages.py -->
+<meta property="og:image" content="https://sparkee.cz/assets/img/og/home.jpg?v=9b33fb12">
+<meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Maskot Sparkee, holografická hvězdička, a claim „Dodáme jiskru vašim sociálním sítím“">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Sparkee | Social Media with a Spark">
 <meta name="twitter:description" content="Dodáme jiskru vašim sociálním sítím. Obsah, systém a měřitelný posun bez chaosu.">
-<meta name="twitter:image" content="https://sparkee.cz/assets/img/og-sparkee.png">
+<meta name="twitter:image" content="https://sparkee.cz/assets/img/og/home.jpg?v=9b33fb12">
+<meta name="twitter:image:alt" content="Maskot Sparkee, holografická hvězdička, a claim „Dodáme jiskru vašim sociálním sítím“">
 <!-- [DOPLNIT] doména sparkee.cz, kontakty a sociální sítě v JSON-LD -->
 <script type="application/ld+json">
 {"@context":"https://schema.org","@graph":[
  {"@type":"Organization","@id":"https://sparkee.cz/#organization","name":"Sparkee","url":"https://sparkee.cz/",
-  "logo":{"@type":"ImageObject","url":"https://sparkee.cz/assets/img/logo.svg"},"image":"https://sparkee.cz/assets/img/og-sparkee.png",
+  "logo":{"@type":"ImageObject","url":"https://sparkee.cz/assets/img/logo.svg"},"image":"https://sparkee.cz/assets/img/og/home.jpg?v=9b33fb12",
   "slogan":"Dodáme jiskru vašim sociálním sítím",
   "description":"Praktická social media agentura: správa sociálních sítí, tvorba obsahu, influencer marketing a paid social pro firmy.",
   "email":"ahoj@sparkee.cz","telephone":"+420000000000","areaServed":{"@type":"Country","name":"Česko"},

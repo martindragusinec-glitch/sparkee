@@ -202,7 +202,7 @@
   radial-gradient(60% 50% at 50% 40%,rgba(255,255,255,.65),transparent 70%),var(--holo)}
 .st-reel__head{position:absolute;left:50%;top:18%;width:52%;margin-left:-26%;height:auto;max-width:none}
 .st-reel__tag{position:absolute;left:calc(var(--pu)*.8);top:calc(var(--pu)*.8);display:flex;align-items:center;gap:.35em;padding:.4em .7em;border-radius:99px;background:rgba(39,42,51,.8);color:#fff;font:800 calc(var(--pu)*.85)/1 var(--f-body)}
-.st-reel__tag svg{width:1em;height:1em;fill:#fff}
+.st-reel__tag svg{width:1em;height:1em;fill:#fff;position:static;translate:none}   /* ikonka ▸ vedle „12,4K“, ne přes čárku */
 .st-reel__play{position:absolute;left:50%;top:50%;width:calc(var(--pu)*5);height:calc(var(--pu)*5);margin:calc(var(--pu)*-2.5) 0 0 calc(var(--pu)*-2.5);border-radius:50%;
   display:grid;place-items:center;background:#fff;box-shadow:0 0 0 2px var(--ink),calc(var(--pu)*.3) calc(var(--pu)*.3) 0 2px var(--ink)}
 .st-reel__play svg{width:46%;height:46%;margin-left:8%;fill:var(--ink)}

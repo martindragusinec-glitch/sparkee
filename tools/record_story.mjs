@@ -1,7 +1,8 @@
 // Nahraje 20s animaci „Sparkee za 20 vteřin“ do MP4 (snímek po snímku přes Chrome DevTools, pak ffmpeg).
 // Použití (z kořene sparkee-web, server na :8770 musí běžet):
 //   node tools/record_story.mjs [--w 1920] [--h 1080] [--fps 30] [--out assets/video/sparkee-20s.mp4] [--mobile]
-// --mobile = vertikální 4:5 layout (viewport 390 šířky, výstup 1080×1350).
+// --mobile = vertikální layout (viewport 390×844; výška scény jde ze svh → výstup 1080 × výška podle poměru scény, sudá).
+// Bez --h se výška dopočítá z naměřené scény, takže škálování je vždy uniformní (maskot se nikdy nedeformuje).
 import { spawn } from 'node:child_process';
 import fs from 'node:fs';
 import os from 'node:os';
@@ -17,10 +18,11 @@ const CHROME = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
 const arg = (k, d) => { const i = process.argv.indexOf('--' + k); return i > 0 ? process.argv[i + 1] : d; };
 const mobile = process.argv.includes('--mobile');
 const FPS = +arg('fps', 30), DUR = +arg('dur', 20);
-const OUT_W = +arg('w', mobile ? 1080 : 1920), OUT_H = +arg('h', mobile ? 1350 : 1080);
+const OUT_W = +arg('w', mobile ? 1080 : 1920);
+let OUT_H = +arg('h', 0); // 0 = podle poměru scény (desktop 16:9 → 1080)
 const OUT = path.resolve(ROOT, arg('out', mobile ? 'assets/video/sparkee-20s-mobile.mp4' : 'assets/video/sparkee-20s.mp4'));
 // CSS viewport: mobile layout needs a narrow viewport; desktop 16:9 at 1440 wide
-const VW = mobile ? 390 : 1440, VH = mobile ? 900 : 900;
+const VW = mobile ? 390 : 1440, VH = mobile ? 844 : 900;
 
 const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'sparkee-rec-'));
 const port = 9400 + Math.floor(Math.random() * 400);
@@ -60,10 +62,13 @@ try {
     card.style.boxShadow = 'none';
     st.scrollIntoView({ block: 'center' });
     const r = st.getBoundingClientRect();
-    const i = 3; // oříznout zaoblené rohy/rámeček karty
-    return { x: r.left + scrollX + i, y: r.top + scrollY + i, w: r.width - 2 * i, h: r.height - 2 * i };
+    // oříznout zaoblené rohy/rámeček karty: 3 px na kratší straně, na delší úměrně → výřez má přesně poměr scény
+    const i = 3, ix = i * Math.max(1, r.width / r.height), iy = i * Math.max(1, r.height / r.width);
+    return { x: r.left + scrollX + ix, y: r.top + scrollY + iy, w: r.width - 2 * ix, h: r.height - 2 * iy };
   })()`);
   const scale = OUT_W / box.w;
+  if (!OUT_H) OUT_H = 2 * Math.round(box.h * scale / 2); // sudá výška (yuv420p), stejné měřítko jako šířka
+  console.log('výstup', OUT_W + '×' + OUT_H);
   console.log('stage', box, 'scale', scale.toFixed(3));
   const N = FPS * DUR;
   const ff = spawn(FFMPEG, ['-y', '-f', 'image2pipe', '-c:v', 'png', '-framerate', String(FPS), '-i', '-',
