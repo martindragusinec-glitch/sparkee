@@ -2,7 +2,7 @@ import React from "react";
 import { evolvePath } from "@remotion/paths";
 import { AbsoluteFill, interpolate, spring, useCurrentFrame, useVideoConfig } from "remotion";
 import { MascotAt, preloadMascots } from "../mascot/Mascot";
-import { C, GRADS, POSE, jakarta, nunito } from "../lib/theme";
+import { C, GRADS, POSE, nunito } from "../lib/theme";
 import { blinkAt, clamp, ease, loopSin } from "../lib/motion";
 import { DotBg, hop } from "../lib/ui";
 import { PersonGlyph, Sparkle } from "../lib/shapes";
@@ -176,7 +176,7 @@ export const SvcInfluencer: React.FC = () => {
   const order = [...pos.keys()].sort((a, b) => pos[a].depth - pos[b].depth);
 
   return (
-    <AbsoluteFill style={{ fontFamily: jakarta, color: C.ink }}>
+    <AbsoluteFill style={{ fontFamily: nunito, color: C.ink }}>
       <DotBg />
       {/* stage: soft holo disc + dashed orbit */}
       <div

@@ -2,7 +2,7 @@ import React from "react";
 import { evolvePath } from "@remotion/paths";
 import { AbsoluteFill, Easing, interpolate, spring, useCurrentFrame, useVideoConfig } from "remotion";
 import { MascotAt, preloadMascots } from "../mascot/Mascot";
-import { C, POSE, jakarta, nunito } from "../lib/theme";
+import { C, POSE, nunito } from "../lib/theme";
 import { blinkAt, clamp, czNum, ease, loopSin } from "../lib/motion";
 import { DotBg, SparkleBurst, hop } from "../lib/ui";
 
@@ -74,7 +74,7 @@ export const SvcPaid: React.FC = () => {
   const ev = evolvePath(spark * (1 - doneOut), sparkD);
 
   return (
-    <AbsoluteFill style={{ fontFamily: jakarta, color: C.ink }}>
+    <AbsoluteFill style={{ fontFamily: nunito, color: C.ink }}>
       <DotBg />
 
       {/* reach rings */}

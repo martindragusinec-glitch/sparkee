@@ -1,7 +1,7 @@
 import React from "react";
 import { AbsoluteFill, interpolate, spring, useCurrentFrame, useVideoConfig } from "remotion";
 import { MascotAt, preloadMascots } from "../mascot/Mascot";
-import { C, HOLO, POSE, jakarta, nunito } from "../lib/theme";
+import { C, HOLO, POSE, nunito } from "../lib/theme";
 import { clamp, ease, loopSin } from "../lib/motion";
 import { DotBg, SparkleBurst, hop } from "../lib/ui";
 import { PostKind, PostThumb } from "../lib/Post";
@@ -77,7 +77,7 @@ export const SvcSprava: React.FC = () => {
   const allDone = spring({ frame: frame - (LAND[6] + 3), fps, config: { damping: 9, stiffness: 180 } });
 
   return (
-    <AbsoluteFill style={{ fontFamily: jakarta, color: C.ink }}>
+    <AbsoluteFill style={{ fontFamily: nunito, color: C.ink }}>
       <DotBg />
 
       {/* header */}

@@ -1,7 +1,7 @@
 import React from "react";
 import { AbsoluteFill } from "remotion";
 import { MascotAt } from "../mascot/Mascot";
-import { C, jakarta } from "../lib/theme";
+import { C, nunito } from "../lib/theme";
 
 /** Dev: every pose file on one baseline (red) to check feet anchoring and scale after pose updates. */
 const FILES = [
@@ -16,7 +16,7 @@ const FILES = [
 ];
 
 export const PoseSheet: React.FC = () => (
-  <AbsoluteFill style={{ background: C.paper, fontFamily: jakarta }}>
+  <AbsoluteFill style={{ background: C.paper, fontFamily: nunito }}>
     <div style={{ position: "absolute", left: 0, top: 600, width: 1400, height: 2, background: "red" }} />
     {FILES.map((f, i) => (
       <React.Fragment key={f}>

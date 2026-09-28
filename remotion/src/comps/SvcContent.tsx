@@ -2,7 +2,7 @@ import React from "react";
 import { evolvePath } from "@remotion/paths";
 import { AbsoluteFill, interpolate, useCurrentFrame } from "remotion";
 import { MascotAt, preloadMascots } from "../mascot/Mascot";
-import { C, POSE, jakarta, nunito } from "../lib/theme";
+import { C, POSE, nunito } from "../lib/theme";
 import { blinkAt, clamp, ease, loopSin } from "../lib/motion";
 import { DotBg, SparkleBurst, hop } from "../lib/ui";
 import { Phone } from "../lib/Phone";
@@ -112,7 +112,7 @@ const ReelScreen: React.FC<{ frame: number; w: number; h: number }> = ({ frame, 
           borderRadius: 99,
           background: "rgba(44,48,60,.72)",
           color: "#fff",
-          fontFamily: jakarta,
+          fontFamily: nunito,
           fontWeight: 800,
           fontSize: 11,
           letterSpacing: 0.8,
@@ -141,12 +141,12 @@ const ReelScreen: React.FC<{ frame: number; w: number; h: number }> = ({ frame, 
             <svg width={26} height={26} viewBox="0 0 24 24">
               <path d={ic.d} fill={i === 0 ? "#fff" : "none"} stroke="#fff" strokeWidth={2.2} strokeLinejoin="round" />
             </svg>
-            {ic.n ? <div style={{ fontFamily: jakarta, fontWeight: 800, fontSize: 10, marginTop: 1 }}>{ic.n}</div> : null}
+            {ic.n ? <div style={{ fontFamily: nunito, fontWeight: 800, fontSize: 10, marginTop: 1 }}>{ic.n}</div> : null}
           </div>
         ))}
       </div>
       {/* caption */}
-      <div style={{ position: "absolute", left: 12, bottom: 16, right: 50, color: C.ink, fontFamily: jakarta }}>
+      <div style={{ position: "absolute", left: 12, bottom: 16, right: 50, color: C.ink, fontFamily: nunito }}>
         <div style={{ display: "flex", alignItems: "center", gap: 6, fontWeight: 800, fontSize: 12 }}>
           <div
             style={{
@@ -251,7 +251,7 @@ export const SvcContent: React.FC = () => {
   );
 
   return (
-    <AbsoluteFill style={{ fontFamily: jakarta, color: C.ink }}>
+    <AbsoluteFill style={{ fontFamily: nunito, color: C.ink }}>
       <DotBg />
       {/* soft holo halo behind the phone */}
       <div

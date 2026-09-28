@@ -7,6 +7,8 @@
   "dependencies": {
     "@remotion/cli": "4.0.526",
     "@remotion/google-fonts": "4.0.526",
+    "@remotion/media": "4.0.526",
+    "@remotion/motion-blur": "4.0.526",
     "@remotion/paths": "4.0.526",
     "react": "19.2.3",
     "react-dom": "19.2.3",
@@ -21,6 +23,9 @@
     "dev": "remotion studio",
     "build": "remotion bundle",
     "render:all": "node scripts/render-all.mjs",
-    "lint": "tsc"
+    "lint": "tsc",
+    "kit": "node scripts/build-logo-kit.mjs",
+    "render:logo-open": "node scripts/render-logo-open.mjs",
+    "render:reel": "node scripts/render-reel.mjs"
   }
 }

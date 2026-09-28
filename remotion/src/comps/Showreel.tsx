@@ -1,7 +1,7 @@
 import React from "react";
 import { AbsoluteFill, Easing, interpolate, spring, useCurrentFrame, useVideoConfig } from "remotion";
 import { MascotAt, preloadMascots } from "../mascot/Mascot";
-import { C, POSE, foreWave, jakarta, nunito } from "../lib/theme";
+import { C, POSE, foreWave, nunito } from "../lib/theme";
 import { blinkAt, clamp, ease, easeInOut, loopSin } from "../lib/motion";
 import { DotBg, SparkleBurst, SpeechBubble, hop } from "../lib/ui";
 import { Phone } from "../lib/Phone";
@@ -122,7 +122,7 @@ const Feed: React.FC<{ frame: number; w: number; h: number; fps: number }> = ({ 
     { kind: 3, name: "sparkee", likes: "4 102" },
   ];
   return (
-    <div style={{ position: "absolute", inset: 0, background: C.white, fontFamily: jakarta, color: C.ink }}>
+    <div style={{ position: "absolute", inset: 0, background: C.white, fontFamily: nunito, color: C.ink }}>
       {/* scrolling content */}
       <div style={{ position: "absolute", left: 0, right: 0, top: 0, translate: `0 ${-scroll}px` }}>
         {/* app bar + stories */}
@@ -304,7 +304,7 @@ export const Showreel: React.FC = () => {
   const phoneDy = frame >= 222 ? 80 * (1 - phoneIn) : 120 * phoneOut;
 
   return (
-    <AbsoluteFill style={{ fontFamily: jakarta, color: C.ink }}>
+    <AbsoluteFill style={{ fontFamily: nunito, color: C.ink }}>
       <DotBg gap={34} />
       {/* soft holo blobs */}
       <div

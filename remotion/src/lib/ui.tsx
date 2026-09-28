@@ -1,7 +1,7 @@
 import React from "react";
 import { evolvePath } from "@remotion/paths";
 import { interpolate, spring } from "remotion";
-import { C, jakarta, nunito } from "./theme";
+import { C, nunito } from "./theme";
 import { Sparkle } from "./shapes";
 import { clamp, ease } from "./motion";
 
@@ -230,7 +230,7 @@ export const cardStyle = (scale = 1): React.CSSProperties => ({
   boxShadow: `${5 * scale}px ${5 * scale}px 0 ${C.ink}`,
 });
 
-export const labelFont: React.CSSProperties = { fontFamily: jakarta, fontWeight: 700, color: C.ink };
+export const labelFont: React.CSSProperties = { fontFamily: nunito, fontWeight: 700, color: C.ink };
 export const headFont: React.CSSProperties = { fontFamily: nunito, fontWeight: 900, color: C.ink };
 
 /**
