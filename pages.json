@@ -1,0 +1,142 @@
+{
+  "hosting": "188",
+  "assets": "https://admin.weblantis.cz/storage/creator/188/",
+  "images": [
+    "img__icons__apple-touch-icon.png",
+    "img__icons__favicon-32.png",
+    "img__icons__icon-192.png",
+    "img__logo.svg",
+    "img__mascot-happy.svg",
+    "img__mascot-head.svg",
+    "img__mascot-lie.svg",
+    "img__mascot-peek.svg",
+    "img__mascot-phone.svg",
+    "img__mascot-sticker.svg",
+    "img__mascot-surprised.svg",
+    "img__mascot-wave.svg",
+    "img__mascot.svg",
+    "img__og__blog-influencer-marketing-pro-male-firmy.jpg",
+    "img__og__blog-jak-casto-postovat-na-instagram.jpg",
+    "img__og__blog-kolik-stoji-sprava-socialnich-siti.jpg",
+    "img__og__blog.jpg",
+    "img__og__home.jpg",
+    "img__og__sluzba-influencer-marketing.jpg",
+    "img__og__sluzba-paid-social.jpg",
+    "img__og__sluzba-sprava-socialnich-siti.jpg",
+    "img__og__sluzba-tvorba-obsahu.jpg",
+    "img__og__sluzby.jpg",
+    "img__poses__head.svg"
+  ],
+  "pages": [
+    {
+      "src": "index.html",
+      "url": "/cs/",
+      "folder": "",
+      "slug": "",
+      "body": "weblantis/index.html",
+      "title": "Dodáme jiskru vašim sociálním sítím | Sparkee",
+      "description": "Sparkee je praktická social media agentura. Pravidelný kvalitní obsah, jasný systém a měřitelný posun bez chaosu. Správa sociálních sítí, tvorba obsahu, influencer marketing a paid social.",
+      "og_image": "https://admin.weblantis.cz/storage/creator/188/img__og__home.jpg",
+      "og_image_file": "img/img__og__home.jpg"
+    },
+    {
+      "src": "sluzby/index.html",
+      "url": "/cs/sluzby/",
+      "folder": "sluzby",
+      "slug": "sluzby",
+      "body": "weblantis/sluzby__index.html",
+      "title": "Služby: správa sítí, obsah, influenceři, paid social | Sparkee",
+      "description": "Služby Sparkee: správa sociálních sítí, tvorba obsahu, influencer marketing a paid social. Měsíční paušály pro firmy, jasný systém a měřitelný posun.",
+      "og_image": "https://admin.weblantis.cz/storage/creator/188/img__og__sluzby.jpg",
+      "og_image_file": "img/img__og__sluzby.jpg"
+    },
+    {
+      "src": "blog/index.html",
+      "url": "/cs/blog/",
+      "folder": "blog",
+      "slug": "blog",
+      "body": "weblantis/blog__index.html",
+      "title": "Blog: jiskry pro vaše sítě | Sparkee",
+      "description": "Praktické tipy na sociální sítě od Sparkee: ceny správy sítí, jak často postovat na Instagram, influencer marketing pro malé firmy, reklama a reporting.",
+      "og_image": "https://admin.weblantis.cz/storage/creator/188/img__og__blog.jpg",
+      "og_image_file": "img/img__og__blog.jpg"
+    },
+    {
+      "src": "sluzby/influencer-marketing.html",
+      "url": "/cs/influencer-marketing/",
+      "folder": "sluzby",
+      "slug": "influencer-marketing",
+      "body": "weblantis/sluzby__influencer-marketing.html",
+      "title": "Influencer marketing pro firmy: výběr tvůrců | Sparkee",
+      "description": "Influencer marketing od výběru tvůrců po vyhodnocení. Najdeme nano a mikro influencery, kteří sedí vaší značce, připravíme brief a měříme výsledky.",
+      "og_image": "https://admin.weblantis.cz/storage/creator/188/img__og__sluzba-influencer-marketing.jpg",
+      "og_image_file": "img/img__og__sluzba-influencer-marketing.jpg"
+    },
+    {
+      "src": "sluzby/paid-social.html",
+      "url": "/cs/paid-social/",
+      "folder": "sluzby",
+      "slug": "paid-social",
+      "body": "weblantis/sluzby__paid-social.html",
+      "title": "Paid social: podpora dosahu na sociálních sítích | Sparkee",
+      "description": "Paid social jako podpora dosahu: kampaně na Meta a TikTok, které dostanou dobrý obsah ke správným lidem. Bez agresivního prodeje a s jasným reportem.",
+      "og_image": "https://admin.weblantis.cz/storage/creator/188/img__og__sluzba-paid-social.jpg",
+      "og_image_file": "img/img__og__sluzba-paid-social.jpg"
+    },
+    {
+      "src": "sluzby/sprava-socialnich-siti.html",
+      "url": "/cs/sprava-socialnich-siti/",
+      "folder": "sluzby",
+      "slug": "sprava-socialnich-siti",
+      "body": "weblantis/sluzby__sprava-socialnich-siti.html",
+      "title": "Správa sociálních sítí pro firmy: měsíční paušál | Sparkee",
+      "description": "Správa sociálních sítí na klíč: strategie, obsahový kalendář, publikace, komunitní management a report. Paušál od 14 900 Kč bez skrytých hodin.",
+      "og_image": "https://admin.weblantis.cz/storage/creator/188/img__og__sluzba-sprava-socialnich-siti.jpg",
+      "og_image_file": "img/img__og__sluzba-sprava-socialnich-siti.jpg"
+    },
+    {
+      "src": "sluzby/tvorba-obsahu.html",
+      "url": "/cs/tvorba-obsahu/",
+      "folder": "sluzby",
+      "slug": "tvorba-obsahu",
+      "body": "weblantis/sluzby__tvorba-obsahu.html",
+      "title": "Tvorba obsahu pro sociální sítě: Reels i foto | Sparkee",
+      "description": "Tvorba obsahu pro sociální sítě: Reels a TikTok videa, produktové foto, grafika a copywriting. Obsah, který zastaví scroll. Pravidelně, ve vašem stylu.",
+      "og_image": "https://admin.weblantis.cz/storage/creator/188/img__og__sluzba-tvorba-obsahu.jpg",
+      "og_image_file": "img/img__og__sluzba-tvorba-obsahu.jpg"
+    },
+    {
+      "src": "blog/influencer-marketing-pro-male-firmy.html",
+      "url": "/cs/influencer-marketing-pro-male-firmy/",
+      "folder": "blog",
+      "slug": "influencer-marketing-pro-male-firmy",
+      "body": "weblantis/blog__influencer-marketing-pro-male-firmy.html",
+      "title": "Influencer marketing pro malé firmy: jak začít | Sparkee",
+      "description": "Influencer marketing pro malé firmy krok za krokem: nano a mikro influenceři, kolik stojí spolupráce, jak je najít, jak napsat brief a jak měřit výsledky.",
+      "og_image": "https://admin.weblantis.cz/storage/creator/188/img__og__blog-influencer-marketing-pro-male-firmy.jpg",
+      "og_image_file": "img/img__og__blog-influencer-marketing-pro-male-firmy.jpg"
+    },
+    {
+      "src": "blog/jak-casto-postovat-na-instagram.html",
+      "url": "/cs/jak-casto-postovat-na-instagram/",
+      "folder": "blog",
+      "slug": "jak-casto-postovat-na-instagram",
+      "body": "weblantis/blog__jak-casto-postovat-na-instagram.html",
+      "title": "Jak často postovat na Instagram v roce 2026 | Sparkee",
+      "description": "Jak často postovat na Instagram v roce 2026? Doporučená frekvence Reels, carouselů a Stories podle typu firmy, nejlepší čas a ukázkový týdenní plán.",
+      "og_image": "https://admin.weblantis.cz/storage/creator/188/img__og__blog-jak-casto-postovat-na-instagram.jpg",
+      "og_image_file": "img/img__og__blog-jak-casto-postovat-na-instagram.jpg"
+    },
+    {
+      "src": "blog/kolik-stoji-sprava-socialnich-siti.html",
+      "url": "/cs/kolik-stoji-sprava-socialnich-siti/",
+      "folder": "blog",
+      "slug": "kolik-stoji-sprava-socialnich-siti",
+      "body": "weblantis/blog__kolik-stoji-sprava-socialnich-siti.html",
+      "title": "Kolik stojí správa sociálních sítí? Ceny 2026 | Sparkee",
+      "description": "Kolik stojí správa sociálních sítí? Srovnání cen freelancera, agentury a interního člověka, co ovlivňuje cenu správy sociálních sítí a co paušál (ne)zahrnuje.",
+      "og_image": "https://admin.weblantis.cz/storage/creator/188/img__og__blog-kolik-stoji-sprava-socialnich-siti.jpg",
+      "og_image_file": "img/img__og__blog-kolik-stoji-sprava-socialnich-siti.jpg"
+    }
+  ]
+}
