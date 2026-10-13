@@ -41,9 +41,9 @@
     },
     {
       "src": "sluzby/index.html",
-      "url": "/cs/sluzby/",
+      "url": "/cs/sluzby-1/",
       "folder": "sluzby",
-      "slug": "sluzby",
+      "slug": "sluzby-1",
       "body": "weblantis/sluzby__index.html",
       "title": "Služby: správa sítí, obsah, influenceři, paid social | Sparkee",
       "description": "Služby Sparkee: správa sociálních sítí, tvorba obsahu, influencer marketing a paid social. Měsíční paušály pro firmy, jasný systém a měřitelný posun.",
@@ -52,9 +52,9 @@
     },
     {
       "src": "blog/index.html",
-      "url": "/cs/blog/",
+      "url": "/cs/blog-1/",
       "folder": "blog",
-      "slug": "blog",
+      "slug": "blog-1",
       "body": "weblantis/blog__index.html",
       "title": "Blog: jiskry pro vaše sítě | Sparkee",
       "description": "Praktické tipy na sociální sítě od Sparkee: ceny správy sítí, jak často postovat na Instagram, influencer marketing pro malé firmy, reklama a reporting.",
